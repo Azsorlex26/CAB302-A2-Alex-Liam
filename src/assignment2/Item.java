@@ -1,4 +1,4 @@
-package systemObjects;
+package assignment2;
 
 public class Item { //An item
 

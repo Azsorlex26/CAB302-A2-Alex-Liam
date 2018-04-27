@@ -1,10 +1,10 @@
-package TestEnvironment;
+package assignment2;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestClass {
+public class Tests {
 
 	@Test
 	public void test() {
