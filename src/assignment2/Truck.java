@@ -8,6 +8,11 @@ public abstract class Truck {
 	protected int maxCapacity;
 	protected List<Item> cargo = new ArrayList<Item>();;
 	
+	/*
+	 * Adds items to the truck's cargo
+	 * @param item
+	 * @param quantity
+	 */
 	public void addItem(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			if (cargo.size() < maxCapacity) {
@@ -19,6 +24,11 @@ public abstract class Truck {
 		}
 	}
 	
+	/*
+	 * Removes items from the truck's cargo
+	 * @param item
+	 * @param quantity
+	 */
 	public void removeItem(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			try {
@@ -30,10 +40,19 @@ public abstract class Truck {
 		}
 	}
 	
+	/*
+	 * Gets the cost
+	 */
 	public double getCost;
 	
+	/*
+	 * Gets the capacity
+	 */
 	public int getCapacity() { return maxCapacity; }
 	
+	/*
+	 * Gets the the list of items in the cargo
+	 */
 	public List<Item> getCargo() { return cargo; }
 
 }
