@@ -30,6 +30,8 @@ public abstract class Truck {
 		}
 	}
 	
+	public double getCost;
+	
 	public int getCapacity() { return maxCapacity; }
 	
 	public List<Item> getCargo() { return cargo; }
