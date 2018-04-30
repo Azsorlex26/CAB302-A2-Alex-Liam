@@ -3,14 +3,22 @@ package assignment2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Manifest { //A collection of trucks.
+/*
+ * A manifest is a collection of trucks
+ */
+public class Manifest {
 
 	List<Truck> manifest;
 
+	//Instantiates a new Manifest
 	public Manifest() {
 		manifest = new ArrayList<Truck>();
 	}
 
+	/*
+	 * Adds a truck to the manifest
+	 * @param truck
+	 */
 	public void add(Truck truck) {
 		if (!manifest.contains(truck)) {
 			manifest.add(truck);
@@ -19,6 +27,10 @@ public class Manifest { //A collection of trucks.
 		}
 	}
 	
+	/*
+	 * Removes a truck from the manifest
+	 * @param truck
+	 */
 	public void remove(Truck truck) {
 		try {
 			manifest.remove(truck);

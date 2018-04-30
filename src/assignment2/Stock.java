@@ -7,16 +7,29 @@ public class Stock { //A collection of items representing store inventory, order
 	
 	List<Item> stock;
 	
+	/*
+	 * Instantiate a new stock collection
+	 */
 	public Stock() { 
 		stock = new ArrayList<Item>();
 	}
 
+	/*
+	 * Adds an item to stock
+	 * @param item
+	 * @param quantity
+	 */
 	public void add(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			stock.add(item);
 		}
 	}
 	
+	/*
+	 * Removes an item from stock
+	 * @param item
+	 * @param quantity
+	 */
 	public void remove(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			try {
