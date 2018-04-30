@@ -6,14 +6,14 @@ import java.util.List;
 public abstract class Truck {
 
 	protected int maxCapacity;
-	protected List<Item> cargo = new ArrayList<Item>();;
+	protected List<Item> cargo = new ArrayList<Item>();
 	
 	/*
 	 * Adds items to the truck's cargo
 	 * @param item
 	 * @param quantity
 	 */
-	public void addItem(Item item, int quantity) {
+	public void add(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			if (cargo.size() < maxCapacity) {
 				cargo.add(item);
@@ -29,7 +29,7 @@ public abstract class Truck {
 	 * @param item
 	 * @param quantity
 	 */
-	public void removeItem(Item item, int quantity) {
+	public void remove(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			try {
 				cargo.remove(item);
