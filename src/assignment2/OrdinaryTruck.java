@@ -3,7 +3,10 @@ package assignment2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdinaryTruck implements Truck { // A truck with properties (view specification)
+
+//Is a truck with properties (view specifications)
+
+public class OrdinaryTruck implements Truck { 
 
 	private int maxCapacity;
 	private List<Item> cargo;
@@ -20,7 +23,7 @@ public class OrdinaryTruck implements Truck { // A truck with properties (view s
 				cargo.add(item);
 			} else {
 				System.out.println("This truck is full. Items can no longer be added. " + i + " items were added.");
-				break; // error handle for trying to add an item to a full truck
+				// error handle for trying to add an item to a full truck
 			}
 		}
 	}
@@ -32,7 +35,7 @@ public class OrdinaryTruck implements Truck { // A truck with properties (view s
 				cargo.remove(item);
 			} catch (Exception e) {
 				System.out.println("That item doesn't exist or no longer exists in the truck. " + i + " items were removed.");
-				break; // error handle for trying to remove an item that doesn't exist
+				// error handle for trying to remove an item that doesn't exist
 			}
 		}
 	}
