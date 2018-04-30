@@ -1,43 +1,51 @@
 package assignment2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Stock { //A collection of items representing store inventory, orders, sales logs and truck cargo
 	
-	List<Item> stock;
+	Map<Item, Integer> stock;
 	
 	/*
 	 * Instantiate a new stock collection
 	 */
 	public Stock() { 
-		stock = new ArrayList<Item>();
+		stock = new HashMap<Item, Integer>();
 	}
 
 	/*
-	 * Adds an item to stock
+	 * Adds items to stock
 	 * @param item
 	 * @param quantity
 	 */
 	public void add(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
-			stock.add(item);
+			if (stock.containsKey(item)) {
+				stock.put(item, stock.get(item) + 1); //Increments the key's value
+			} else {
+				stock.put(item, 1); //Puts in an initial value
+			}
 		}
 	}
 	
 	/*
-	 * Removes an item from stock
+	 * Removes items from stock
 	 * @param item
 	 * @param quantity
 	 */
 	public void remove(Item item, int quantity) {
 		for (int i = 0; i < quantity; i++) {
-			try {
-				stock.remove(item);
-			} catch (Exception e) {
-				System.out.println("That item isn't in or is no longer in stock. " + i + " items were removed.");
-				break; // error handle for trying to remove an item that doesn't exist
+			if (quantity <= stock.get(item)) {
+				stock.put(item, stock.get(item) - 1); //Decrements the key's value
+			} else {
+				System.out.println("There aren't that many items in the list. Unable to remove.");
+				return; //Exits the function
 			}
+		}
+		
+		if (stock.get(item) == 0) { //Removes the key if 0 is associated to it
+			stock.remove(item);
 		}
 	}
 }
