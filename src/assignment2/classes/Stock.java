@@ -41,7 +41,7 @@ public class Stock { // A collection of items representing store inventory, orde
 	 * @param quantity
 	 */
 	public void remove(Item item, int quantity) throws StockException {
-		if (stock.get(item) >= quantity) {
+		if (quantity <= stock.get(item)) {
 			stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 		} else {
 			throw new StockException();
