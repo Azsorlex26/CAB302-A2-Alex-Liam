@@ -1,4 +1,4 @@
-package assignment2.classes;
+package assignment2.classes.truck;
 
 /**
  * This class represents a refrigerated truck
