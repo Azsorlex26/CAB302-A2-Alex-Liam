@@ -8,7 +8,7 @@ package assignment2.classes.truck;
 public class RefrigeratedTruck extends Truck {
 
 	private double temperature;
-	
+
 	/*
 	 * Constructs the RefrigeratedTruck object
 	 * @param temperature
@@ -17,7 +17,7 @@ public class RefrigeratedTruck extends Truck {
 		this.temperature = temperature;
 		maxCapacity = 800;
 	}
-	
+
 	/*
 	 * Gets the cost
 	 * @return cost

@@ -11,28 +11,28 @@ public class Store {
 	private Stock inventory;
 	private double capital;
 	private static Store store;
-	
+
 	/*
 	 * Instantiates a new store
 	 */
 	private Store() {
 		inventory = new Stock();
-		capital = 100000.0; //Initial capital
+		capital = 100000.0; // Initial capital
 	}
-	
+
 	/*
 	 * Initialises the store
-	 * 
 	 * @param name for the store
+	 * @return store
 	 */
 	public static Store makeStore(String store_name) {
-		if(store == null){
-            store = new Store();
-            name = store_name;
-        }
-        return store;
+		if (store == null) {
+			store = new Store();
+			name = store_name;
+		}
+		return store;
 	}
-	
+
 	/*
 	 * Returns the existing store
 	 * @return store
@@ -48,7 +48,7 @@ public class Store {
 	public String getName() {
 		return name;
 	}
-	
+
 	/*
 	 * Get capital of store
 	 * @return capital

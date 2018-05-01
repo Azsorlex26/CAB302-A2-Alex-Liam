@@ -5,8 +5,8 @@ import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 
 /**
- * This class utilises JUnit to complete tests to
- * ensure integrity of the application
+ * This class utilises JUnit to complete tests to ensure integrity of the
+ * application
  * @author Liam Edwards
  * @author Alexander Rozsa
  */

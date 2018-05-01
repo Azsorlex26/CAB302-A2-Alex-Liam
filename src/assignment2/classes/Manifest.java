@@ -17,7 +17,7 @@ public class Manifest {
 
 	List<Truck> manifest;
 
-	//Instantiates a new Manifest
+	// Instantiates a new Manifest
 	public Manifest() {
 		manifest = new ArrayList<Truck>();
 	}
@@ -33,7 +33,7 @@ public class Manifest {
 			System.out.println("That truck is already in the list.");
 		}
 	}
-	
+
 	/*
 	 * Removes a truck from the manifest
 	 * @param truck

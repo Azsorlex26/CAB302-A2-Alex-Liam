@@ -1,4 +1,5 @@
 package assignment2.classes.truck;
+
 /**
  * This class represents an ordinary truck
  * @author Liam Edwards
@@ -13,7 +14,7 @@ public class OrdinaryTruck extends Truck {
 	public OrdinaryTruck() {
 		maxCapacity = 1000;
 	}
-	
+
 	/*
 	 * Gets the cost
 	 * @return cost
@@ -21,5 +22,4 @@ public class OrdinaryTruck extends Truck {
 	public double getCost() {
 		return (750 + (0.25 * cargo.totalQuantity()));
 	}
-	
 }

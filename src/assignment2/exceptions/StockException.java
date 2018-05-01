@@ -6,5 +6,5 @@ package assignment2.exceptions;
  * @author Alexander Rozsa
  */
 public class StockException extends Exception {
-	
+
 }

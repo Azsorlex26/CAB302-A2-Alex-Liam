@@ -13,7 +13,7 @@ public abstract class Truck {
 
 	protected int maxCapacity;
 	protected Stock cargo = new Stock();
-	
+
 	/*
 	 * Adds items to the truck's cargo
 	 * @param item
@@ -26,26 +26,25 @@ public abstract class Truck {
 			throw new StockException();
 		}
 	}
-	
+
 	/*
 	 * Gets the cost
 	 */
 	public double getCost;
-	
+
 	/*
 	 * Gets the capacity
 	 * @return maxCapacity
 	 */
-	public int getCapacity() { 
-		return maxCapacity; 
+	public int getCapacity() {
+		return maxCapacity;
 	}
-	
+
 	/*
 	 * Gets the the list of items in the cargo
 	 * @return cargo
 	 */
-	public Stock getCargo() { 
-		return cargo; 
+	public Stock getCargo() {
+		return cargo;
 	}
-
 }
