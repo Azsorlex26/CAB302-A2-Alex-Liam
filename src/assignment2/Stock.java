@@ -55,8 +55,7 @@ public class Stock { //A collection of items representing store inventory, order
 	public int getQuantity(Item item) {
 		if(stock.containsKey(item)) {
 			return stock.get(item);
-		} else {
-			return 0;
-		}
+		} 
+		return 0;
 	}
 }
