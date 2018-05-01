@@ -64,6 +64,10 @@ public class Stock { //A collection of items representing store inventory, order
 		return 0;
 	}
 	
+	/*
+	 * Return the total quantity the stock list contains
+	 * @return quantity of stock list
+	 */
 	public int totalQuantity() {
 		int totalQuantity = 0;
 		for (int quantity : stock.values()) {
