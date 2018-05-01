@@ -1,9 +1,8 @@
 package assignment2.classes.truck;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import assignment2.classes.Item;
+import assignment2.classes.Stock;
+import assignment2.exceptions.StockException;
 
 /**
  * This abstract class is the superclass for the two types of trucks
@@ -13,21 +12,18 @@ import assignment2.classes.Item;
 public abstract class Truck {
 
 	protected int maxCapacity;
-	protected List<Item> cargo = new ArrayList<Item>();
+	protected Stock cargo = new Stock();
 	
 	/*
 	 * Adds items to the truck's cargo
 	 * @param item
 	 * @param quantity
 	 */
-	public void add(Item item, int quantity) {
-		for (int i = 0; i < quantity; i++) {
-			if (cargo.size() < maxCapacity) {
-				cargo.add(item);
-			} else {
-				System.out.println("This truck is full. Items can no longer be added. " + i + " items were added.");
-				break; // error handle for trying to add an item to a full truck
-			}
+	public void add(Item item, int quantity) throws StockException {
+		if ((cargo.totalQuantity() + quantity) <= maxCapacity) {
+			cargo.add(item, quantity);
+		} else {
+			throw new StockException();
 		}
 	}
 	
@@ -36,15 +32,8 @@ public abstract class Truck {
 	 * @param item
 	 * @param quantity
 	 */
-	public void remove(Item item, int quantity) {
-		for (int i = 0; i < quantity; i++) {
-			try {
-				cargo.remove(item);
-			} catch (Exception e) {
-				System.out.println("That item doesn't exist or no longer exists in the truck. " + i + " items were removed.");
-				break; // error handle for trying to remove an item that doesn't exist
-			}
-		}
+	public void remove(Item item, int quantity) throws StockException {
+		cargo.remove(item, quantity);
 	}
 	
 	/*
@@ -64,7 +53,7 @@ public abstract class Truck {
 	 * Gets the the list of items in the cargo
 	 * @return cargo
 	 */
-	public List<Item> getCargo() { 
+	public Stock getCargo() { 
 		return cargo; 
 	}
 
