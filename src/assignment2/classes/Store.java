@@ -25,7 +25,7 @@ public class Store {
 	 * 
 	 * @param name for the store
 	 */
-	public static Store makeStore(String store_name) {
+	public static Store getStore(String store_name) {
 		if(store == null){
             store = new Store();
             name = store_name;
