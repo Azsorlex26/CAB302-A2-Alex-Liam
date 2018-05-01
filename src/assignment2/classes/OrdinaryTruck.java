@@ -1,4 +1,9 @@
 package assignment2.classes;
+/**
+ * This class represents an ordinary truck
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 
 public class OrdinaryTruck extends Truck {
 

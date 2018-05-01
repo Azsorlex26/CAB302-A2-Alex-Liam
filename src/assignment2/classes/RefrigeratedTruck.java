@@ -1,5 +1,10 @@
 package assignment2.classes;
 
+/**
+ * This class represents a refrigerated truck
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 public class RefrigeratedTruck extends Truck {
 
 	private double temperature;

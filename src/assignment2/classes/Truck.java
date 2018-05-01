@@ -3,6 +3,11 @@ package assignment2.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This abstract class is the superclass for the two types of trucks
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 public abstract class Truck {
 
 	protected int maxCapacity;

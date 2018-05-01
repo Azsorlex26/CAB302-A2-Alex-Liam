@@ -1,4 +1,9 @@
 package assignment2.classes;
+/**
+ * This class represents a manifest
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 
 import java.util.ArrayList;
 import java.util.List;
