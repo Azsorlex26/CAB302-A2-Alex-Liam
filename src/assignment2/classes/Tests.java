@@ -7,8 +7,9 @@ import org.junit.Test;
 public class Tests {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void itemInitialize() {
+		Item yogurt = new Item("Yogurt", 10, 20, 5);
+		assertEquals(yogurt.getName(), "Yogurt");
 	}
 
 }
