@@ -20,12 +20,10 @@ public class Stock { //A collection of items representing store inventory, order
 	 * @param quantity
 	 */
 	public void add(Item item, int quantity) {
-		for (int i = 0; i < quantity; i++) {
-			if (stock.containsKey(item)) {
-				stock.put(item, stock.get(item) + 1); //Increments the key's value
-			} else {
-				stock.put(item, 1); //Puts in an initial value
-			}
+		if(stock.containsKey(item)) {
+			stock.put(item, stock.get(item) + quantity);
+		} else {
+			stock.put(item, quantity);
 		}
 	}
 	
