@@ -58,7 +58,7 @@ public abstract class Truck {
 	 */
 	public int getCapacity() { 
 		return maxCapacity; 
-		}
+	}
 	
 	/*
 	 * Gets the the list of items in the cargo
@@ -66,6 +66,6 @@ public abstract class Truck {
 	 */
 	public List<Item> getCargo() { 
 		return cargo; 
-		}
+	}
 
 }
