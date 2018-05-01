@@ -1,6 +1,9 @@
 package assignment2;
 
 import java.util.Map;
+
+import exceptions.StockException;
+
 import java.util.HashMap;
 
 public class Stock { //A collection of items representing store inventory, orders, sales logs and truck cargo
@@ -32,17 +35,15 @@ public class Stock { //A collection of items representing store inventory, order
 	 * @param item
 	 * @param quantity
 	 */
-	public void remove(Item item, int quantity) {
-		for (int i = 0; i < quantity; i++) {
-			if (quantity <= stock.get(item)) {
-				stock.put(item, stock.get(item) - 1); //Decrements the key's value
-			} else {
-				System.out.println("There aren't that many items in the list. Unable to remove.");
-				return; //Exits the function
-			}
+	public void remove(Item item, int quantity) throws StockException {
+		if (stock.get(item) >= quantity) {
+			stock.put(item, stock.get(item) - quantity); //Decrements the key's value
+		} else {
+			throw new StockException();
 		}
-		
-		if (stock.get(item) == 0) { //Removes the key if 0 is associated to it
+		//To save memory in the application, remove the key if no stock is associated to it
+		// This is covered in getQuantity where if no key is detected a 0 is returned
+		if (stock.get(item) == 0) {
 			stock.remove(item);
 		}
 	}
