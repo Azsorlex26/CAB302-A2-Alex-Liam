@@ -1,7 +1,14 @@
 package assignment2.classes;
+/**
+ * This class represents a manifest
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 
 import java.util.ArrayList;
 import java.util.List;
+
+import assignment2.classes.truck.Truck;
 
 /*
  * A manifest is a collection of trucks

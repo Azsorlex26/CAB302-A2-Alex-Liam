@@ -1,5 +1,10 @@
 package assignment2.classes;
 
+/**
+ * This class represents a store
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 public class Store {
 
 	private String name;

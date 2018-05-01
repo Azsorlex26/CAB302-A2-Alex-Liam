@@ -1,6 +1,11 @@
 package assignment2.classes;
 
-public class Item { //An item
+/**
+ * This class represents an item
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
+public class Item { 
 
 	private String name;
 	private double manufactureCost, sellCost, tempThreshold; //tempThreshhold is the maximum temperature before the item perishes
