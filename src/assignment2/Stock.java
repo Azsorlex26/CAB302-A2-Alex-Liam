@@ -47,4 +47,16 @@ public class Stock { //A collection of items representing store inventory, order
 			stock.remove(item);
 		}
 	}
+	
+	/*
+	 * Gets quantity of item
+	 * @return item quantity
+	 */
+	public int getQuantity(Item item) {
+		if(stock.containsKey(item)) {
+			return stock.get(item);
+		} else {
+			return 0;
+		}
+	}
 }
