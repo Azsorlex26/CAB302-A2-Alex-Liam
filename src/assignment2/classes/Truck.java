@@ -1,4 +1,4 @@
-package assignment2;
+package assignment2.classes;
 
 import java.util.ArrayList;
 import java.util.List;

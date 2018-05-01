@@ -1,4 +1,4 @@
-package assignment2;
+package assignment2.classes;
 
 public class Item { //An item
 

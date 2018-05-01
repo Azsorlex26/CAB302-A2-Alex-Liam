@@ -1,8 +1,8 @@
-package assignment2;
+package assignment2.classes;
 
 import java.util.Map;
 
-import exceptions.StockException;
+import assignment2.exceptions.StockException;
 
 import java.util.HashMap;
 
