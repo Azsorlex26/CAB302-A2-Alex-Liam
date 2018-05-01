@@ -15,6 +15,7 @@ public class RefrigeratedTruck extends Truck {
 	
 	/*
 	 * Gets the cost
+	 * @return cost
 	 */
 	public double getCost() {
 		return (900 + 200 * Math.pow(0.7, (temperature / 5.0)));

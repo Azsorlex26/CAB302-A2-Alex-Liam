@@ -47,12 +47,18 @@ public abstract class Truck {
 	
 	/*
 	 * Gets the capacity
+	 * @return maxCapacity
 	 */
-	public int getCapacity() { return maxCapacity; }
+	public int getCapacity() { 
+		return maxCapacity; 
+		}
 	
 	/*
 	 * Gets the the list of items in the cargo
+	 * @return cargo
 	 */
-	public List<Item> getCargo() { return cargo; }
+	public List<Item> getCargo() { 
+		return cargo; 
+		}
 
 }
