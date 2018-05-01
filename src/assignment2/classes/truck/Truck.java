@@ -28,15 +28,6 @@ public abstract class Truck {
 	}
 	
 	/*
-	 * Removes items from the truck's cargo
-	 * @param item
-	 * @param quantity
-	 */
-	public void remove(Item item, int quantity) throws StockException {
-		cargo.remove(item, quantity);
-	}
-	
-	/*
 	 * Gets the cost
 	 */
 	public double getCost;
