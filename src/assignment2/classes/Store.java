@@ -7,17 +7,30 @@ package assignment2.classes;
  */
 public class Store {
 
-	private String name;
+	private static String name;
 	private Stock inventory;
 	private double capital;
+	private static Store store;
 	
 	/*
-	 * Instantiates a new stock
+	 * Instantiates a new store
 	 */
-	public Store(String name) {
-		this.name = name;
+	private Store() {
 		inventory = new Stock();
 		capital = 100000.0; //Initial capital
+	}
+	
+	/*
+	 * Initialises the store
+	 * 
+	 * @param name for the store
+	 */
+	public static Store makeStore(String store_name) {
+		if(store == null){
+            store = new Store();
+            name = store_name;
+        }
+        return store;
 	}
 
 	/*
