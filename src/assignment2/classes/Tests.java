@@ -1,6 +1,10 @@
 package assignment2.classes;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 
@@ -15,7 +19,7 @@ public class Tests {
 	@Test
 	public void itemInitialize() {
 		Item yogurt = new Item("Yogurt", 10, 20, 5);
-		assertEquals(yogurt.getName(), "Yogurt");
+		assertEquals("Yogurt", yogurt.getName());
 	}
 
 	@Test
@@ -26,9 +30,20 @@ public class Tests {
 	
 	@Test
 	public void storeInitialize() {
-		assertEquals(Store.getStore(), null);
+		assertEquals(null, Store.getStore());
 		Store store = Store.makeStore("WalMart");
-		assertEquals(store.getName(), "WalMart");
-		assertEquals(Store.getStore(), store);
+		assertEquals("WalMart", store.getName());
+		assertEquals(store,Store.getStore());
+	}
+	
+	@Test
+	public void onlyOneStore() {
+		List<Store> storeStore = new ArrayList<Store> ();
+		Store store1 = Store.makeStore("UMart");
+		storeStore.add(store1);
+		
+		Store store2 = Store.makeStore("WalMart");
+		storeStore.add(store2);
+		assertEquals(1, storeStore.size());
 	}
 }
