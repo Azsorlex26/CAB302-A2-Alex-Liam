@@ -7,11 +7,12 @@ import assignment2.exceptions.StockException;
 import java.util.HashMap;
 
 /**
- * This class represents a stock list
+ * This class represents a A collection of items representing
+ * store inventory, orders, sales logs and truck cargo.
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
-public class Stock { // A collection of items representing store inventory, orders, sales logs and truck cargo
+public class Stock { // 
 
 	Map<Item, Integer> stock;
 
