@@ -8,17 +8,9 @@ package assignment2.classes;
 public class Store {
 
 	private static String name;
-	private Stock inventory;
-	private double capital;
+	private static Stock inventory;
+	private static double capital;
 	private static Store store;
-
-	/*
-	 * Instantiates a new store
-	 */
-	private Store() {
-		inventory = new Stock();
-		capital = 100000.0; // Initial capital
-	}
 
 	/*
 	 * Initialises the store
@@ -29,6 +21,8 @@ public class Store {
 		if (store == null) {
 			store = new Store();
 			name = store_name;
+			inventory = new Stock();
+			capital = 100000.0;
 		}
 		return store;
 	}

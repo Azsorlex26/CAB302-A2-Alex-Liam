@@ -23,4 +23,12 @@ public class Tests {
 		Manifest trucks = new Manifest();
 		trucks.add(new OrdinaryTruck());
 	}
+	
+	@Test
+	public void storeInitialize() {
+		assertEquals(Store.getStore(), null);
+		Store store = Store.makeStore("WalMart");
+		assertEquals(store.getName(), "WalMart");
+		assertEquals(Store.getStore(), store);
+	}
 }
