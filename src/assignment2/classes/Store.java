@@ -13,7 +13,7 @@ public class Store {
 	private static Store store;
 
 	/*
-	 * Initialises the store
+	 * Initializes the store
 	 * @param name for the store
 	 * @return store
 	 */
@@ -49,5 +49,13 @@ public class Store {
 	 */
 	public double getCapital() {
 		return capital;
+	}
+	
+	/*
+	 * Increase or decrease the store's capital depending on if the input is positive or negative
+	 * @param amount
+	 */
+	public void addCapital(double amount) {
+		capital += amount;
 	}
 }
