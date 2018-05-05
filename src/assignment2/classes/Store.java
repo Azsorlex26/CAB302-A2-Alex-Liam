@@ -1,5 +1,8 @@
 package assignment2.classes;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * This class represents a store
  * @author Liam Edwards
@@ -7,10 +10,10 @@ package assignment2.classes;
  */
 public class Store {
 
-	private static String name;
-	private static Stock inventory;
-	private static double capital;
 	private static Store store;
+	private static Stock inventory;
+	private static String name;
+	private static double capital;
 
 	/*
 	 * Initializes the store
@@ -20,9 +23,9 @@ public class Store {
 	public static Store makeStore(String store_name) {
 		if (store == null) {
 			store = new Store();
-			name = store_name;
 			inventory = new Stock();
-			capital = 100000.0;
+			name = store_name;
+			capital = 100000;
 		}
 		return store;
 	}
@@ -45,10 +48,13 @@ public class Store {
 
 	/*
 	 * Get capital of store
-	 * @return capital
+	 * Source: https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
+	 * @return capital in string form
 	 */
-	public double getCapital() {
-		return capital;
+	public String getCapital() {
+		BigDecimal bd = new BigDecimal(capital);
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return "$" + bd.doubleValue();
 	}
 	
 	/*

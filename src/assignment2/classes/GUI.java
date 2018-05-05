@@ -14,10 +14,12 @@ import javax.swing.SwingUtilities;
  *
  */
 public class GUI extends JFrame implements ActionListener, Runnable {
-
+	
+	private static Store store = Store.makeStore("UMart");
 	private static final long serialVersionUID = -8954008955048531845L;
 	public static final int WIDTH = 640; 
 	public static final int HEIGHT = 480;
+	private JButton btnName, btnCapital;
 
 	/**
 	 * @param title
@@ -26,21 +28,37 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	public GUI(String title) throws HeadlessException {
 		super(title);
 	}
+	
+	/**
+	 * @param text
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return button
+	 */
+	private JButton addButton(String text, int x, int y, int width, int height) {
+		JButton button = new JButton();
+		button.setText(text);
+		button.setBounds(x, y, width, height);
+		add(button);
+		button.addActionListener(this);
+		return button;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
+		setLayout(null); //This allows manual adjustment of the elements.
+						 //Without this the buttons take up the whole screen no matter what
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(WIDTH, HEIGHT);
+		setSize(WIDTH, HEIGHT);		
 		
-		JButton button = new JButton();
-		button.setText("Click here");
-		add(button);
-		
-		button.addActionListener(this);
+		btnName = addButton("Store name", 0, 0, 100, 45);
+		btnCapital = addButton("Store capital", 0, 50, 120, 30);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +66,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("You clicked me!");
+		if (e.getSource() == btnName) {
+			System.out.println(store.getName());
+		} else if (e.getSource() == btnCapital) {
+			System.out.println(store.getCapital());
+		}
 	}
 
 	/**
