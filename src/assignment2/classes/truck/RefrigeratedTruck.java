@@ -2,6 +2,7 @@ package assignment2.classes.truck;
 
 /**
  * This class represents a refrigerated truck
+ * 
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
@@ -9,8 +10,9 @@ public class RefrigeratedTruck extends Truck {
 
 	private double temperature;
 
-	/*
+	/**
 	 * Constructs the RefrigeratedTruck object
+	 * 
 	 * @param temperature
 	 */
 	public RefrigeratedTruck(double temperature) {
@@ -18,8 +20,9 @@ public class RefrigeratedTruck extends Truck {
 		maxCapacity = 800;
 	}
 
-	/*
+	/**
 	 * Gets the cost
+	 * 
 	 * @return cost
 	 */
 	public double getCost() {

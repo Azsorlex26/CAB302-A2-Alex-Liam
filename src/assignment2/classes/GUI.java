@@ -9,27 +9,33 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
+ * The interface for the program
+ * 
  * @author Alexander Rozsa
  * @author Liam Edwards
- *
  */
 public class GUI extends JFrame implements ActionListener, Runnable {
-	
-	private static Store store = Store.makeStore("UMart");
+
 	private static final long serialVersionUID = -8954008955048531845L;
-	public static final int WIDTH = 640; 
+	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
+	private static Store store;
 	private JButton btnName, btnCapital;
 
 	/**
+	 * Class constructor
+	 * 
 	 * @param title
 	 * @throws HeadlessException
 	 */
 	public GUI(String title) throws HeadlessException {
 		super(title);
+		store = Store.makeStore("UMart");
 	}
-	
+
 	/**
+	 * Creates a new button, sets its properties and adds this as its listener
+	 * 
 	 * @param text
 	 * @param x
 	 * @param y
@@ -37,32 +43,37 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * @param height
 	 * @return button
 	 */
-	private JButton addButton(String text, int x, int y, int width, int height) {
+	private JButton newButton(String text, int x, int y, int width, int height) {
 		JButton button = new JButton();
 		button.setText(text);
 		button.setBounds(x, y, width, height);
-		add(button);
 		button.addActionListener(this);
+		add(button);
 		return button;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
-		setLayout(null); //This allows manual adjustment of the elements.
-						 //Without this the buttons take up the whole screen no matter what
+		setLayout(null); // This allows manual adjustment of the elements.
+							// Without this the buttons take up the whole screen no matter what
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(WIDTH, HEIGHT);		
-		
-		btnName = addButton("Store name", 0, 0, 100, 45);
-		btnCapital = addButton("Store capital", 0, 50, 120, 30);
+		setSize(WIDTH, HEIGHT);
+
+		btnName = newButton("Store name", 0, 0, 100, 45);
+		btnCapital = newButton("Store capital", 0, 50, 120, 30);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -74,6 +85,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	}
 
 	/**
+	 * Program entry point
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

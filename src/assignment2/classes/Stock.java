@@ -1,30 +1,31 @@
 package assignment2.classes;
 
 import java.util.Map;
+import java.util.HashMap;
 
 import assignment2.exceptions.StockException;
 
-import java.util.HashMap;
-
 /**
- * This class represents a A collection of items representing
- * store inventory, orders, sales logs and truck cargo.
+ * This class represents a A collection of items representing store inventory,
+ * orders, sales logs and truck cargo.
+ * 
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
-public class Stock { // 
+public class Stock { //
 
 	Map<Item, Integer> stock;
 
-	/*
+	/**
 	 * Instantiate a new stock collection
 	 */
 	public Stock() {
 		stock = new HashMap<Item, Integer>();
 	}
 
-	/*
+	/**
 	 * Adds items to stock
+	 * 
 	 * @param item
 	 * @param quantity
 	 */
@@ -36,10 +37,12 @@ public class Stock { //
 		}
 	}
 
-	/*
+	/**
 	 * Removes items from stock
+	 * 
 	 * @param item
 	 * @param quantity
+	 * @throws StockException
 	 */
 	public void remove(Item item, int quantity) throws StockException {
 		if (quantity <= stock.get(item)) {
@@ -47,16 +50,20 @@ public class Stock { //
 		} else {
 			throw new StockException();
 		}
-		// To save memory in the application, remove the key if no stock is associated to it
+		// To save memory in the application, remove the key if no stock is associated
+		// to it
 		// This is covered in getQuantity where if no key is detected a 0 is returned
 		if (stock.get(item) == 0) {
 			stock.remove(item);
 		}
 	}
 
-	/*
+	/**
 	 * Gets quantity of item
-	 * @return item quantity
+	 * 
+	 * @param item
+	 * @return stock.get(item)
+	 * @return 0
 	 */
 	public int itemQuantity(Item item) {
 		if (stock.containsKey(item)) {
@@ -65,9 +72,10 @@ public class Stock { //
 		return 0;
 	}
 
-	/*
+	/**
 	 * Return the total quantity the stock list contains
-	 * @return quantity of stock list
+	 * 
+	 * @return totalQuantity
 	 */
 	public int totalQuantity() {
 		int totalQuantity = 0;

@@ -1,17 +1,15 @@
 package assignment2.classes;
-/**
- * This class represents a manifest
- * @author Liam Edwards
- * @author Alexander Rozsa
- */
 
 import java.util.ArrayList;
 import java.util.List;
 
 import assignment2.classes.truck.Truck;
 
-/*
+/**
  * A manifest is a collection of trucks
+ * 
+ * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Manifest {
 
@@ -22,8 +20,9 @@ public class Manifest {
 		manifest = new ArrayList<Truck>();
 	}
 
-	/*
+	/**
 	 * Adds a truck to the manifest
+	 * 
 	 * @param truck
 	 */
 	public void add(Truck truck) {
@@ -34,8 +33,9 @@ public class Manifest {
 		}
 	}
 
-	/*
+	/**
 	 * Removes a truck from the manifest
+	 * 
 	 * @param truck
 	 */
 	public void remove(Truck truck) {

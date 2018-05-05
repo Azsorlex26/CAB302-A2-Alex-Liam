@@ -6,6 +6,7 @@ import assignment2.exceptions.StockException;
 
 /**
  * This abstract class is the superclass for the two types of trucks
+ * 
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
@@ -14,10 +15,12 @@ public abstract class Truck {
 	protected int maxCapacity;
 	protected Stock cargo = new Stock();
 
-	/*
+	/**
 	 * Adds items to the truck's cargo
+	 * 
 	 * @param item
 	 * @param quantity
+	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
 		if ((cargo.totalQuantity() + quantity) <= maxCapacity) {
@@ -27,21 +30,23 @@ public abstract class Truck {
 		}
 	}
 
-	/*
+	/**
 	 * Gets the cost
 	 */
 	public double getCost;
 
-	/*
+	/**
 	 * Gets the capacity
+	 * 
 	 * @return maxCapacity
 	 */
 	public int getCapacity() {
 		return maxCapacity;
 	}
 
-	/*
+	/**
 	 * Gets the the list of items in the cargo
+	 * 
 	 * @return cargo
 	 */
 	public Stock getCargo() {
