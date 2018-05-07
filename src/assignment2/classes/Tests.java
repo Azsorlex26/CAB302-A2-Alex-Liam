@@ -16,6 +16,9 @@ import assignment2.exceptions.StockException;
  * @author Alexander Rozsa
  */
 public class Tests {
+	
+	private Item icecream = new Item("Ice-Cream", 2, 5, -5);
+	private Item beans = new Item("Canned Beans", 1, 2.5);
 
 	@Test
 	public void itemInitialize() {
@@ -40,20 +43,16 @@ public class Tests {
 	@Test
 	public void stockInitialize() {
 		Stock stock = new Stock();
-		Item blueberries = new Item("Blueberries", 1, 5, 30);
-		stock.add(blueberries, 50);
+		stock.add(beans, 50);
 		assertEquals(50, stock.totalQuantity());
 	}
 	
 	@Test
 	public void trucksInitialize() throws StockException {
 		Truck ordTruck = new OrdinaryTruck();
-		Truck refTruck = new RefrigeratedTruck(10);
-		Item icecream = new Item("Ice-Cream", 2, 5, -15); 
-		ordTruck.add(icecream, 5);
-		refTruck.add(icecream, 2);
-		assertEquals(50, ordTruck.getCargo().totalQuantity());
-		assertEquals(10, refTruck.getCargo().totalQuantity());
+		Truck refTruck = new RefrigeratedTruck(-20);
+		assertEquals(1000, ordTruck.getCapacity());
+		assertEquals(800, refTruck.getCapacity());
 	}
 
 	@Test
@@ -65,5 +64,25 @@ public class Tests {
 		Store.nullifyStore(); //Reset the Store variable
 	}
 	
+	@Test
+	public void returningTempFromDryItem() { //Attempts to get a threshold from an item without a threshold
+		Item beans = new Item("Beans", 1, 2.5);
+		assertNull(beans.getTempThreshold());
+	}
 	
+	@Test(expected = StockException.class)
+	public void addItemsToOrdTruck() throws StockException {
+		Truck ordTruck = new OrdinaryTruck();
+		
+		ordTruck.add(beans, 1); //This will work
+		ordTruck.add(icecream, 1); //This will fail
+	}
+	
+	@Test
+	public void addItemsToRefTruck() throws StockException {
+		Truck refTruck = new RefrigeratedTruck(-20);
+		
+		refTruck.add(icecream, 1); //Both of these will work
+		refTruck.add(beans, 1);
+	}
 }
