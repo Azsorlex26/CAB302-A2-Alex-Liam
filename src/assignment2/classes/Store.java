@@ -72,4 +72,11 @@ public class Store {
 	public void addCapital(double amount) {
 		capital += amount;
 	}
+	
+	/**
+	 * Temporary function to reset the store to null for the tests
+	 */
+	public static void nullifyStore() {
+		store = null;
+	}
 }

@@ -15,7 +15,9 @@ public class Manifest {
 
 	List<Truck> manifest;
 
-	// Instantiates a new Manifest
+	/**
+	 * Instantiates a new Manifest
+	 */
 	public Manifest() {
 		manifest = new ArrayList<Truck>();
 	}

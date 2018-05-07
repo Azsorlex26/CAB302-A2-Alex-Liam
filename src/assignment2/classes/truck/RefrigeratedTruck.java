@@ -1,5 +1,8 @@
 package assignment2.classes.truck;
 
+import assignment2.classes.Item;
+import assignment2.exceptions.StockException;
+
 /**
  * This class represents a refrigerated truck
  * 
@@ -18,6 +21,22 @@ public class RefrigeratedTruck extends Truck {
 	public RefrigeratedTruck(double temperature) {
 		this.temperature = temperature;
 		maxCapacity = 800;
+	}
+	
+	/**
+	 * Adds items to the truck's cargo
+	 * 
+	 * @param item
+	 * @param quantity
+	 * @throws StockException
+	 */
+	@Override
+	public void add(Item item, int quantity) throws StockException {
+		if (item.getTempThreshold() <= temperature) {
+			super.add(item, quantity);
+		} else {
+			throw new StockException();
+		}
 	}
 
 	/**

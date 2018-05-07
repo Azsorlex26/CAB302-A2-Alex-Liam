@@ -2,11 +2,11 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
+import assignment2.classes.truck.RefrigeratedTruck;
+import assignment2.classes.truck.Truck;
+import assignment2.exceptions.StockException;
 
 /**
  * This class utilizes JUnit to complete tests to ensure integrity of the
@@ -34,19 +34,36 @@ public class Tests {
 		assertEquals(null, Store.getStore());
 		Store store = Store.makeStore("WalMart");
 		assertEquals("WalMart", store.getName());
-		assertEquals(store, Store.getStore());
+		Store.nullifyStore(); //Reset the Store variable
+	}
+	
+	@Test
+	public void stockInitialize() {
+		Stock stock = new Stock();
+		Item blueberries = new Item("Blueberries", 1, 5, 30);
+		stock.add(blueberries, 50);
+		assertEquals(50, stock.totalQuantity());
+	}
+	
+	@Test
+	public void trucksInitialize() throws StockException {
+		Truck ordTruck = new OrdinaryTruck();
+		Truck refTruck = new RefrigeratedTruck(10);
+		Item icecream = new Item("Ice-Cream", 2, 5, -15); 
+		ordTruck.add(icecream, 5);
+		refTruck.add(icecream, 2);
+		assertEquals(50, ordTruck.getCargo().totalQuantity());
+		assertEquals(10, refTruck.getCargo().totalQuantity());
 	}
 
 	@Test
 	public void onlyOneStore() {
-		List<Store> storeStore = new ArrayList<Store>();
 		Store store1 = Store.makeStore("UMart");
-		storeStore.add(store1);
-
 		Store store2 = Store.makeStore("WalMart");
-		storeStore.add(store2);
-		store1.addCapital(-100);
-		System.out.println(store1.getCapital() + "" + store2.getCapital());
-		// assertEquals(1, storeStore.size());
+		assertEquals(store1.getName(), store2.getName());
+		assertEquals(store1.getCapital(), store2.getCapital());
+		Store.nullifyStore(); //Reset the Store variable
 	}
+	
+	
 }

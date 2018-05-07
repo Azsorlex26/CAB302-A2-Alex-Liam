@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  * The interface for the program
@@ -14,7 +13,7 @@ import javax.swing.SwingUtilities;
  * @author Alexander Rozsa
  * @author Liam Edwards
  */
-public class GUI extends JFrame implements ActionListener, Runnable {
+public class GUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = -8954008955048531845L;
 	public static final int WIDTH = 640;
@@ -31,6 +30,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	public GUI(String title) throws HeadlessException {
 		super(title);
 		store = Store.makeStore("UMart");
+		setLayout(null); // This allows manual adjustment of the elements.
+						 // Without this the buttons take up the whole screen no matter what
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		setSize(WIDTH, HEIGHT);
+
+		btnName = newButton("Store name", 0, 0, 100, 45);
+		btnCapital = newButton("Store capital", 0, 50, 120, 30);
 	}
 
 	/**
@@ -55,23 +62,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	public void run() {
-		setLayout(null); // This allows manual adjustment of the elements.
-							// Without this the buttons take up the whole screen no matter what
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		setSize(WIDTH, HEIGHT);
-
-		btnName = newButton("Store name", 0, 0, 100, 45);
-		btnCapital = newButton("Store capital", 0, 50, 120, 30);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -90,7 +80,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new GUI("Inventory Manager Tycoon"));
+		new GUI("Inventory Manager Tycoon");
 	}
-
 }
