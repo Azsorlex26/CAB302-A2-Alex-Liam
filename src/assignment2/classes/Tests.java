@@ -17,8 +17,9 @@ import assignment2.exceptions.StockException;
  */
 public class Tests {
 	
-	private Item icecream = new Item("Ice-Cream", 2, 5, -5);
-	private Item beans = new Item("Canned Beans", 1, 2.5);
+	private static Store store, store2;
+	private Item icecream = new Item("Ice-Cream", 2, 5, -5), beans = new Item("Canned Beans", 1, 2.5);
+	private Truck ordTruck = new OrdinaryTruck(), refTruck = new RefrigeratedTruck(-20);
 
 	@Test
 	public void itemInitialize() {
@@ -35,8 +36,8 @@ public class Tests {
 	@Test
 	public void storeInitialize() {
 		assertEquals(null, Store.getStore());
-		Store store = Store.makeStore("WalMart");
-		assertEquals("WalMart", store.getName());
+		store = Store.makeStore("UMart");
+		assertEquals("UMart", store.getName());
 		Store.nullifyStore(); //Reset the Store variable
 	}
 	
@@ -49,31 +50,28 @@ public class Tests {
 	
 	@Test
 	public void trucksInitialize() throws StockException {
-		Truck ordTruck = new OrdinaryTruck();
-		Truck refTruck = new RefrigeratedTruck(-20);
 		assertEquals(1000, ordTruck.getCapacity());
 		assertEquals(800, refTruck.getCapacity());
 	}
 
 	@Test
 	public void onlyOneStore() {
-		Store store1 = Store.makeStore("UMart");
-		Store store2 = Store.makeStore("WalMart");
-		assertEquals(store1.getName(), store2.getName());
-		assertEquals(store1.getCapital(), store2.getCapital());
+		store = Store.makeStore("UMart");
+		store2 = Store.makeStore("WalMart");
+		assertEquals(store.getName(), store2.getName());
+		store.addCapital(100);
+		assertEquals(store.getCapital(), store2.getCapital());
 		Store.nullifyStore(); //Reset the Store variable
 	}
 	
 	@Test
 	public void returningTempFromDryItem() { //Attempts to get a threshold from an item without a threshold
-		Item beans = new Item("Beans", 1, 2.5);
 		assertNull(beans.getTempThreshold());
 	}
 	
 	@Test(expected = StockException.class)
 	public void addItemsToOrdTruck() throws StockException {
 		Truck ordTruck = new OrdinaryTruck();
-		
 		ordTruck.add(beans, 1); //This will work
 		ordTruck.add(icecream, 1); //This will fail
 	}
@@ -81,8 +79,7 @@ public class Tests {
 	@Test
 	public void addItemsToRefTruck() throws StockException {
 		Truck refTruck = new RefrigeratedTruck(-20);
-		
-		refTruck.add(icecream, 1); //Both of these will work
-		refTruck.add(beans, 1);
+		refTruck.add(beans, 1); //Both of these will work
+		refTruck.add(icecream, 1);
 	}
 }
