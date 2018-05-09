@@ -124,9 +124,9 @@ public class Tests {
 		trucks.add(ordTruck); // This will fail
 	}
 
-	@Test
+	@Test(expected = StockException.class)
 	public void removeFromEmptyManifest() throws StockException {
 		Manifest trucks = new Manifest();
-		trucks.remove(ordTruck); // It doesn't matter
+		trucks.remove(ordTruck);
 	}
 }
