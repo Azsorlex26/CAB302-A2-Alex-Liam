@@ -45,16 +45,12 @@ public class Stock { //
 	 * @throws StockException
 	 */
 	public void remove(Item item, int quantity) throws StockException {
-		if (quantity <= stock.get(item)) {
+		if (quantity < stock.get(item)) {
 			stock.put(item, stock.get(item) - quantity); // Decrements the key's value
+		} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
+			stock.remove(item);
 		} else {
 			throw new StockException();
-		}
-		// To save memory in the application, remove the key if no stock is associated
-		// to it
-		// This is covered in getQuantity where if no key is detected a 0 is returned
-		if (stock.get(item) == 0) {
-			stock.remove(item);
 		}
 	}
 
@@ -62,8 +58,7 @@ public class Stock { //
 	 * Gets quantity of item
 	 * 
 	 * @param item
-	 * @return stock.get(item)
-	 * @return 0
+	 * @return quantity of specific item
 	 */
 	public int itemQuantity(Item item) {
 		if (stock.containsKey(item)) {
@@ -75,7 +70,7 @@ public class Stock { //
 	/**
 	 * Return the total quantity the stock list contains
 	 * 
-	 * @return totalQuantity
+	 * @return quantity of all items in stock
 	 */
 	public int totalQuantity() {
 		int totalQuantity = 0;
@@ -83,5 +78,15 @@ public class Stock { //
 			totalQuantity += quantity;
 		}
 		return totalQuantity;
+	}
+
+	/**
+	 * Returns if the hashmap contains an item or not
+	 * 
+	 * @param item
+	 * @return true if the item is in stock
+	 */
+	public boolean contains(Item item) {
+		return stock.containsKey(item);
 	}
 }

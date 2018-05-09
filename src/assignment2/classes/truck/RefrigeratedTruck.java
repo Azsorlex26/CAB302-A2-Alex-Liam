@@ -38,16 +38,13 @@ public class RefrigeratedTruck extends Truck {
 			throw new StockException();
 		}
 	}
-	//The temperature of the truck has to be less
-	//than the item perish temp for it to be added.
-	//If it is over, the item will perish.
 
 	/**
 	 * Gets the cost
 	 * 
 	 * @return cost
 	 */
-	public double getCost() {
+	public double cost() {
 		return (900 + 200 * Math.pow(0.7, (temperature / 5.0)));
 	}
 }

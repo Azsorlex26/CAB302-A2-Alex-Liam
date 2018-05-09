@@ -55,12 +55,21 @@ public class Store {
 	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
 	 * places
 	 * 
-	 * @return "$" + bd.doubleValue()
+	 * @return capital
 	 */
-	public String getCapital() {
+	public double capital() {
 		BigDecimal bd = new BigDecimal(capital);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		return "$" + bd.doubleValue();
+		return bd.doubleValue();
+	}
+
+	/**
+	 * Returns the store's Stock object
+	 * 
+	 * @return inventory
+	 */
+	public Stock inventory() {
+		return inventory;
 	}
 
 	/**
@@ -72,7 +81,7 @@ public class Store {
 	public void addCapital(double amount) {
 		capital += amount;
 	}
-	
+
 	/**
 	 * Temporary function to reset the store to null for the tests
 	 */

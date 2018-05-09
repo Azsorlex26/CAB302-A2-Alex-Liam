@@ -40,7 +40,7 @@ public class OrdinaryTruck extends Truck {
 	 * 
 	 * @return cost
 	 */
-	public double getCost() {
+	public double cost() {
 		return (750 + (0.25 * cargo.totalQuantity()));
 	}
 }

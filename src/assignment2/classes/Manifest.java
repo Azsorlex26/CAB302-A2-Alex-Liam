@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import assignment2.classes.truck.Truck;
+import assignment2.exceptions.StockException;
 
 /**
  * A manifest is a collection of trucks
@@ -26,12 +27,13 @@ public class Manifest {
 	 * Adds a truck to the manifest
 	 * 
 	 * @param truck
+	 * @throws StockException
 	 */
-	public void add(Truck truck) {
+	public void add(Truck truck) throws StockException {
 		if (!manifest.contains(truck)) {
 			manifest.add(truck);
 		} else {
-			System.out.println("That truck is already in the list.");
+			throw new StockException();
 		}
 	}
 
@@ -41,10 +43,22 @@ public class Manifest {
 	 * @param truck
 	 */
 	public void remove(Truck truck) {
-		try {
-			manifest.remove(truck);
-		} catch (Exception e) {
-			System.out.println("That truck doesn't exist in the list.");
-		}
+		manifest.remove(truck);
+	}
+
+	/**
+	 * Returns the total number of trucks in the manifest
+	 * 
+	 * @return number of trucks
+	 */
+	public int totalTrucks() {
+		return manifest.size();
+	}
+
+	/**
+	 * Removes all trucks from the manifest
+	 */
+	public void clear() {
+		manifest.clear();
 	}
 }

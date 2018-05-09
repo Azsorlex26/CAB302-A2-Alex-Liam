@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener {
 	private JButton btnName, btnCapital;
 
 	/**
-	 * Class constructor
+	 * GUI constructor
 	 * 
 	 * @param title
 	 * @throws HeadlessException
@@ -31,7 +31,7 @@ public class GUI extends JFrame implements ActionListener {
 		super(title);
 		store = Store.makeStore("UMart");
 		setLayout(null); // This allows manual adjustment of the elements.
-						 // Without this the buttons take up the whole screen no matter what
+							// Without this the buttons take up the whole screen no matter what
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setSize(WIDTH, HEIGHT);
@@ -70,7 +70,7 @@ public class GUI extends JFrame implements ActionListener {
 		if (e.getSource() == btnName) {
 			System.out.println(store.getName());
 		} else if (e.getSource() == btnCapital) {
-			System.out.println(store.getCapital());
+			System.out.println(store.capital());
 		}
 	}
 

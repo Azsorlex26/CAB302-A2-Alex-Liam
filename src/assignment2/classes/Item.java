@@ -10,7 +10,7 @@ public class Item {
 
 	private String name;
 	private double manufactureCost, sellCost, reorderPoint, reorderAmount;
-	private Double tempThreshold; //tempThreshhold is the maximum temperature before the item perishes
+	private Double tempThreshold; // tempThreshhold is the maximum temperature before the item perishes
 
 	/**
 	 * Instantiates a new item object without a temperature threshold
@@ -24,7 +24,7 @@ public class Item {
 		this.manufactureCost = manufactureCost;
 		this.sellCost = sellCost;
 	}
-	
+
 	/**
 	 * Instantiates a new item object with a temperature threshold
 	 * 
@@ -68,7 +68,7 @@ public class Item {
 	}
 
 	/**
-	 * Get the temperature threshold of the item
+	 * Get the temperature threshold of the item. Can return null
 	 * 
 	 * @return tempThreshold
 	 */
