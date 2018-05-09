@@ -125,7 +125,7 @@ public class Tests {
 	}
 
 	@Test
-	public void removeFromEmptyManifest() {
+	public void removeFromEmptyManifest() throws StockException {
 		Manifest trucks = new Manifest();
 		trucks.remove(ordTruck); // It doesn't matter
 	}

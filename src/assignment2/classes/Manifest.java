@@ -41,9 +41,12 @@ public class Manifest {
 	 * Removes a truck from the manifest
 	 * 
 	 * @param truck
+	 * @throws StockException
 	 */
-	public void remove(Truck truck) {
-		manifest.remove(truck);
+	public void remove(Truck truck) throws StockException {
+		if (!manifest.remove(truck)) { // If an item doesn't get removed, throw exception
+			throw new StockException();
+		}
 	}
 
 	/**
