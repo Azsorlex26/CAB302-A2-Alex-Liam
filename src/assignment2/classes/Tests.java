@@ -2,6 +2,7 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
@@ -128,5 +129,20 @@ public class Tests {
 	public void removeFromEmptyManifest() throws StockException {
 		Manifest trucks = new Manifest();
 		trucks.remove(ordTruck);
+	}
+	
+	@Test
+	public void removeItemFromEmptyStore() {
+		store = Store.makeStore("Coals");
+		try {
+			store.inventory().remove(beans, 10);
+		} catch (StockException s) {
+			Store.nullifyStore();
+		}
+	}
+	
+	@Test(expected = StockException.class)
+	public void addingTooMuchToTruck() throws StockException {
+		ordTruck.add(beans, 1001);
 	}
 }

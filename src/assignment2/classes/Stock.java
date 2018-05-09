@@ -45,12 +45,14 @@ public class Stock { //
 	 * @throws StockException
 	 */
 	public void remove(Item item, int quantity) throws StockException {
-		if (quantity < stock.get(item)) {
-			stock.put(item, stock.get(item) - quantity); // Decrements the key's value
-		} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
-			stock.remove(item);
+		if (stock.containsKey(item)) {
+			if (quantity < stock.get(item)) {
+				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
+			} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
+				stock.remove(item);
+			}
 		} else {
-			throw new StockException();
+			throw new StockException("There aren't that many of that item in storage. Can't remove.");
 		}
 	}
 
