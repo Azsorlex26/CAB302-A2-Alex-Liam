@@ -1,7 +1,5 @@
 package assignment2.classes;
 
-import java.awt.EventQueue;
-
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,17 +22,14 @@ public class Interface extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
 				try {
 					new Interface("test");
 				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-		});
 	}
+
 
 	/**
 	 * Create the frame.
