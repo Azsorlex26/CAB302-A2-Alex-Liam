@@ -93,12 +93,10 @@ public class Interface extends JFrame {
 					.addComponent(btnImportSalesLog)
 					.addGap(150)
 					.addComponent(lblStoreCapital)
-					.addContainerGap(204, 204)));
-		
-		storeManagementPane.setLayout(stockLayout);
-		
+					.addContainerGap(204, 204)));		
 		
 		//Add the tabs the the tabbedPane and display GUI
+		storeManagementPane.setLayout(stockLayout);
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
 		storeTabs.addTab("Inventory", null, tblInventory, null);
 		storeTabs.setVisible(true);
