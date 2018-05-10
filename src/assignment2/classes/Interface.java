@@ -15,6 +15,8 @@ import javax.swing.JButton;
 
 public class Interface extends JFrame {
 
+	public static final int WIDTH = 953;
+	public static final int HEIGHT = 536;
 	private JPanel storeManagementPane;
 	private JTable tblInventory;
 
@@ -41,7 +43,7 @@ public class Interface extends JFrame {
 		//Create the main JFrame GUI with title, close properties and bounds
 		setTitle(storeName);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 953, 536);
+		setBounds(100, 100, WIDTH, HEIGHT);
 		
 		//Create a tabbedPane and add layouts
 		JTabbedPane storeTabs = new JTabbedPane();
