@@ -46,7 +46,7 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	public Interface(String storeName) {
 		// Create the main JFrame GUI with title, close properties and bounds
-		super(storeName);
+		super(storeName + " Inventory Management");
 		store = Store.makeStore(storeName);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WIDTH, HEIGHT);
@@ -139,6 +139,11 @@ public class Interface extends JFrame implements ActionListener {
 	 } 
 	 */
 	
+	/**
+	 * Allows different actions to happen depending on the button pressed
+	 * 
+	 * @param e
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton buttonClicked = (JButton) e.getSource();

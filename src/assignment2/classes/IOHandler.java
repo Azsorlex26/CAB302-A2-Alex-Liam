@@ -15,55 +15,49 @@ import assignment2.exceptions.CSVFormatException;
  * @author Alexander Rozsa
  */
 public class IOHandler {
-	
-	//Delimiter used in CSV file
+
+	// Delimiter used in CSV file
 	private static final String COMMA_DELIMITER = ",";
-	
+
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
 	private static final int ITEM_PRICE_INDEX = 2;
 	private static final int ITEM_ORDPOINT_INDEX = 3;
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
-	
+
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
-	 * 
-	 * @param Item Properties filepath
 	 */
-	public static void readItemProperties(String filePath) throws CSVFormatException {
-		BufferedReader csvReader;
-		
+	@SuppressWarnings("resource")
+	public static List<Item> readItemProperties(String filePath) throws CSVFormatException {
+		List<Item> Items = new ArrayList<Item>();
 		try {
-			//List Items = new ArrayList();
-			csvReader = new BufferedReader(new FileReader(filePath));
-			String itemLine = "";
-			
-			while((itemLine = csvReader.readLine()) != null) {
-				String[] properties = itemLine.split(COMMA_DELIMITER);
-				
-				if (properties.length == 5) { //If a non-refrigerated item
-					Item item = new Item(
-							properties[ITEM_NAME_INDEX],
+			BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+
+			while (csvReader.readLine() != null) {
+				String[] properties = csvReader.readLine().split(COMMA_DELIMITER);
+
+				if (properties.length == 5) { // If a non-refrigerated item
+					Items.add(new Item(properties[ITEM_NAME_INDEX],
 							Double.parseDouble(properties[ITEM_COST_INDEX]),
 							Double.parseDouble(properties[ITEM_PRICE_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
-							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]));
-				} else if (properties.length == 6) { //If a refrigerated item
-					Item item = new Item(
-							properties[ITEM_NAME_INDEX],
+							Integer.parseInt(properties[ITEM_ORDAMT_INDEX])));
+				} else if (properties.length == 6) { // If a refrigerated item
+					Items.add(new Item(properties[ITEM_NAME_INDEX],
 							Double.parseDouble(properties[ITEM_COST_INDEX]),
 							Double.parseDouble(properties[ITEM_PRICE_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
-							Double.parseDouble(properties[ITEM_TEMP_INDEX]));
+							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
 				}
 			}
+			return Items;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-
-		
 	}
 }
