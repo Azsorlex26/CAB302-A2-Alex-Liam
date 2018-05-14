@@ -64,7 +64,7 @@ public class Interface extends JFrame {
 		JButton btnExportManifest = new JButton("Export Manifest");
 
 		// Configure the layout with components
-		// The chosen layout is a GroupLayout as it allows flexibility with resizing
+		// The chosen layout is a GroupLayout as it allows flexibility with resizing / moving
 		// objects
 		// as well as with relativity within the page
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/groupExample.html
