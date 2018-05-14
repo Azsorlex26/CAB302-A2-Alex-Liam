@@ -19,7 +19,7 @@ import assignment2.exceptions.StockException;
 public class Tests {
 
 	private static Store store, store2;
-	private Item icecream = new Item("Ice-Cream", 2, 5, -5), beans = new Item("Canned Beans", 1, 2.5);
+	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 1, 2);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck = new RefrigeratedTruck(-20);
 
 	@Test
@@ -54,12 +54,12 @@ public class Tests {
 	@Test
 	public void trucksInitial() throws StockException {
 		Truck o = new OrdinaryTruck();
-		o.add(new Item("Test1", 10, 20), 5);
+		o.add(new Item("Test1", 10, 20, 1, 2), 5);
 		assertEquals(1000, o.maxCapacity());
 		assertEquals(5, o.cargo().totalQuantity());
 
 		Truck r = new RefrigeratedTruck(0);
-		r.add(new Item("Test2", 20, 40, 10), 5);
+		r.add(new Item("Test2", 20, 40, 10, 1, 2), 5);
 		assertEquals(800, r.maxCapacity());
 		assertEquals(5, r.cargo().totalQuantity());
 	}
