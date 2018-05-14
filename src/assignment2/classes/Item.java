@@ -11,7 +11,7 @@ public class Item {
 	private String name;
 	private double manufactureCost, sellCost;
 	private int reorderPoint, reorderAmount;
-	private double tempThreshold; // tempThreshhold is the maximum temperature before the item perishes
+	private Double tempThreshold; // tempThreshhold is the maximum temperature before the item perishes
 
 	/**
 	 * Instantiates a new item object without a temperature threshold
@@ -19,6 +19,8 @@ public class Item {
 	 * @param name
 	 * @param manufactureCost
 	 * @param sellCost
+	 * @param reorderPoint
+	 * @param reorderAmount
 	 */
 	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount) {
 		this.name = name;
@@ -33,6 +35,8 @@ public class Item {
 	 * 
 	 * @param name
 	 * @param manufactureCost
+	 * @param reorderPoint
+	 * @param reorderAmount
 	 * @param sellCost
 	 * @param tempThreshold
 	 */

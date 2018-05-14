@@ -24,6 +24,7 @@ public class Interface extends JFrame implements ActionListener {
 	private static Store store;
 	private JPanel storeManagementPane;
 	private JTable tblInventory;
+	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
 
 	/**
 	 * Launch the application.
@@ -60,10 +61,10 @@ public class Interface extends JFrame implements ActionListener {
 
 		// Create labels and buttons to be put into the store management tab
 		JLabel lblStoreCapital = new JLabel("Store Capital: $" + store.capital());
-		JButton btnImportItems = new JButton("Import Item Properties");
-		JButton btnImportManifest = new JButton("Import Manifest");
-		JButton btnImportSalesLog = new JButton("Import Sales Log");
-		JButton btnExportManifest = new JButton("Export Manifest");
+		btnImportItems = new JButton("Import Item Properties");
+		btnImportManifest = new JButton("Import Manifest");
+		btnImportSalesLog = new JButton("Import Sales Log");
+		btnExportManifest = new JButton("Export Manifest");
 		
 		// Add action listeners onto buttons
 		// Set names for buttons to prevent duplication of code when opening file dialogue box
@@ -120,6 +121,23 @@ public class Interface extends JFrame implements ActionListener {
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
+	
+	// Implemented the ways to implement the below function in comments.
+	// I didn't change it.
+	
+	/*
+	 if (e.getSource() == btnImportManifest) {
+		 System.out.println("Import button");
+	 } else if (e.getSource() == btnExportManifest) {
+	 	 System.out.println("Export button");
+	 }
+	 */
+	
+	/*
+	 if (e.getSource() == btnImportItems || e.getSource() == btnImportManifest || e.getSource() == btnExportManifest) {
+		 System.out.println("Import button");
+	 } 
+	 */
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

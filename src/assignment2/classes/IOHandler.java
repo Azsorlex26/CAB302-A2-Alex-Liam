@@ -26,16 +26,16 @@ public class IOHandler {
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	
-	/*
+	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
 	 * 
 	 * @param Item Properties filepath
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException {
-		BufferedReader csvReader = null;
+		BufferedReader csvReader;
 		
 		try {
-			List Items = new ArrayList();
+			//List Items = new ArrayList();
 			csvReader = new BufferedReader(new FileReader(filePath));
 			String itemLine = "";
 			
