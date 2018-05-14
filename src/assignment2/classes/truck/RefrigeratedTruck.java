@@ -19,8 +19,12 @@ public class RefrigeratedTruck extends Truck {
 	 * @param temperature
 	 */
 	public RefrigeratedTruck(double temperature) {
-		this.temperature = temperature;
-		maxCapacity = 800;
+		if (temperature >= -20 && temperature <= 10) {
+			this.temperature = temperature;
+			maxCapacity = 800;
+		} else {
+			return; //Change this
+		}
 	}
 	
 	/**
@@ -44,6 +48,7 @@ public class RefrigeratedTruck extends Truck {
 	 * 
 	 * @return cost
 	 */
+	@Override
 	public double cost() {
 		return (900 + 200 * Math.pow(0.7, (temperature / 5.0)));
 	}

@@ -40,6 +40,7 @@ public class OrdinaryTruck extends Truck {
 	 * 
 	 * @return cost
 	 */
+	@Override
 	public double cost() {
 		return (750 + (0.25 * cargo.totalQuantity()));
 	}

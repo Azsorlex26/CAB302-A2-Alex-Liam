@@ -31,6 +31,11 @@ public abstract class Truck {
 	}
 
 	/**
+	 * Gets the cost
+	 */
+	abstract double cost();
+	
+	/**
 	 * Gets the maximum capacity
 	 * 
 	 * @return maxCapacity
