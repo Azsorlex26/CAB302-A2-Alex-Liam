@@ -1,6 +1,8 @@
 package assignment2.classes;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
@@ -15,7 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import assignment2.exceptions.StockException;
 
 @SuppressWarnings("serial")
-public class Interface extends JFrame {
+public class Interface extends JFrame implements ActionListener {
 
 	public static final int WIDTH = 953;
 	public static final int HEIGHT = 536;
@@ -62,7 +64,17 @@ public class Interface extends JFrame {
 		JButton btnImportManifest = new JButton("Import Manifest");
 		JButton btnImportSalesLog = new JButton("Import Sales Log");
 		JButton btnExportManifest = new JButton("Export Manifest");
-
+		
+		// Add action listeners onto buttons
+		// Set names for buttons to prevent duplication of code when opening file dialogue box
+		btnImportItems.addActionListener(this);
+		btnImportItems.setName("import");
+		btnImportManifest.addActionListener(this);
+		btnImportManifest.setName("import");
+		btnImportSalesLog.addActionListener(this);
+		btnImportSalesLog.setName("import");
+		btnExportManifest.addActionListener(this);
+		
 		// Configure the layout with components
 		// The chosen layout is a GroupLayout as it allows flexibility with resizing / moving
 		// objects
@@ -107,5 +119,13 @@ public class Interface extends JFrame {
 		storeTabs.setVisible(true);
 		setVisible(true);
 		getContentPane().add(storeTabs);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton buttonClicked = (JButton) e.getSource();
+		if(buttonClicked.getName() == "import") {
+			System.out.println("Import button");
+		}
 	}
 }
