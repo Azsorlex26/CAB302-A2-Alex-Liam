@@ -9,8 +9,9 @@ package assignment2.classes;
 public class Item {
 
 	private String name;
-	private double manufactureCost, sellCost, reorderPoint, reorderAmount;
-	private Double tempThreshold; // tempThreshhold is the maximum temperature before the item perishes
+	private double manufactureCost, sellCost;
+	private int reorderPoint, reorderAmount;
+	private double tempThreshold; // tempThreshhold is the maximum temperature before the item perishes
 
 	/**
 	 * Instantiates a new item object without a temperature threshold
@@ -19,8 +20,10 @@ public class Item {
 	 * @param manufactureCost
 	 * @param sellCost
 	 */
-	public Item(String name, double manufactureCost, double sellCost) {
+	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount) {
 		this.name = name;
+		this.reorderPoint = reorderPoint;
+		this.reorderAmount = reorderAmount;
 		this.manufactureCost = manufactureCost;
 		this.sellCost = sellCost;
 	}
@@ -33,7 +36,7 @@ public class Item {
 	 * @param sellCost
 	 * @param tempThreshold
 	 */
-	public Item(String name, double manufactureCost, double sellCost, double tempThreshold) {
+	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount, double tempThreshold) {
 		this.name = name;
 		this.manufactureCost = manufactureCost;
 		this.sellCost = sellCost;
