@@ -28,7 +28,7 @@ public class OrdinaryTruck extends Truck {
 	 */
 	@Override
 	public void add(Item item, int quantity) throws StockException {
-		if (item.getTempThreshold() == null) {
+		if (item.tempThreshold() == null) {
 			super.add(item, quantity);
 		} else {
 			throw new StockException("Can't add perishable items into this type of truck.");

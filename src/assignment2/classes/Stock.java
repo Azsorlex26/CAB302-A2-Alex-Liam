@@ -30,12 +30,29 @@ public class Stock implements Iterable<Item> { //
 	 * 
 	 * @param item
 	 * @param quantity
+	 * @throws StockException
 	 */
-	public void add(Item item, int quantity) {
-		if (stock.containsKey(item)) {
-			stock.put(item, stock.get(item) + quantity);
+	public void add(Item item, int quantity) throws StockException {
+		if (quantity > 0) {
+			if (stock.containsKey(item)) {
+				stock.put(item, stock.get(item) + quantity);
+			} else {
+				for (Item original : stock.keySet()) {
+					if (original.name() == item.name()
+							&& original.manufactureCost() == item.manufactureCost()
+							&& original.sellCost() == item.sellCost()
+							&& original.reorderPoint() == item.reorderPoint()
+							&& original.reorderAmount() == item.reorderAmount()
+							&& original.tempThreshold() == item.tempThreshold()) {
+						throw new StockException("An item with the exact same values already exists in the list.");
+					}
+				}
+				stock.put(item, quantity);
+			}
+		} else if (quantity < 0) {
+			throw new StockException("You can't add a negative amount of items to the list. Use remove() to remove instead.");
 		} else {
-			stock.put(item, quantity);
+			throw new StockException("You can't add 0 of an item. Add a greater ammount.");
 		}
 	}
 
@@ -52,9 +69,11 @@ public class Stock implements Iterable<Item> { //
 				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 			} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
 				stock.remove(item);
+			} else {
+				throw new StockException("There aren't that many of that item in storage. Can't remove.");
 			}
 		} else {
-			throw new StockException("There aren't that many of that item in storage. Can't remove.");
+			throw new StockException("That item doesn't exist in storage. Can't remove.");
 		}
 	}
 
@@ -93,20 +112,15 @@ public class Stock implements Iterable<Item> { //
 	public boolean contains(Item item) {
 		return stock.containsKey(item);
 	}
-	
+
 	/**
 	 * Returns if the item needs to be reordered or not
 	 * 
 	 * @param item
 	 * @return if the item quantity is <= to the item's reorder point
-	 * @throws StockException
 	 */
-	public boolean reorder(Item item) throws StockException {
-		if (stock.containsKey(item)) {
-			return stock.get(item) <= item.reorderPoint();
-		} else {
-			throw new StockException("An item by that string doesn't exist in the store.");
-		}
+	public boolean reorder(Item item) {
+		return stock.get(item) <= item.reorderPoint();
 	}
 
 	@Override
@@ -114,7 +128,7 @@ public class Stock implements Iterable<Item> { //
 		return new Iterator<Item>() {
 			Object[] items = stock.keySet().toArray();
 			int current = 0;
-			
+
 			@Override
 			public boolean hasNext() {
 				return current < items.length;

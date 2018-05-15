@@ -54,7 +54,7 @@ public class Item {
 	 * 
 	 * @return the name of the item
 	 */
-	public String getName() {
+	public String name() {
 		return name;
 	}
 
@@ -63,7 +63,7 @@ public class Item {
 	 * 
 	 * @return manufactureCost
 	 */
-	public double getManufactureCost() {
+	public double manufactureCost() {
 		return manufactureCost;
 	}
 
@@ -99,7 +99,7 @@ public class Item {
 	 * 
 	 * @return tempThreshold
 	 */
-	public Double getTempThreshold() {
+	public Double tempThreshold() {
 		return tempThreshold;
 	}
 }

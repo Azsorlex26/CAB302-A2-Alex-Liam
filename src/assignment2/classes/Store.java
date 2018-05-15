@@ -35,15 +35,6 @@ public class Store {
 	}
 
 	/**
-	 * Returns the existing store
-	 * 
-	 * @return store
-	 */
-	public static Store getStore() {
-		return store;
-	}
-
-	/**
 	 * Get the name of store
 	 * 
 	 * @return name
@@ -80,28 +71,24 @@ public class Store {
 	 * 
 	 * @param amount
 	 */
-	public void addCapital(double amount) {
+	public void adjustCapital(double amount) {
 		capital += amount;
 	}
-	
+
 	/**
-	 * Restocks the stores items if needed
+	 * Restocks the store's items if needed
+	 * @throws StockException 
 	 */
-	public void restock() {
-		try {
-			Stock invent = store.inventory();
-			for (Item item : invent) {
-				if (invent.reorder(item)) {
-					invent.add(item, item.reorderAmount());
-				}
+	public void restock() throws StockException {
+		for (Item item : inventory) {
+			if (inventory.reorder(item)) {
+				inventory.add(item, item.reorderAmount());
 			}
-		} catch (StockException s) {
-			s.getMessage();
 		}
 	}
 
 	/**
-	 * Temporary function to reset the store to null for the tests
+	 * Function needed to reset the store to null for the tests
 	 */
 	public static void nullifyStore() {
 		store = null;

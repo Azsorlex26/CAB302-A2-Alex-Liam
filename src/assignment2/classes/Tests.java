@@ -2,6 +2,8 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
@@ -12,27 +14,39 @@ import assignment2.exceptions.StockException;
  * This class utilizes JUnit to complete tests to ensure integrity of the
  * application
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Tests {
 
 	private static Store store, store2;
-	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 1, 2);
+	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck = new RefrigeratedTruck(-20);
 
-	@Test
-	public void itemInitial() { // Initializes object and tests if the values can be returned. Same for all
-								// initialization tests
-		assertEquals("Ice-Cream", icecream.getName());
-		assertEquals(2, icecream.getManufactureCost(), 0);
-		assertEquals(5, icecream.sellCost(), 0);
-		assertEquals(-5, icecream.getTempThreshold(), 0);
+	@Before // Things to do before the tests
+	public void initialiseTests() {
+		store = Store.makeStore("UMart");
+		ordTruck = new OrdinaryTruck();
+		refTruck = new RefrigeratedTruck(-20);
+	}
 
-		assertEquals("Canned Beans", beans.getName());
-		assertEquals(1, beans.getManufactureCost(), 0);
+	@After // Things to do after the tests
+	public void cleanUpTests() {
+		Store.nullifyStore();
+	}
+
+	@Test
+	public void itemInitial() { // Initializes object and tests if the values can be returned.
+								// Same for all initialization tests.
+		assertEquals("Ice-Cream", icecream.name());
+		assertEquals(2, icecream.manufactureCost(), 0);
+		assertEquals(5, icecream.sellCost(), 0);
+		assertEquals(-5, icecream.tempThreshold(), 0);
+
+		assertEquals("Canned Beans", beans.name());
+		assertEquals(1, beans.manufactureCost(), 0);
 		assertEquals(2.5, beans.sellCost(), 0);
-		assertNull(beans.getTempThreshold());
+		assertNull(beans.tempThreshold());
 	}
 
 	@Test
@@ -52,15 +66,13 @@ public class Tests {
 
 	@Test
 	public void trucksInitial() throws StockException {
-		Truck o = new OrdinaryTruck();
-		o.add(new Item("Test1", 10, 20, 1, 2), 5);
-		assertEquals(1000, o.maxCapacity());
-		assertEquals(5, o.cargo().totalQuantity());
+		ordTruck.add(beans, 5);
+		assertEquals(1000, ordTruck.maxCapacity());
+		assertEquals(5, ordTruck.cargo().totalQuantity());
 
-		Truck r = new RefrigeratedTruck(0);
-		r.add(new Item("Test2", 20, 40, 10, 1, 2), 5);
-		assertEquals(800, r.maxCapacity());
-		assertEquals(5, r.cargo().totalQuantity());
+		refTruck.add(icecream, 5);
+		assertEquals(800, refTruck.maxCapacity());
+		assertEquals(5, refTruck.cargo().totalQuantity());
 	}
 
 	@Test
@@ -76,30 +88,21 @@ public class Tests {
 	}
 
 	@Test
-	public void storeInitial() {
-		assertEquals(null, Store.getStore());
-		store = Store.makeStore("UMart");
+	public void storeInitial() throws StockException {
 		assertEquals("UMart", store.getName());
-		store.addCapital(100);
+		store.adjustCapital(100);
 		assertEquals(100100.0, store.capital(), 0);
-		assertEquals(store, Store.getStore());
 		assertEquals(0, store.inventory().totalQuantity());
-		Store.nullifyStore(); // Reset the Store variable
+		store.inventory().add(beans, 10);
+		assertEquals(10, store.inventory().totalQuantity());
 	}
 
 	@Test
 	public void onlyOneStore() {
-		store = Store.makeStore("UMart");
-		store2 = Store.makeStore("WalMart");
+		store2 = Store.makeStore("Coals");
 		assertEquals(store.getName(), store2.getName());
-		store.addCapital(100);
+		store.adjustCapital(-100);
 		assertEquals(store.capital(), store2.capital(), 0);
-		Store.nullifyStore(); // Reset the Store variable
-	}
-
-	@Test
-	public void returningNullTempFromDryItem() { // Attempts to get a threshold from an item without a threshold
-		assertNull(beans.getTempThreshold());
 	}
 
 	@Test(expected = StockException.class)
@@ -129,28 +132,42 @@ public class Tests {
 		Manifest trucks = new Manifest();
 		trucks.remove(ordTruck);
 	}
-	
-	@Test
-	public void removeItemFromEmptyStore() {
-		store = Store.makeStore("Coals");
-		try {
-			store.inventory().remove(beans, 10);
-		} catch (StockException s) {
-			Store.nullifyStore();
-		}
+
+	@Test(expected = StockException.class)
+	public void addDuplicateItemsToStock() throws StockException {
+		Item item1 = new Item("", 10, 20, 30, 40);
+		Item item2 = new Item("", 10, 20, 30, 40);
+		store.inventory().add(item1, 10);
+		store.inventory().add(item2, 20); // This will fail
 	}
-	
+
+	@Test(expected = StockException.class)
+	public void removeItemFromEmptyStore() throws StockException {
+		store.inventory().remove(beans, 10); // This will fail
+	}
+
+	@Test(expected = StockException.class)
+	public void removeTooManyItemsFromStore() throws StockException {
+		store.inventory().add(beans, 10);
+		store.inventory().remove(beans, 20); // This will fail
+	}
+
 	@Test(expected = StockException.class)
 	public void addingTooMuchToTruck() throws StockException {
-		ordTruck.add(beans, 1001);
+		ordTruck.add(beans, 1001); // This will fail
 	}
-	
+
 	@Test
-	public void reorder() {
-		store = Store.makeStore("Woolies");
-		Item item = new Item("Item", 2, 5, 10, 20);
-		store.inventory().add(item, 10);
+	public void reorder() throws StockException {
+		// Add beans to the beans reorder amount and restock. Output is 15
+		store.inventory().add(beans, 5);
+		assertEquals(5, store.inventory().totalQuantity());
 		store.restock();
-		assertEquals(30, store.inventory().totalQuantity());
+		assertEquals(15, store.inventory().totalQuantity());
+
+		// Remove all items and try to restock. Output is 0 since the key got removed
+		store.inventory().remove(beans, 15);
+		store.restock();
+		assertEquals(0, store.inventory().totalQuantity());
 	}
 }
