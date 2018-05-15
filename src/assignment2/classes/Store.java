@@ -3,6 +3,8 @@ package assignment2.classes;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import assignment2.exceptions.StockException;
+
 /**
  * This class represents the store
  * 
@@ -80,6 +82,22 @@ public class Store {
 	 */
 	public void addCapital(double amount) {
 		capital += amount;
+	}
+	
+	/**
+	 * Restocks the stores items if needed
+	 */
+	public void restock() {
+		try {
+			Stock invent = store.inventory();
+			for (Item item : invent) {
+				if (invent.reorder(item)) {
+					invent.add(item, item.reorderAmount());
+				}
+			}
+		} catch (StockException s) {
+			s.getMessage();
+		}
 	}
 
 	/**

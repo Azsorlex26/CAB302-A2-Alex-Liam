@@ -24,10 +24,10 @@ public class Item {
 	 */
 	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount) {
 		this.name = name;
-		this.reorderPoint = reorderPoint;
-		this.reorderAmount = reorderAmount;
 		this.manufactureCost = manufactureCost;
 		this.sellCost = sellCost;
+		this.reorderPoint = reorderPoint;
+		this.reorderAmount = reorderAmount;
 	}
 
 	/**
@@ -44,6 +44,8 @@ public class Item {
 		this.name = name;
 		this.manufactureCost = manufactureCost;
 		this.sellCost = sellCost;
+		this.reorderPoint = reorderPoint;
+		this.reorderAmount = reorderAmount;
 		this.tempThreshold = tempThreshold;
 	}
 
@@ -72,6 +74,24 @@ public class Item {
 	 */
 	public double sellCost() {
 		return sellCost;
+	}
+	
+	/**
+	 * Get the reorder point of the item
+	 * 
+	 * @return sellCost
+	 */
+	public int reorderPoint() {
+		return reorderPoint;
+	}
+	
+	/**
+	 * Get the reorder amount of the item
+	 * 
+	 * @return sellCost
+	 */
+	public int reorderAmount() {
+		return reorderAmount;
 	}
 
 	/**

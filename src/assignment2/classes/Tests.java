@@ -145,4 +145,13 @@ public class Tests {
 	public void addingTooMuchToTruck() throws StockException {
 		ordTruck.add(beans, 1001);
 	}
+	
+	@Test
+	public void reorder() {
+		store = Store.makeStore("Woolies");
+		Item item = new Item("Item", 2, 5, 10, 20);
+		store.inventory().add(item, 10);
+		store.restock();
+		assertEquals(30, store.inventory().totalQuantity());
+	}
 }

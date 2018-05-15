@@ -1,7 +1,9 @@
 package assignment2.classes;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import assignment2.exceptions.StockException;
 
@@ -12,7 +14,7 @@ import assignment2.exceptions.StockException;
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
-public class Stock { //
+public class Stock implements Iterable<Item> { //
 
 	Map<Item, Integer> stock;
 
@@ -90,5 +92,35 @@ public class Stock { //
 	 */
 	public boolean contains(Item item) {
 		return stock.containsKey(item);
+	}
+	
+	public boolean reorder(Item item) throws StockException {
+		if (stock.containsKey(item)) {
+			return stock.get(item) <= item.reorderPoint();
+		} else {
+			throw new StockException("An item by that string doesn't exist in the store.");
+		}
+	}
+
+	@Override
+	public Iterator<Item> iterator() {
+		return new Iterator<Item>() {
+			Item[] items;
+			int current = 0;
+			
+			@Override
+			public boolean hasNext() {
+				items = (Item[]) stock.keySet().toArray();
+				return current < items.length;
+			}
+
+			@Override
+			public Item next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				return items[current++];
+			}
+		};
 	}
 }
