@@ -3,8 +3,8 @@ package assignment2.classes;
 /**
  * This class represents an item
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Item {
 
@@ -41,11 +41,7 @@ public class Item {
 	 * @param tempThreshold
 	 */
 	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount, double tempThreshold) {
-		this.name = name;
-		this.manufactureCost = manufactureCost;
-		this.sellCost = sellCost;
-		this.reorderPoint = reorderPoint;
-		this.reorderAmount = reorderAmount;
+		this(name, manufactureCost, sellCost, reorderPoint, reorderAmount);
 		this.tempThreshold = tempThreshold;
 	}
 

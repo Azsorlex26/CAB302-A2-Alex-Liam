@@ -8,8 +8,8 @@ import assignment2.exceptions.StockException;
 /**
  * This class represents the store
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Store {
 
@@ -35,6 +35,20 @@ public class Store {
 	}
 
 	/**
+	 * Formats the double to two decimal places. Source:
+	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
+	 * places
+	 * 
+	 * @param amount
+	 * @return formatted double
+	 */
+	private double formatDouble(double amount) {
+		BigDecimal bd = new BigDecimal(amount);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+
+	/**
 	 * Get the name of store
 	 * 
 	 * @return name
@@ -44,16 +58,12 @@ public class Store {
 	}
 
 	/**
-	 * Get capital of store. Source:
-	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
-	 * places
+	 * Get capital of store.
 	 * 
 	 * @return capital
 	 */
 	public double capital() {
-		BigDecimal bd = new BigDecimal(capital);
-		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		return bd.doubleValue();
+		return formatDouble(capital);
 	}
 
 	/**
@@ -72,12 +82,13 @@ public class Store {
 	 * @param amount
 	 */
 	public void adjustCapital(double amount) {
-		capital += amount;
+		capital += formatDouble(amount);
 	}
 
 	/**
 	 * Restocks the store's items if needed
-	 * @throws StockException 
+	 * 
+	 * @throws StockException
 	 */
 	public void restock() throws StockException {
 		for (Item item : inventory) {

@@ -8,11 +8,11 @@ import java.util.Iterator;
 import assignment2.exceptions.StockException;
 
 /**
- * This class represents a A collection of items representing store inventory,
+ * This class represents a collection of items representing store inventory,
  * orders, sales logs and truck cargo.
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Stock implements Iterable<Item> { //
 
@@ -44,13 +44,14 @@ public class Stock implements Iterable<Item> { //
 							&& original.reorderPoint() == item.reorderPoint()
 							&& original.reorderAmount() == item.reorderAmount()
 							&& original.tempThreshold() == item.tempThreshold()) {
-						throw new StockException("An item with the exact same values already exists in the list.");
+						throw new StockException("An item with the exact same values already exists in the list: "
+								+ original.name() + ". Add that instead.");
 					}
 				}
 				stock.put(item, quantity);
 			}
 		} else if (quantity < 0) {
-			throw new StockException("You can't add a negative amount of items to the list. Use remove() to remove instead.");
+			throw new StockException("You can't add a negative amount of items to the list.");
 		} else {
 			throw new StockException("You can't add 0 of an item. Add a greater ammount.");
 		}

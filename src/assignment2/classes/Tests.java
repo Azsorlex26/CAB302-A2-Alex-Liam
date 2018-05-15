@@ -135,8 +135,8 @@ public class Tests {
 
 	@Test(expected = StockException.class)
 	public void addDuplicateItemsToStock() throws StockException {
-		Item item1 = new Item("", 10, 20, 30, 40);
-		Item item2 = new Item("", 10, 20, 30, 40);
+		Item item1 = new Item("Jelly Beans", 10, 20, 30, 40);
+		Item item2 = new Item("Jelly Beans", 10, 20, 30, 40);
 		store.inventory().add(item1, 10);
 		store.inventory().add(item2, 20); // This will fail
 	}
@@ -161,7 +161,6 @@ public class Tests {
 	public void reorder() throws StockException {
 		// Add beans to the beans reorder amount and restock. Output is 15
 		store.inventory().add(beans, 5);
-		assertEquals(5, store.inventory().totalQuantity());
 		store.restock();
 		assertEquals(15, store.inventory().totalQuantity());
 
