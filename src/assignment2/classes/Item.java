@@ -79,7 +79,7 @@ public class Item {
 	/**
 	 * Get the reorder point of the item
 	 * 
-	 * @return sellCost
+	 * @return reorderPoint
 	 */
 	public int reorderPoint() {
 		return reorderPoint;
@@ -88,7 +88,7 @@ public class Item {
 	/**
 	 * Get the reorder amount of the item
 	 * 
-	 * @return sellCost
+	 * @return reorderAmount
 	 */
 	public int reorderAmount() {
 		return reorderAmount;

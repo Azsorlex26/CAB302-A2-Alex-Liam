@@ -94,6 +94,13 @@ public class Stock implements Iterable<Item> { //
 		return stock.containsKey(item);
 	}
 	
+	/**
+	 * Returns if the item needs to be reordered or not
+	 * 
+	 * @param item
+	 * @return if the item quantity is <= to the item's reorder point
+	 * @throws StockException
+	 */
 	public boolean reorder(Item item) throws StockException {
 		if (stock.containsKey(item)) {
 			return stock.get(item) <= item.reorderPoint();
@@ -105,12 +112,11 @@ public class Stock implements Iterable<Item> { //
 	@Override
 	public Iterator<Item> iterator() {
 		return new Iterator<Item>() {
-			Item[] items;
+			Object[] items = stock.keySet().toArray();
 			int current = 0;
 			
 			@Override
 			public boolean hasNext() {
-				items = (Item[]) stock.keySet().toArray();
 				return current < items.length;
 			}
 
@@ -119,7 +125,7 @@ public class Stock implements Iterable<Item> { //
 				if (!hasNext()) {
 					throw new NoSuchElementException();
 				}
-				return items[current++];
+				return (Item) items[current++];
 			}
 		};
 	}

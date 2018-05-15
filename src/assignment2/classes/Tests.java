@@ -2,7 +2,6 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
