@@ -3,8 +3,10 @@ package assignment2.classes;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import assignment2.exceptions.CSVFormatException;
 import assignment2.exceptions.StockException;
 
 @SuppressWarnings("serial")
@@ -25,6 +28,7 @@ public class Interface extends JFrame implements ActionListener {
 	private JPanel storeManagementPane;
 	private JTable tblInventory;
 	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
+	private JFileChooser fileChooser;
 
 	/**
 	 * Launch the application.
@@ -69,11 +73,8 @@ public class Interface extends JFrame implements ActionListener {
 		// Add action listeners onto buttons
 		// Set names for buttons to prevent duplication of code when opening file dialogue box
 		btnImportItems.addActionListener(this);
-		btnImportItems.setName("import");
 		btnImportManifest.addActionListener(this);
-		btnImportManifest.setName("import");
 		btnImportSalesLog.addActionListener(this);
-		btnImportSalesLog.setName("import");
 		btnExportManifest.addActionListener(this);
 		
 		// Configure the layout with components
@@ -101,8 +102,7 @@ public class Interface extends JFrame implements ActionListener {
 				.addGroup(stockLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
-						// .addComponent(lblStoreCapital)
-						.addComponent(btnImportItems))
+						 .addComponent(btnImportItems))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnImportManifest)
@@ -122,33 +122,35 @@ public class Interface extends JFrame implements ActionListener {
 		getContentPane().add(storeTabs);
 	}
 	
-	// Implemented the ways to implement the below function in comments.
-	// I didn't change it.
-	
-	/*
-	 if (e.getSource() == btnImportManifest) {
-		 System.out.println("Import button");
-	 } else if (e.getSource() == btnExportManifest) {
-	 	 System.out.println("Export button");
-	 }
-	 */
-	
-	/*
-	 if (e.getSource() == btnImportItems || e.getSource() == btnImportManifest || e.getSource() == btnExportManifest) {
-		 System.out.println("Import button");
-	 } 
-	 */
+	public String fileChooser() {
+		fileChooser = new JFileChooser();
+		
+		int optionSelected = fileChooser.showOpenDialog(this);
+		
+		if (optionSelected == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile().getAbsolutePath();		
+	} else {
+		return null;
+	}
+	}
 	
 	/**
 	 * Allows different actions to happen depending on the button pressed
 	 * 
-	 * @param e
+	 * @param event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton buttonClicked = (JButton) e.getSource();
-		if(buttonClicked.getName() == "import") {
-			System.out.println("Import button");
+		if(buttonClicked == btnImportItems) {
+			String filePath = fileChooser();
+			
+			try {
+				IOHandler.readItemProperties(filePath);
+			} catch (CSVFormatException exception) {
+				System.err.println("Warning: This is not a valid CSV file");
+			}
 		}
 	}
+	
 }

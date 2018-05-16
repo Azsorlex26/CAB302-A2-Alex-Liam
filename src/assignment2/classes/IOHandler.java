@@ -29,7 +29,6 @@ public class IOHandler {
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
 	 */
-	@SuppressWarnings("resource")
 	public static List<Item> readItemProperties(String filePath) throws CSVFormatException {
 		List<Item> Items = new ArrayList<Item>();
 		try {
@@ -51,8 +50,11 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
 							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
+				} else {
+					throw new CSVFormatException();
 				}
 			}
+			csvReader.close();
 			return Items;
 			
 		} catch (Exception e) {
