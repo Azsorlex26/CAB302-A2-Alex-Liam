@@ -51,6 +51,8 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
 							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
+				} else {
+					throw new CSVFormatException();
 				}
 			}
 			return Items;

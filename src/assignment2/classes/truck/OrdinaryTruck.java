@@ -31,7 +31,7 @@ public class OrdinaryTruck extends Truck {
 		if (item.tempThreshold() == null) {
 			super.add(item, quantity);
 		} else {
-			throw new StockException("Can't add perishable items into this type of truck.");
+			throw new StockException();
 		}
 	}
 
