@@ -44,16 +44,15 @@ public class Stock implements Iterable<Item> { //
 							&& original.reorderPoint() == item.reorderPoint()
 							&& original.reorderAmount() == item.reorderAmount()
 							&& original.tempThreshold() == item.tempThreshold()) {
-						throw new StockException("An item with the exact same values already exists in the list: "
-								+ original.name() + ". Add that instead.");
+						throw new StockException();
 					}
 				}
 				stock.put(item, quantity);
 			}
 		} else if (quantity < 0) {
-			throw new StockException("You can't add a negative amount of items to the list.");
+			throw new StockException();
 		} else {
-			throw new StockException("You can't add 0 of an item. Add a greater ammount.");
+			throw new StockException();
 		}
 	}
 
@@ -71,10 +70,10 @@ public class Stock implements Iterable<Item> { //
 			} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
 				stock.remove(item);
 			} else {
-				throw new StockException("There aren't that many of that item in storage. Can't remove.");
+				throw new StockException();
 			}
 		} else {
-			throw new StockException("That item doesn't exist in storage. Can't remove.");
+			throw new StockException();
 		}
 	}
 

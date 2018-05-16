@@ -6,9 +6,5 @@ package assignment2.exceptions;
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
-@SuppressWarnings("serial")
 public class CSVFormatException extends Exception {
-	public CSVFormatException(String message) {
-		super(message);
-	}
 }
