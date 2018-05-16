@@ -26,7 +26,7 @@ public abstract class Truck {
 		if ((cargo.totalQuantity() + quantity) <= maxCapacity) {
 			cargo.add(item, quantity);
 		} else {
-			throw new StockException();
+			throw new StockException("Can't add items. Only " + (maxCapacity - cargo.totalQuantity()) + " more items can be added.");
 		}
 	}
 

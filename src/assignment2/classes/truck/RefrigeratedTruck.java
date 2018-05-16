@@ -39,7 +39,7 @@ public class RefrigeratedTruck extends Truck {
 		if (item.tempThreshold() == null || temperature <= item.tempThreshold()) {
 			super.add(item, quantity);
 		} else {
-			throw new StockException();
+			throw new StockException("That refrigerated truck is too warm to contain that item. Can't add.");
 		}
 	}
 
