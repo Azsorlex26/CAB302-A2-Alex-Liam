@@ -62,7 +62,7 @@ public class Store {
 	 * 
 	 * @return capital
 	 */
-	public double capital() {
+	public double getCapital() {
 		return formatDouble(capital);
 	}
 

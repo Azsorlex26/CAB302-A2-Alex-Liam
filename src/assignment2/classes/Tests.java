@@ -91,7 +91,7 @@ public class Tests {
 	public void storeInitial() throws StockException {
 		assertEquals("UMart", store.getName());
 		store.adjustCapital(100);
-		assertEquals(100100.0, store.capital(), 0);
+		assertEquals(100100.0, store.getCapital(), 0);
 		assertEquals(0, store.inventory().totalQuantity());
 		store.inventory().add(beans, 10);
 		assertEquals(10, store.inventory().totalQuantity());
@@ -102,7 +102,7 @@ public class Tests {
 		store2 = Store.makeStore("Coals");
 		assertEquals(store.getName(), store2.getName());
 		store.adjustCapital(-100);
-		assertEquals(store.capital(), store2.capital(), 0);
+		assertEquals(store.getCapital(), store2.getCapital(), 0);
 	}
 
 	@Test(expected = StockException.class)

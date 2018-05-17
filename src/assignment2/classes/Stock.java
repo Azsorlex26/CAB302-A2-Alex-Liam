@@ -33,6 +33,9 @@ public class Stock implements Iterable<Item> {
 	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
+		if (item == null) {
+			throw new StockException("Null item");
+		}
 		if (quantity >= 0) {
 				stock.put(item, stock.get(item) + quantity);
 		} else {
