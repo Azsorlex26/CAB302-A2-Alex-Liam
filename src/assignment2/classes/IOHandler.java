@@ -67,7 +67,7 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX])));
 					storeItems.add(item);
-					Store.inventory.add(item, 0);
+					Store.inventory.addNew(item);
 					
 				} else if (properties.length == 6) { // If a refrigerated item, create an item
 					Item item = (new Item(properties[ITEM_NAME_INDEX],
@@ -77,7 +77,7 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
 							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
 					storeItems.add(item);
-					Store.inventory.add(item, 0);
+					Store.inventory.addNew(item);
 					
 				} else {
 					throw new CSVFormatException(null);
@@ -108,8 +108,9 @@ public class IOHandler {
 						throw new CSVFormatException(null);
 					}
 				}
+				csvReader.close();
 			}
-			csvReader.close();
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

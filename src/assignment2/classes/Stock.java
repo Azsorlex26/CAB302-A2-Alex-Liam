@@ -25,6 +25,19 @@ public class Stock implements Iterable<Item> {
 		stock = new HashMap<Item, Integer>();
 	}
 
+	/*
+	 * Add new Item to stock list
+	 * 
+	 * @param Item to add
+	 */
+	public void addNew(Item item) throws StockException {
+		if (item != null) {
+				stock.put(item, 0);
+		} else {
+			throw new StockException("Null item");
+	}
+		
+	}
 	/**
 	 * Adds items to stock
 	 * 
@@ -37,7 +50,7 @@ public class Stock implements Iterable<Item> {
 			throw new StockException("Null item");
 		}
 		if (quantity >= 0) {
-				stock.put(item, stock.get(item) + quantity);
+				stock.put(item, 0);
 		} else {
 			throw new StockException("Negative amount");
 	}
