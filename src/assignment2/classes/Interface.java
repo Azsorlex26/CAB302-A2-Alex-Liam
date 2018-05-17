@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -29,6 +31,7 @@ public class Interface extends JFrame implements ActionListener {
 	private JTable tblInventory;
 	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
 	private JFileChooser fileChooser;
+	JLabel lblStoreCapital;
 
 	/**
 	 * Launch the application.
@@ -37,6 +40,7 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
+			Store.makeStore("test");
 			new Interface("test");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,11 +68,14 @@ public class Interface extends JFrame implements ActionListener {
 		tblInventory = new JTable(); // Creates a table component to be put into its own tab
 
 		// Create labels and buttons to be put into the store management tab
-		JLabel lblStoreCapital = new JLabel("Store Capital: $" + store.capital());
+		lblStoreCapital = new JLabel("Store Capital: $" + store.getCapital());
 		btnImportItems = new JButton("Import Item Properties");
 		btnImportManifest = new JButton("Import Manifest");
+		btnImportManifest.setEnabled(false);
 		btnImportSalesLog = new JButton("Import Sales Log");
+		btnImportSalesLog.setEnabled(false);
 		btnExportManifest = new JButton("Export Manifest");
+		btnExportManifest.setEnabled(false);
 		
 		// Add action listeners onto buttons
 		// Set names for buttons to prevent duplication of code when opening file dialogue box
@@ -149,7 +156,20 @@ public class Interface extends JFrame implements ActionListener {
 				IOHandler.readItemProperties(filePath);
 			} catch (CSVFormatException exception) {
 				System.err.println("Warning: This is not a valid CSV file");
+				return;
 			}
+			btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
+			btnImportManifest.setEnabled(true);
+		} else if (buttonClicked == btnImportManifest) {
+			String filePath = fileChooser();
+			
+			try {
+				IOHandler.readManifest(filePath);
+			} catch (CSVFormatException exception) {
+				System.err.println("Warning: This is not a valid CSV file");
+				return;
+			}
+			lblStoreCapital.setText(Double.toString(Store.store.getCapital()));
 		}
 	}
 	
