@@ -40,7 +40,6 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			Store.makeStore("test");
 			new Interface("test");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +67,7 @@ public class Interface extends JFrame implements ActionListener {
 		tblInventory = new JTable(); // Creates a table component to be put into its own tab
 
 		// Create labels and buttons to be put into the store management tab
-		lblStoreCapital = new JLabel("Store Capital: $" + store.getCapital());
+		lblStoreCapital = new JLabel("Store Capital: $0");
 		btnImportItems = new JButton("Import Item Properties");
 		btnImportManifest = new JButton("Import Manifest");
 		btnImportManifest.setEnabled(false);
@@ -76,50 +75,41 @@ public class Interface extends JFrame implements ActionListener {
 		btnImportSalesLog.setEnabled(false);
 		btnExportManifest = new JButton("Export Manifest");
 		btnExportManifest.setEnabled(false);
-		
+
 		// Add action listeners onto buttons
-		// Set names for buttons to prevent duplication of code when opening file dialogue box
+		// Set names for buttons to prevent duplication of code when opening file
+		// dialogue box
 		btnImportItems.addActionListener(this);
 		btnImportManifest.addActionListener(this);
 		btnImportSalesLog.addActionListener(this);
 		btnExportManifest.addActionListener(this);
-		
+
 		// Configure the layout with components
-		// The chosen layout is a GroupLayout as it allows flexibility with resizing / moving
+		// The chosen layout is a GroupLayout as it allows flexibility with resizing /
+		// moving
 		// objects
 		// as well as with relativity within the page
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/groupExample.html
 		GroupLayout stockLayout = new GroupLayout(storeManagementPane);
 		stockLayout.setHorizontalGroup( // Set horizontal parameters
-			stockLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(stockLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(stockLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnImportItems)
-						.addGroup(stockLayout.createSequentialGroup()
-							.addComponent(btnImportManifest)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnExportManifest))
-						.addComponent(btnImportSalesLog)
-						.addComponent(lblStoreCapital))
-					.addContainerGap()));
-		
+				stockLayout.createParallelGroup(Alignment.LEADING).addGroup(stockLayout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(stockLayout.createParallelGroup(Alignment.LEADING).addComponent(btnImportItems)
+								.addGroup(stockLayout.createSequentialGroup().addComponent(btnImportManifest)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnExportManifest))
+								.addComponent(btnImportSalesLog).addComponent(lblStoreCapital))
+						.addContainerGap()));
+
 		stockLayout.setVerticalGroup( // Set vertical parameters
-			stockLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(stockLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
-						 .addComponent(btnImportItems))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnImportManifest)
-						.addComponent(btnExportManifest))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnImportSalesLog)
-					.addGap(150)
-					.addComponent(lblStoreCapital)
-					.addContainerGap(204, 204)));		
-			
+				stockLayout.createParallelGroup(Alignment.LEADING).addGroup(stockLayout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportItems))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportManifest)
+								.addComponent(btnExportManifest))
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnImportSalesLog).addGap(150)
+						.addComponent(lblStoreCapital).addContainerGap(204, 204)));
+
 		// Add the tabs the the tabbedPane and display GUI
 		storeManagementPane.setLayout(stockLayout);
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
@@ -128,19 +118,17 @@ public class Interface extends JFrame implements ActionListener {
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
-	
+
 	public String fileChooser() {
 		fileChooser = new JFileChooser();
-		
 		int optionSelected = fileChooser.showOpenDialog(this);
-		
+
 		if (optionSelected == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getAbsolutePath();		
-	} else {
+			return fileChooser.getSelectedFile().getAbsolutePath();
+		}
 		return null;
 	}
-	}
-	
+
 	/**
 	 * Allows different actions to happen depending on the button pressed
 	 * 
@@ -148,29 +136,27 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton buttonClicked = (JButton) e.getSource();
-		if(buttonClicked == btnImportItems) {
-			String filePath = fileChooser();
-			
+		String filePath = fileChooser();
+		if (e.getSource() == btnImportItems) {
 			try {
 				IOHandler.readItemProperties(filePath);
-			} catch (CSVFormatException exception) {
-				System.err.println("Warning: This is not a valid CSV file");
-				return;
+				
+				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
+				btnImportManifest.setEnabled(true);
+				System.out.println("item_properties.csv imported successfully");
+			} catch (CSVFormatException c) {
+				System.err.println(c.getMessage());
 			}
-			btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
-			btnImportManifest.setEnabled(true);
-		} else if (buttonClicked == btnImportManifest) {
-			String filePath = fileChooser();
-			
+
+		} else if (e.getSource() == btnImportManifest) {
 			try {
 				IOHandler.readManifest(filePath);
-			} catch (CSVFormatException exception) {
-				System.err.println("Warning: This is not a valid CSV file");
-				return;
+				
+				lblStoreCapital.setText("Store Capital: $" + store.getCapital());
+				System.out.println("manifest.csv imported successfully");
+			} catch (CSVFormatException c) {
+				System.err.println(c.getMessage());
 			}
-			lblStoreCapital.setText(Double.toString(Store.store.getCapital()));
 		}
 	}
-	
 }

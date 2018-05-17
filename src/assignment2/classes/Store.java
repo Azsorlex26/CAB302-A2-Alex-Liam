@@ -13,10 +13,10 @@ import assignment2.exceptions.StockException;
  */
 public class Store {
 
-	public static Store store;
-	public static Stock inventory;
-	public static String name;
-	public static double capital;
+	private static Store store;
+	private static Stock inventory;
+	private static String name;
+	private static double capital;
 
 	/**
 	 * Initializes the store
@@ -31,6 +31,15 @@ public class Store {
 			name = store_name;
 			capital = 100000;
 		}
+		return store;
+	}
+	
+	/**
+	 * Returns the store object
+	 * 
+	 * @return store
+	 */
+	public static Store getStore() {
 		return store;
 	}
 
@@ -72,6 +81,10 @@ public class Store {
 	 * @return inventory
 	 */
 	public Stock inventory() {
+		return inventory;
+	}
+	
+	public static Stock getInventory() {
 		return inventory;
 	}
 
