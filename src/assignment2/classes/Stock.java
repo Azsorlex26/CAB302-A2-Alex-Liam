@@ -11,8 +11,8 @@ import assignment2.exceptions.StockException;
  * This class represents a collection of items representing store inventory,
  * orders, sales logs and truck cargo.
  * 
- * @author Alexander Rozsa
  * @author Liam Edwards
+ * @author Alexander Rozsa
  */
 public class Stock implements Iterable<Item> { 
 
@@ -28,33 +28,16 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Adds items to stock
 	 * 
-	 * @param item
-	 * @param quantity
+	 * @param Item to use as key
+	 * @param Quantity to be added (Can be 0)
 	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
-		if (quantity > 0) {
-			if (stock.containsKey(item)) {
+		if (quantity >= 0) {
 				stock.put(item, stock.get(item) + quantity);
-			} else {
-				for (Item original : stock.keySet()) {
-					if (original.getName() == item.getName()
-							&& original.getManufactureCost() == item.getManufactureCost()
-							&& original.getSellCost() == item.getSellCost()
-							&& original.getReorderPoint() == item.getReorderPoint()
-							&& original.getReorderAmount() == item.getReorderAmount()
-							&& original.getTempThreshold() == item.getTempThreshold()) {
-						throw new StockException("An item with the exact same values already exists in the list: "
-								+ original.getName() + ". Add that instead.");
-					}
-				}
-				stock.put(item, quantity);
-			}
-		} else if (quantity < 0) {
-			throw new StockException("You can't add a negative amount of items to the list.");
 		} else {
-			throw new StockException("You can't add 0 of an item. Add a greater ammount.");
-		}
+			throw new StockException("Negative amount");
+	}
 	}
 
 	/**
@@ -68,13 +51,11 @@ public class Stock implements Iterable<Item> {
 		if (stock.containsKey(item)) {
 			if (quantity < stock.get(item)) {
 				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
-			} else if (stock.get(item) == quantity) { // Remove key if the remove quantity is the same as the amount
-				stock.remove(item);
 			} else {
-				throw new StockException("There aren't that many of that item in storage. Can't remove.");
+				throw new StockException("Not enough items");
 			}
 		} else {
-			throw new StockException("That item doesn't exist in storage. Can't remove.");
+			throw new StockException("Doesn't exist");
 		}
 	}
 
@@ -84,7 +65,7 @@ public class Stock implements Iterable<Item> {
 	 * @param item
 	 * @return quantity of specific item
 	 */
-	public int itemQuantity(Item item) {
+	public int getItemQuantity(Item item) {
 		if (stock.containsKey(item)) {
 			return stock.get(item);
 		}
@@ -123,7 +104,7 @@ public class Stock implements Iterable<Item> {
 	public boolean reorder(Item item) {
 		return stock.get(item) <= item.getReorderPoint();
 	}
-
+	
 	@Override
 	public Iterator<Item> iterator() {
 		return new Iterator<Item>() {
