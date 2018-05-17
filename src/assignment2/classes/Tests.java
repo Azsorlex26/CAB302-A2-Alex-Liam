@@ -68,11 +68,11 @@ public class Tests {
 	public void trucksInitial() throws StockException {
 		ordTruck.add(beans, 5);
 		assertEquals(1000, ordTruck.maxCapacity());
-		assertEquals(5, ordTruck.cargo().totalQuantity());
+		assertEquals(5, ordTruck.getCargo().totalQuantity());
 
 		refTruck.add(icecream, 5);
 		assertEquals(800, refTruck.maxCapacity());
-		assertEquals(5, refTruck.cargo().totalQuantity());
+		assertEquals(5, refTruck.getCargo().totalQuantity());
 	}
 
 	@Test
@@ -80,11 +80,11 @@ public class Tests {
 		Manifest trucks = new Manifest();
 		trucks.add(ordTruck);
 		trucks.add(refTruck);
-		assertEquals(2, trucks.totalTrucks());
+		assertEquals(2, trucks.getTotalTrucks());
 		trucks.remove(ordTruck);
-		assertEquals(1, trucks.totalTrucks());
+		assertEquals(1, trucks.getTotalTrucks());
 		trucks.clear();
-		assertEquals(0, trucks.totalTrucks());
+		assertEquals(0, trucks.getTotalTrucks());
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class Tests {
 		Truck refTruck = new RefrigeratedTruck(-20);
 		refTruck.add(beans, 1); // Both of these will work
 		refTruck.add(icecream, 1);
-		assertEquals(2, refTruck.cargo().totalQuantity());
+		assertEquals(2, refTruck.getCargo().totalQuantity());
 	}
 
 	@Test(expected = StockException.class)
