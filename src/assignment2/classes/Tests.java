@@ -53,12 +53,12 @@ public class Tests {
 	public void stockInitial() throws StockException {
 		Stock stock = new Stock();
 		stock.add(beans, 10);
-		assertEquals(10, stock.itemQuantity(beans));
+		assertEquals(10, stock.getItemQuantity(beans));
 		assertEquals(10, stock.totalQuantity());
 		stock.add(beans, 5);
-		assertEquals(15, stock.itemQuantity(beans));
+		assertEquals(15, stock.getItemQuantity(beans));
 		stock.remove(beans, 10);
-		assertEquals(5, stock.itemQuantity(beans));
+		assertEquals(5, stock.getItemQuantity(beans));
 		assertTrue(stock.contains(beans));
 		stock.remove(beans, 5);
 		assertFalse(stock.contains(beans));
