@@ -36,7 +36,7 @@ public class RefrigeratedTruck extends Truck {
 	 */
 	@Override
 	public void add(Item item, int quantity) throws StockException {
-		if (item.tempThreshold() == null || temperature <= item.tempThreshold()) {
+		if (item.getTempThreshold() == null || temperature <= item.getTempThreshold()) {
 			super.add(item, quantity);
 		} else {
 			throw new StockException("That refrigerated truck is too warm to contain that item. Can't add.");
@@ -49,7 +49,7 @@ public class RefrigeratedTruck extends Truck {
 	 * @return cost
 	 */
 	@Override
-	public double cost() {
+	public double getCost() {
 		return (900 + 200 * Math.pow(0.7, (temperature / 5.0)));
 	}
 }

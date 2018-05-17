@@ -54,7 +54,7 @@ public class Manifest {
 	 * 
 	 * @return number of trucks
 	 */
-	public int totalTrucks() {
+	public int getTotalTrucks() {
 		return manifest.size();
 	}
 

@@ -28,6 +28,7 @@ public class Item {
 		this.sellCost = sellCost;
 		this.reorderPoint = reorderPoint;
 		this.reorderAmount = reorderAmount;
+		this.tempThreshold = null;
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class Item {
 	 * 
 	 * @return the name of the item
 	 */
-	public String name() {
+	public String getName() {
 		return name;
 	}
 
@@ -59,7 +60,7 @@ public class Item {
 	 * 
 	 * @return manufactureCost
 	 */
-	public double manufactureCost() {
+	public double getManufactureCost() {
 		return manufactureCost;
 	}
 
@@ -68,7 +69,7 @@ public class Item {
 	 * 
 	 * @return sellCost
 	 */
-	public double sellCost() {
+	public double getSellCost() {
 		return sellCost;
 	}
 	
@@ -77,7 +78,7 @@ public class Item {
 	 * 
 	 * @return reorderPoint
 	 */
-	public int reorderPoint() {
+	public int getReorderPoint() {
 		return reorderPoint;
 	}
 	
@@ -86,7 +87,7 @@ public class Item {
 	 * 
 	 * @return reorderAmount
 	 */
-	public int reorderAmount() {
+	public int getReorderAmount() {
 		return reorderAmount;
 	}
 
@@ -95,7 +96,7 @@ public class Item {
 	 * 
 	 * @return tempThreshold
 	 */
-	public Double tempThreshold() {
+	public Double getTempThreshold() {
 		return tempThreshold;
 	}
 }

@@ -38,15 +38,15 @@ public class Tests {
 	@Test
 	public void itemInitial() { // Initializes object and tests if the values can be returned.
 								// Same for all initialization tests.
-		assertEquals("Ice-Cream", icecream.name());
-		assertEquals(2, icecream.manufactureCost(), 0);
-		assertEquals(5, icecream.sellCost(), 0);
-		assertEquals(-5, icecream.tempThreshold(), 0);
+		assertEquals("Ice-Cream", icecream.getName());
+		assertEquals(2, icecream.getManufactureCost(), 0);
+		assertEquals(5, icecream.getSellCost(), 0);
+		assertEquals(-5, icecream.getTempThreshold(), 0);
 
-		assertEquals("Canned Beans", beans.name());
-		assertEquals(1, beans.manufactureCost(), 0);
-		assertEquals(2.5, beans.sellCost(), 0);
-		assertNull(beans.tempThreshold());
+		assertEquals("Canned Beans", beans.getName());
+		assertEquals(1, beans.getManufactureCost(), 0);
+		assertEquals(2.5, beans.getSellCost(), 0);
+		assertNull(beans.getTempThreshold());
 	}
 
 	@Test

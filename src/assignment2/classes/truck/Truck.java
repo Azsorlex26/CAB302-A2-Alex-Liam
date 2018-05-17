@@ -33,7 +33,7 @@ public abstract class Truck {
 	/**
 	 * Gets the cost
 	 */
-	abstract double cost();
+	abstract double getCost();
 	
 	/**
 	 * Gets the maximum capacity
@@ -49,7 +49,7 @@ public abstract class Truck {
 	 * 
 	 * @return cargo
 	 */
-	public Stock cargo() {
+	public Stock getCargo() {
 		return cargo;
 	}
 }

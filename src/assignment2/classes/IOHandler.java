@@ -51,7 +51,7 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
 							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
 				} else {
-					throw new CSVFormatException();
+					throw new CSVFormatException("CSV file is not formatted correctly");
 				}
 			}
 			csvReader.close();

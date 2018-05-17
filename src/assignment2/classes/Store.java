@@ -93,7 +93,7 @@ public class Store {
 	public void restock() throws StockException {
 		for (Item item : inventory) {
 			if (inventory.reorder(item)) {
-				inventory.add(item, item.reorderAmount());
+				inventory.add(item, item.getReorderAmount());
 			}
 		}
 	}

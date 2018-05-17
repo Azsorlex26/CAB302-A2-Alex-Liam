@@ -14,7 +14,7 @@ import assignment2.exceptions.StockException;
  * @author Alexander Rozsa
  * @author Liam Edwards
  */
-public class Stock implements Iterable<Item> { //
+public class Stock implements Iterable<Item> { 
 
 	Map<Item, Integer> stock;
 
@@ -38,14 +38,14 @@ public class Stock implements Iterable<Item> { //
 				stock.put(item, stock.get(item) + quantity);
 			} else {
 				for (Item original : stock.keySet()) {
-					if (original.name() == item.name()
-							&& original.manufactureCost() == item.manufactureCost()
-							&& original.sellCost() == item.sellCost()
-							&& original.reorderPoint() == item.reorderPoint()
-							&& original.reorderAmount() == item.reorderAmount()
-							&& original.tempThreshold() == item.tempThreshold()) {
+					if (original.getName() == item.getName()
+							&& original.getManufactureCost() == item.getManufactureCost()
+							&& original.getSellCost() == item.getSellCost()
+							&& original.getReorderPoint() == item.getReorderPoint()
+							&& original.getReorderAmount() == item.getReorderAmount()
+							&& original.getTempThreshold() == item.getTempThreshold()) {
 						throw new StockException("An item with the exact same values already exists in the list: "
-								+ original.name() + ". Add that instead.");
+								+ original.getName() + ". Add that instead.");
 					}
 				}
 				stock.put(item, quantity);
@@ -121,7 +121,7 @@ public class Stock implements Iterable<Item> { //
 	 * @return if the item quantity is <= to the item's reorder point
 	 */
 	public boolean reorder(Item item) {
-		return stock.get(item) <= item.reorderPoint();
+		return stock.get(item) <= item.getReorderPoint();
 	}
 
 	@Override
