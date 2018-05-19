@@ -60,6 +60,8 @@ public class Tests {
 		stock.remove(beans, 10);
 		assertEquals(5, stock.getItemQuantity(beans));
 		assertTrue(stock.contains(beans));
+		stock.remove(beans, 5);
+		assertFalse(stock.contains(beans));
 	}
 
 	@Test
@@ -131,14 +133,12 @@ public class Tests {
 		trucks.remove(ordTruck);
 	}
 
-	@Test
+	@Test(expected = StockException.class)
 	public void addDuplicateItemsToStock() throws StockException {
 		Item item1 = new Item("Jelly Beans", 10, 20, 30, 40);
 		Item item2 = new Item("Jelly Beans", 10, 20, 30, 40);
 		store.inventory().add(item1, 10);
-		store.inventory().add(item2, 20);
-		assertEquals(30, store.inventory().getItemQuantity(item1));
-		assertEquals(0, store.inventory().getItemQuantity(item2));
+		store.inventory().add(item2, 20); // This will fail
 	}
 
 	@Test(expected = StockException.class)
@@ -164,9 +164,9 @@ public class Tests {
 		store.restock();
 		assertEquals(15, store.inventory().totalQuantity());
 
-		// Remove all items and restock.
+		// Remove all items and try to restock. Output is 0 since the key got removed
 		store.inventory().remove(beans, 15);
 		store.restock();
-		assertEquals(10, store.inventory().totalQuantity());
+		assertEquals(0, store.inventory().totalQuantity());
 	}
 }

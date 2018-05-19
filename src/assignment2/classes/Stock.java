@@ -24,7 +24,20 @@ public class Stock implements Iterable<Item> {
 	public Stock() {
 		stock = new HashMap<Item, Integer>();
 	}
+
+	/*
+	 * Add new Item to stock list
+	 * 
+	 * @param Item to add
+	 */
+	public void addNew(Item item) throws StockException {
+		if (item != null) {
+				stock.put(item, 0);
+		} else {
+			throw new StockException("Null item");
+	}
 		
+	}
 	/**
 	 * Adds items to stock
 	 * 
@@ -33,28 +46,14 @@ public class Stock implements Iterable<Item> {
 	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
-		if (quantity >= 0) {
-			if (stock.containsKey(item)) {
-				stock.put(item, stock.get(item) + quantity);
-			} else {
-				for (Item original : stock.keySet()) {
-					if (original.getName() == item.getName()
-							&& original.getManufactureCost() == item.getManufactureCost()
-							&& original.getSellCost() == item.getSellCost()
-							&& original.getReorderPoint() == item.getReorderPoint()
-							&& original.getReorderAmount() == item.getReorderAmount()
-							&& original.getTempThreshold() == item.getTempThreshold()) {
-						stock.put(original, stock.get(original) + quantity);
-						return;
-					}
-				}
-				stock.put(item, quantity);
-			}
-		} else if (item == null) {
+		if (item == null) {
 			throw new StockException("Null item");
+		}
+		if (quantity >= 0) {
+				stock.put(item, 0);
 		} else {
 			throw new StockException("Negative amount");
-		}
+	}
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class Stock implements Iterable<Item> {
 	 */
 	public void remove(Item item, int quantity) throws StockException {
 		if (stock.containsKey(item)) {
-			if (quantity <= stock.get(item)) {
+			if (quantity < stock.get(item)) {
 				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 			} else {
 				throw new StockException("Not enough items");
@@ -100,21 +99,6 @@ public class Stock implements Iterable<Item> {
 			totalQuantity += quantity;
 		}
 		return totalQuantity;
-	}
-	
-	/**
-	 * Iterates through all items in store to locate the Item by that name
-	 * 
-	 * @param Name of the item to retrieve
-	 * @return the item specified
-	 */
-	public Item getItem(String name) {
-		for (Item item : stock.keySet()) {
-			if (item.getName() == name) {
-				return item;
-			}
-		}
-		return null;
 	}
 
 	/**
