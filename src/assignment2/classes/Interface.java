@@ -1,11 +1,9 @@
 package assignment2.classes;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -44,10 +42,11 @@ public class Interface extends JFrame implements ActionListener {
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	private static Store store;
-	private JPanel storeManagementPane;
+	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
 	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
 	private JFileChooser fileChooser;
+	private JScrollPane tblScroll;
 	JLabel lblStoreCapital;
 
 	/**
@@ -82,8 +81,10 @@ public class Interface extends JFrame implements ActionListener {
 
 		// Creates two separate objects for the tabbed pane.
 		storeManagementPane = new JPanel(); // Create a panel to allow buttons and objects
+		storeInventoryPane = new JPanel();
+		
 		tblInventory = new JTable(); // Creates a table component to be put into its own tab
-		JScrollPane tableScroll = new JScrollPane(tblInventory);
+		tblScroll = new JScrollPane(tblInventory);
 
 		// Create labels and buttons to be put into the store management tab
 		lblStoreCapital = new JLabel("Store Capital: $" + store.getCapital());
@@ -94,6 +95,7 @@ public class Interface extends JFrame implements ActionListener {
 		btnImportSalesLog.setEnabled(false);
 		btnExportManifest = new JButton("Export Manifest");
 		btnExportManifest.setEnabled(false);
+		tblInventory.setVisible(true);
 
 		// Add action listeners onto buttons
 		// Set names for buttons to prevent duplication of code when opening file
@@ -132,7 +134,7 @@ public class Interface extends JFrame implements ActionListener {
 		// Add the tabs the the tabbedPane and display GUI
 		storeManagementPane.setLayout(stockLayout);
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
-		storeTabs.addTab("Inventory", null, tableScroll, null);
+		storeTabs.addTab("Inventory", null, storeInventoryPane, null);
 		
 		storeTabs.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
@@ -143,12 +145,12 @@ public class Interface extends JFrame implements ActionListener {
 	    });
 		
 		storeTabs.setVisible(true);
-		tblInventory.setVisible(true);
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
 	
 	public void updateInventory() {
+		storeInventoryPane.remove(tblScroll);
 		Object[][] tableData = new Object[Store.getItemNumber()][7];
 		int count = 0;
 		
@@ -164,6 +166,8 @@ public class Interface extends JFrame implements ActionListener {
 			count++;
 			}
 		tblInventory = new JTable(tableData, COLUMN_NAMES);
+		tblScroll = new JScrollPane(tblInventory);
+		storeInventoryPane.add(tblScroll, BorderLayout.CENTER);
 		}
 
 	public String fileChooser() {
