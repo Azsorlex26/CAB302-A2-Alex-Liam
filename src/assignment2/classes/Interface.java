@@ -191,7 +191,7 @@ public class Interface extends JFrame implements ActionListener {
 					System.err.println("Warning: This is not a valid CSV file");
 					return;
 				} catch (StockException exception) {
-					System.err.println("There is an invalid item in this sales log");
+					System.err.println("There is an invalid item/quantity in this sales log");
 				}
 			}
 		}

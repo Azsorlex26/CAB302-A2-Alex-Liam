@@ -134,7 +134,7 @@ public class IOHandler {
 				
 				if(salesLogLine.length == 2) {
 						Item item = getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
-						Store.getInventory().add(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
+						Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 						Store.adjustCapital(item.getSellCost());
 				} else {
 					throw new CSVFormatException();
