@@ -31,6 +31,8 @@ public class IOHandler {
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	private static final int MANIFEST_ITEM_INDEX = 0;
 	private static final int MANIFEST_QUANT_INDEX = 1;
+	private static final int SALESLOG_ITEM_INDEX = 0;
+	private static final int SALESLOG_QUANT_INDEX = 1;
 
 	/**
 	 * Iterates through all items in store to locate the Item by that name
@@ -115,13 +117,33 @@ public class IOHandler {
 			}
 			csvReader.close();
 
-			} catch (StockException e) {
-				throw new StockException();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	public static void readSalesLog(String filePath) {
+	public static void readSalesLog(String filePath) throws CSVFormatException, StockException {
+		String line;
+		csvReader = null;
 		
+		try {
+			csvReader = new BufferedReader(new FileReader(filePath));
+
+			while ((line = csvReader.readLine()) != null) {
+				String[] salesLogLine = line.split(COMMA_DELIMITER);
+				System.out.println(line);
+				
+				if(salesLogLine.length == 2) {
+						Item item = getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
+						Store.getInventory().add(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
+						Store.adjustCapital(item.getSellCost());
+				} else {
+					throw new CSVFormatException();
+				}
+			}
+			csvReader.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

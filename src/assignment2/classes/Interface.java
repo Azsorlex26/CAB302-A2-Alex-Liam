@@ -181,7 +181,6 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (StockException exception) {
 					System.err.println("There is an invalid item in this manifest");
 				}
-				lblStoreCapital.setText(Double.toString(Store.getCapital()));
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
 			if ((filePath = fileChooser()) != null) {
@@ -191,9 +190,12 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (CSVFormatException exception) {
 					System.err.println("Warning: This is not a valid CSV file");
 					return;
+				} catch (StockException exception) {
+					System.err.println("There is an invalid item in this sales log");
 				}
 			}
 		}
+		lblStoreCapital.setText(Double.toString(Store.getCapital()));
 	}
 
 }
