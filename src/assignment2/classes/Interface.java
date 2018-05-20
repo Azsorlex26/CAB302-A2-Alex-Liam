@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -28,6 +29,20 @@ public class Interface extends JFrame implements ActionListener {
 
 	public static final int WIDTH = 953;
 	public static final int HEIGHT = 536;
+	private static final String[] COLUMN_NAMES = {
+			"Name", 
+			"Quantity", 
+			"Manufacturing Cost ($)", 
+			"Sell Price ($)", 
+			"Reorder Point", 
+			"Reorder Amount", 
+			"Temperature (C)"};
+	private static final int ITEM_NAME_INDEX = 0;
+	private static final int ITEM_COST_INDEX = 1;
+	private static final int ITEM_PRICE_INDEX = 2;
+	private static final int ITEM_ORDPOINT_INDEX = 3;
+	private static final int ITEM_ORDAMT_INDEX = 4;
+	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	private static Store store;
 	private JPanel storeManagementPane;
 	private JTable tblInventory;
@@ -68,6 +83,7 @@ public class Interface extends JFrame implements ActionListener {
 		// Creates two separate objects for the tabbed pane.
 		storeManagementPane = new JPanel(); // Create a panel to allow buttons and objects
 		tblInventory = new JTable(); // Creates a table component to be put into its own tab
+		JScrollPane tableScroll = new JScrollPane(tblInventory);
 
 		// Create labels and buttons to be put into the store management tab
 		lblStoreCapital = new JLabel("Store Capital: $" + store.getCapital());
@@ -116,7 +132,7 @@ public class Interface extends JFrame implements ActionListener {
 		// Add the tabs the the tabbedPane and display GUI
 		storeManagementPane.setLayout(stockLayout);
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
-		storeTabs.addTab("Inventory", null, tblInventory, null);
+		storeTabs.addTab("Inventory", null, tableScroll, null);
 		
 		storeTabs.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
@@ -127,13 +143,28 @@ public class Interface extends JFrame implements ActionListener {
 	    });
 		
 		storeTabs.setVisible(true);
+		tblInventory.setVisible(true);
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
 	
 	public void updateInventory() {
+		Object[][] tableData = new Object[Store.getItemNumber()][7];
+		int count = 0;
 		
-	}
+		for (Item item : Store.getInventory()) {
+			tableData[count] = new Object[]{
+					item.getName(),
+					Store.getInventory().getItemQuantity(item.getName()),
+					item.getManufactureCost(),
+					item.getSellCost(),
+					item.getReorderPoint(),
+					item.getReorderAmount(),
+					item.getTempThreshold()};
+			count++;
+			}
+		tblInventory = new JTable(tableData, COLUMN_NAMES);
+		}
 
 	public String fileChooser() {
 		fileChooser = new JFileChooser();

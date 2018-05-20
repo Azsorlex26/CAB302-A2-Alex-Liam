@@ -78,6 +78,18 @@ public class Store {
 	public static Stock getInventory() {
 		return inventory;
 	}
+	
+	/**
+	 * Gets total number of different items in inventory
+	 * @return integer representing number of items
+	 */
+	public static Integer getItemNumber() {
+		int count = 0;
+		for (Item item : inventory) {
+			count++;
+		}
+		return count;
+	}
 
 	/**
 	 * Increase or decrease the store's capital depending on if the input is
