@@ -16,16 +16,17 @@ public class RefrigeratedTruck extends Truck {
 
 	/**
 	 * Constructs the RefrigeratedTruck object
+	 * If temperature is outside of acceptable bounds, set to the nearest acceptable temperature
 	 * 
-	 * @param temperature
-	 * @throws DeliveryException 
+	 * @param temperature 
 	 */
-	public RefrigeratedTruck(double temperature) throws DeliveryException {
-		if (temperature >= -20 && temperature <= 10) {
-			this.temperature = temperature;
-			maxCapacity = 800;
+	public RefrigeratedTruck(double temperature) {
+		if (temperature < -20) {
+			this.temperature = -20;
+		} else if (temperature > 10) {
+			this.temperature = 10;
 		} else {
-			throw new DeliveryException("Invalid temperature");
+			this.temperature = temperature;
 		}
 	}
 	
@@ -41,7 +42,7 @@ public class RefrigeratedTruck extends Truck {
 		if (item.getTempThreshold() == null || temperature <= item.getTempThreshold()) {
 			super.add(item, quantity);
 		} else {
-			throw new StockException("That refrigerated truck is too warm to contain that item. Can't add.");
+			throw new StockException();
 		}
 	}
 

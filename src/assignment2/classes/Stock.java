@@ -34,7 +34,7 @@ public class Stock implements Iterable<Item> {
 	 */
 	public void add(Item item, int quantity) throws StockException {
 		if (item == null) {
-			throw new StockException("Null item");
+			throw new StockException();
 		} else { // If an item with the same name exists but isn't the same item as being put into this method, add to the existing Item stock
 			for (Item existingItem : stock.keySet()) {
 				if(existingItem.getName() == item.getName()) {
@@ -45,7 +45,7 @@ public class Stock implements Iterable<Item> {
 		if (quantity >= 0) {
 				stock.put(item, 0);
 		} else {
-			throw new StockException("Negative amount");
+			throw new StockException();
 	}
 	}
 
@@ -61,10 +61,10 @@ public class Stock implements Iterable<Item> {
 			if (quantity < stock.get(item)) {
 				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 			} else {
-				throw new StockException("Not enough items");
+				throw new StockException();
 			}
 		} else {
-			throw new StockException("Doesn't exist");
+			throw new StockException();
 		}
 	}
 

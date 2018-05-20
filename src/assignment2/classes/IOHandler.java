@@ -1,7 +1,6 @@
 package assignment2.classes;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class IOHandler {
 			}
 		}
 		System.err.println(name);
-		throw new StockException("Item doesn't exist");
+		throw new StockException();
 	}
 	
 	/**
@@ -85,7 +84,7 @@ public class IOHandler {
 					Store.getInventory().add(item, 0);
 					
 				} else {
-					throw new CSVFormatException(null);
+					throw new CSVFormatException();
 				}
 			}
 			csvReader.close();
@@ -94,7 +93,7 @@ public class IOHandler {
 			e.printStackTrace();
 		}
 	}
-	public static void readManifest(String filePath) throws CSVFormatException {
+	public static void readManifest(String filePath) throws CSVFormatException, StockException {
 		
 		String line;
 		csvReader = null;
@@ -109,13 +108,20 @@ public class IOHandler {
 				if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 						Item item = getItem(manifestLine[MANIFEST_ITEM_INDEX]);
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						Store.adjustCapital(item.getManufactureCost());
+						Store.adjustCapital(-item.getManufactureCost());
+				} else if(manifestLine.length > 2) {
+					throw new CSVFormatException();
 				}
 			}
 			csvReader.close();
 
+			} catch (StockException e) {
+				throw new StockException();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+	public static void readSalesLog(String filePath) {
+		
+	}
 }

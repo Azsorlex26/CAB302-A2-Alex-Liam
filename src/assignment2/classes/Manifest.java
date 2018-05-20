@@ -33,7 +33,7 @@ public class Manifest {
 		if (!manifest.contains(truck)) {
 			manifest.add(truck);
 		} else {
-			throw new StockException("That truck is already in this manifest.");
+			throw new StockException();
 		}
 	}
 
@@ -45,7 +45,7 @@ public class Manifest {
 	 */
 	public void remove(Truck truck) throws StockException {
 		if (!manifest.remove(truck)) { // If an item doesn't get removed, throw exception
-			throw new StockException("That truck doesn't exist in this manifest.");
+			throw new StockException();
 		}
 	}
 

@@ -167,6 +167,8 @@ public class Interface extends JFrame implements ActionListener {
 				}
 				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
 				btnImportManifest.setEnabled(true);
+				btnExportManifest.setEnabled(true);
+				btnImportSalesLog.setEnabled(true);
 			}
 		} else if (buttonClicked == btnImportManifest) {
 			if ((filePath = fileChooser()) != null) {
@@ -176,8 +178,20 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (CSVFormatException exception) {
 					System.err.println("Warning: This is not a valid CSV file");
 					return;
+				} catch (StockException exception) {
+					System.err.println("There is an invalid item in this manifest");
 				}
 				lblStoreCapital.setText(Double.toString(Store.getCapital()));
+			}
+		} else if (buttonClicked == btnImportSalesLog) {
+			if ((filePath = fileChooser()) != null) {
+
+				try {
+					IOHandler.readSalesLog(filePath);
+				} catch (CSVFormatException exception) {
+					System.err.println("Warning: This is not a valid CSV file");
+					return;
+				}
 			}
 		}
 	}

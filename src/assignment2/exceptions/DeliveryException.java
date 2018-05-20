@@ -8,7 +8,6 @@ package assignment2.exceptions;
  */
 @SuppressWarnings("serial")
 public class DeliveryException extends Exception {
-	public DeliveryException(String message) {
-		super(message);
+	public DeliveryException() {
 	}
 }
