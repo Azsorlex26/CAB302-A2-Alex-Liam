@@ -14,9 +14,9 @@ import assignment2.exceptions.StockException;
  * @author Liam Edwards
  * @author Alexander Rozsa
  */
-public class Stock implements Iterable<Item> { 
+public class Stock implements Iterable<Item> {
 
-	Map<Item, Integer> stock;
+	private Map<Item, Integer> stock;
 
 	/**
 	 * Instantiate a new stock collection
@@ -28,25 +28,25 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Adds items to stock
 	 * 
-	 * @param Item to use as key
-	 * @param Quantity to be added (Can be 0)
+	 * @param item to use as key
+	 * @param quantity to be added (Can be 0)   
 	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
-		if (item == null) {
-			throw new StockException("Null item");
-		} else { // If an item with the same name exists but isn't the same item as being put into this method, add to the existing Item stock
+		if (quantity >= 0) {
 			for (Item existingItem : stock.keySet()) {
-				if(existingItem.getName() == item.getName()) {
+				if (existingItem.getName() == item.getName()) {
 					stock.put(existingItem, stock.get(existingItem) + quantity);
+					return;
 				}
 			}
-		}
-		if (quantity >= 0) {
-				stock.put(item, 0);
+			stock.put(item, quantity);
+			
+		} else if (item == null) {
+			throw new StockException("Null item");
 		} else {
 			throw new StockException("Negative amount");
-	}
+		}
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class Stock implements Iterable<Item> {
 	 */
 	public void remove(Item item, int quantity) throws StockException {
 		if (stock.containsKey(item)) {
-			if (quantity < stock.get(item)) {
+			if (quantity <= stock.get(item)) {
 				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 			} else {
 				throw new StockException("Not enough items");
@@ -74,9 +74,11 @@ public class Stock implements Iterable<Item> {
 	 * @param item
 	 * @return quantity of specific item
 	 */
-	public int getItemQuantity(Item item) {
-		if (stock.containsKey(item)) {
-			return stock.get(item);
+	public int getItemQuantity(String name) {
+		for (Item item : stock.keySet()) {
+			if (item.getName() == name) {
+				return stock.get(item);
+			}
 		}
 		return 0;
 	}
@@ -100,8 +102,13 @@ public class Stock implements Iterable<Item> {
 	 * @param item
 	 * @return true if the item is in stock
 	 */
-	public boolean contains(Item item) {
-		return stock.containsKey(item);
+	public boolean contains(String name) {
+		for (Item item : stock.keySet()) {
+			if (stock.containsKey(item)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -113,7 +120,7 @@ public class Stock implements Iterable<Item> {
 	public boolean reorder(Item item) {
 		return stock.get(item) <= item.getReorderPoint();
 	}
-	
+
 	@Override
 	public Iterator<Item> iterator() {
 		return new Iterator<Item>() {

@@ -53,7 +53,7 @@ public class Store {
 	 * 
 	 * @return name
 	 */
-	public String getName() {
+	public static String getName() {
 		return name;
 	}
 	

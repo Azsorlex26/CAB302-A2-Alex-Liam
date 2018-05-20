@@ -8,6 +8,7 @@ import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
 import assignment2.classes.truck.Truck;
+import assignment2.exceptions.DeliveryException;
 import assignment2.exceptions.StockException;
 
 /**
@@ -21,10 +22,10 @@ public class Tests {
 
 	private static Store store, store2;
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
-	private Truck ordTruck = new OrdinaryTruck(), refTruck = new RefrigeratedTruck(-20);
+	private Truck ordTruck = new OrdinaryTruck(), refTruck;
 
 	@Before // Things to do before the tests
-	public void initialiseTests() {
+	public void initialiseTests() throws DeliveryException {
 		store = Store.makeStore("UMart");
 		ordTruck = new OrdinaryTruck();
 		refTruck = new RefrigeratedTruck(-20);
@@ -53,15 +54,15 @@ public class Tests {
 	public void stockInitial() throws StockException {
 		Stock stock = new Stock();
 		stock.add(beans, 10);
-		assertEquals(10, stock.getItemQuantity(beans));
+		assertEquals(10, stock.getItemQuantity("Canned Beans"));
 		assertEquals(10, stock.totalQuantity());
 		stock.add(beans, 5);
-		assertEquals(15, stock.getItemQuantity(beans));
+		assertEquals(15, stock.getItemQuantity("Canned Beans"));
 		stock.remove(beans, 10);
-		assertEquals(5, stock.getItemQuantity(beans));
-		assertTrue(stock.contains(beans));
+		assertEquals(5, stock.getItemQuantity("Canned Beans"));
+		assertTrue(stock.contains("Canned Beans"));
 		stock.remove(beans, 5);
-		assertFalse(stock.contains(beans));
+		assertEquals(0, stock.getItemQuantity("Canned Beans"));
 	}
 
 	@Test
@@ -90,19 +91,19 @@ public class Tests {
 	@Test
 	public void storeInitial() throws StockException {
 		assertEquals("UMart", store.getName());
-		store.adjustCapital(100);
+		Store.adjustCapital(100);
 		assertEquals(100100.0, store.getCapital(), 0);
 		assertEquals(0, store.getInventory().totalQuantity());
-		store.getInventory().add(beans, 10);
+		Store.getInventory().add(beans, 10);
 		assertEquals(10, store.getInventory().totalQuantity());
 	}
 
 	@Test
 	public void onlyOneStore() {
-		store2 = Store.makeStore("Coals");
-		assertEquals(store.getName(), store2.getName());
-		store.adjustCapital(-100);
-		assertEquals(store.getCapital(), store2.getCapital(), 0);
+		Store.makeStore("Coals");
+		assertEquals(store.getName(), Store.getName());
+		Store.adjustCapital(-100);
+		assertEquals(Store.getCapital(), Store.getCapital(), 0);
 	}
 
 	@Test(expected = StockException.class)
@@ -113,7 +114,7 @@ public class Tests {
 	}
 
 	@Test
-	public void addItemsToRefTruck() throws StockException {
+	public void addItemsToRefTruck() throws StockException, DeliveryException {
 		Truck refTruck = new RefrigeratedTruck(-20);
 		refTruck.add(beans, 1); // Both of these will work
 		refTruck.add(icecream, 1);
@@ -133,23 +134,24 @@ public class Tests {
 		trucks.remove(ordTruck);
 	}
 
-	@Test(expected = StockException.class)
+	@Test
 	public void addDuplicateItemsToStock() throws StockException {
 		Item item1 = new Item("Jelly Beans", 10, 20, 30, 40);
 		Item item2 = new Item("Jelly Beans", 10, 20, 30, 40);
-		store.getInventory().add(item1, 10);
-		store.getInventory().add(item2, 20); // This will fail
+		Store.getInventory().add(item1, 10);
+		Store.getInventory().add(item2, 20); // This will fail
+		assertEquals(30, Store.getInventory().getItemQuantity("Jelly Beans"));
 	}
 
 	@Test(expected = StockException.class)
 	public void removeItemFromEmptyStore() throws StockException {
-		store.getInventory().remove(beans, 10); // This will fail
+		Store.getInventory().remove(beans, 10); // This will fail
 	}
 
 	@Test(expected = StockException.class)
 	public void removeTooManyItemsFromStore() throws StockException {
-		store.getInventory().add(beans, 10);
-		store.getInventory().remove(beans, 20); // This will fail
+		Store.getInventory().add(beans, 10);
+		Store.getInventory().remove(beans, 20); // This will fail
 	}
 
 	@Test(expected = StockException.class)
@@ -160,13 +162,13 @@ public class Tests {
 	@Test
 	public void reorder() throws StockException {
 		// Add beans to the beans reorder amount and restock. Output is 15
-		store.getInventory().add(beans, 5);
+		Store.getInventory().add(beans, 5);
 		store.restock();
-		assertEquals(15, store.getInventory().totalQuantity());
+		assertEquals(15, Store.getInventory().totalQuantity());
 
-		// Remove all items and try to restock. Output is 0 since the key got removed
-		store.getInventory().remove(beans, 15);
+		// Remove all items and restock.
+		Store.getInventory().remove(beans, 15);
 		store.restock();
-		assertEquals(0, store.getInventory().totalQuantity());
+		assertEquals(10, Store.getInventory().totalQuantity());
 	}
 }
