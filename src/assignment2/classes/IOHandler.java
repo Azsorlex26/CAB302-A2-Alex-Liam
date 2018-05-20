@@ -21,7 +21,8 @@ public class IOHandler {
 	private static final String COMMA_DELIMITER = ",";
 
 	public Stock storeStock = new Stock();
-	public static List<Item> storeItems;
+	private static List<Item> storeItems;
+	private static BufferedReader csvReader;
 	
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -37,28 +38,32 @@ public class IOHandler {
 	 * 
 	 * @param Name of the item to retrieve
 	 * @return the item specified
+	 * @throws StockException if item doesn't exist
 	 */
-	public static Item getItem(String name) {
+	public static Item getItem(String name) throws StockException {
 		for (Item item : storeItems) {
-			if (item.getName() == name) {
+			if (name.equalsIgnoreCase(item.getName())) {
 				return item;
 			}
 		}
-		return null;
+		System.err.println(name);
+		throw new StockException("Item doesn't exist");
 	}
 	
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException {
-		List<Item> Items = new ArrayList<Item>();
 		storeItems = new ArrayList<Item>();
-		Stock storeStock = new Stock();
+		String line;
+		csvReader = null;
+		
 		try {
-			BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+			csvReader = new BufferedReader(new FileReader(filePath));
 
-			while (csvReader.readLine() != null) {
-				String[] properties = csvReader.readLine().split(COMMA_DELIMITER);
+			while ((line = csvReader.readLine()) != null) {
+				System.out.println(line);
+				String[] properties = line.split(COMMA_DELIMITER);
 
 				if (properties.length == 5) { // If a non-refrigerated item, create an item
 					Item item = (new Item(properties[ITEM_NAME_INDEX],
@@ -67,7 +72,7 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX])));
 					storeItems.add(item);
-					Store.inventory.addNew(item);
+					Store.getInventory().add(item, 0);
 					
 				} else if (properties.length == 6) { // If a refrigerated item, create an item
 					Item item = (new Item(properties[ITEM_NAME_INDEX],
@@ -77,39 +82,37 @@ public class IOHandler {
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
 							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
 					storeItems.add(item);
-					Store.inventory.addNew(item);
+					Store.getInventory().add(item, 0);
 					
 				} else {
 					throw new CSVFormatException(null);
 				}
 			}
 			csvReader.close();
-			//storeItems = Items;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public static void readManifest(String filePath) throws CSVFormatException {
-		List<Item> Items = new ArrayList<Item>();
+		
+		String line;
+		csvReader = null;
 		
 		try {
-			BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+			csvReader = new BufferedReader(new FileReader(filePath));
 
-			while (csvReader.readLine() != null) {
-				String[] manifestLine = csvReader.readLine().split(COMMA_DELIMITER);
+			while ((line = csvReader.readLine()) != null) {
+				String[] manifestLine = line.split(COMMA_DELIMITER);
+				System.out.println(line);
 				
-				if(manifestLine.length == 2) {
-					try {
+				if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 						Item item = getItem(manifestLine[MANIFEST_ITEM_INDEX]);
-						Store.inventory.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						Store.store.adjustCapital(item.getManufactureCost());
-					} catch (StockException e) {
-						throw new CSVFormatException(null);
-					}
+						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
+						Store.adjustCapital(item.getManufactureCost());
 				}
-				csvReader.close();
 			}
+			csvReader.close();
 
 			} catch (Exception e) {
 				e.printStackTrace();
