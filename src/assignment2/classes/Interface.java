@@ -17,6 +17,8 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import assignment2.exceptions.CSVFormatException;
 import assignment2.exceptions.StockException;
@@ -76,71 +78,75 @@ public class Interface extends JFrame implements ActionListener {
 		btnImportSalesLog.setEnabled(false);
 		btnExportManifest = new JButton("Export Manifest");
 		btnExportManifest.setEnabled(false);
-		
+
 		// Add action listeners onto buttons
-		// Set names for buttons to prevent duplication of code when opening file dialogue box
+		// Set names for buttons to prevent duplication of code when opening file
+		// dialogue box
 		btnImportItems.addActionListener(this);
 		btnImportManifest.addActionListener(this);
 		btnImportSalesLog.addActionListener(this);
 		btnExportManifest.addActionListener(this);
-		
+
 		// Configure the layout with components
-		// The chosen layout is a GroupLayout as it allows flexibility with resizing / moving
+		// The chosen layout is a GroupLayout as it allows flexibility with resizing /
+		// moving
 		// objects
 		// as well as with relativity within the page
 		// https://docs.oracle.com/javase/tutorial/uiswing/layout/groupExample.html
 		GroupLayout stockLayout = new GroupLayout(storeManagementPane);
 		stockLayout.setHorizontalGroup( // Set horizontal parameters
-			stockLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(stockLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(stockLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnImportItems)
-						.addGroup(stockLayout.createSequentialGroup()
-							.addComponent(btnImportManifest)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnExportManifest))
-						.addComponent(btnImportSalesLog)
-						.addComponent(lblStoreCapital))
-					.addContainerGap()));
-		
+				stockLayout.createParallelGroup(Alignment.LEADING).addGroup(stockLayout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(stockLayout.createParallelGroup(Alignment.LEADING).addComponent(btnImportItems)
+								.addGroup(stockLayout.createSequentialGroup().addComponent(btnImportManifest)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnExportManifest))
+								.addComponent(btnImportSalesLog).addComponent(lblStoreCapital))
+						.addContainerGap()));
+
 		stockLayout.setVerticalGroup( // Set vertical parameters
-			stockLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(stockLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
-						 .addComponent(btnImportItems))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnImportManifest)
-						.addComponent(btnExportManifest))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnImportSalesLog)
-					.addGap(150)
-					.addComponent(lblStoreCapital)
-					.addContainerGap(204, 204)));		
-			
+				stockLayout.createParallelGroup(Alignment.LEADING).addGroup(stockLayout.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportItems))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportManifest)
+								.addComponent(btnExportManifest))
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnImportSalesLog).addGap(150)
+						.addComponent(lblStoreCapital).addContainerGap(204, 204)));
+
 		// Add the tabs the the tabbedPane and display GUI
 		storeManagementPane.setLayout(stockLayout);
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
 		storeTabs.addTab("Inventory", null, tblInventory, null);
+		
+		storeTabs.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	            if(storeTabs.getSelectedIndex() == 1) {
+	            	updateInventory();
+	            }
+	        }
+	    });
+		
 		storeTabs.setVisible(true);
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
 	
+	public void updateInventory() {
+		
+	}
+
 	public String fileChooser() {
 		fileChooser = new JFileChooser();
-		
+
 		int optionSelected = fileChooser.showOpenDialog(this);
-		
+
 		if (optionSelected == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getAbsolutePath();		
-	} else {
-		return null;
+			return fileChooser.getSelectedFile().getAbsolutePath();
+		} else {
+			return null;
+		}
 	}
-	}
-	
+
 	/**
 	 * Allows different actions to happen depending on the button pressed
 	 * 
@@ -148,29 +154,32 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String filePath;
 		JButton buttonClicked = (JButton) e.getSource();
-		if(buttonClicked == btnImportItems) {
-			String filePath = fileChooser();
-			
-			try {
-				IOHandler.readItemProperties(filePath);
-			} catch (CSVFormatException exception) {
-				System.err.println("Warning: This is not a valid CSV file");
-				return;
+		if (buttonClicked == btnImportItems) {
+			if ((filePath = fileChooser()) != null) {
+
+				try {
+					IOHandler.readItemProperties(filePath);
+				} catch (CSVFormatException exception) {
+					System.err.println("Warning: This is not a valid CSV file");
+					return;
+				}
+				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
+				btnImportManifest.setEnabled(true);
 			}
-			btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
-			btnImportManifest.setEnabled(true);
 		} else if (buttonClicked == btnImportManifest) {
-			String filePath = fileChooser();
-			
-			try {
-				IOHandler.readManifest(filePath);
-			} catch (CSVFormatException exception) {
-				System.err.println("Warning: This is not a valid CSV file");
-				return;
+			if ((filePath = fileChooser()) != null) {
+
+				try {
+					IOHandler.readManifest(filePath);
+				} catch (CSVFormatException exception) {
+					System.err.println("Warning: This is not a valid CSV file");
+					return;
+				}
+				lblStoreCapital.setText(Double.toString(Store.getCapital()));
 			}
-			lblStoreCapital.setText(Double.toString(Store.store.getCapital()));
 		}
 	}
-	
+
 }
