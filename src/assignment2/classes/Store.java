@@ -13,10 +13,10 @@ import assignment2.exceptions.StockException;
  */
 public class Store {
 
-	public static Store store;
-	public static Stock inventory;
-	public static String name;
-	public static double capital;
+	private static Store store;
+	private static Stock inventory;
+	private static String name;
+	private static double capital;
 
 	/**
 	 * Initializes the store
@@ -42,7 +42,7 @@ public class Store {
 	 * @param amount
 	 * @return formatted double
 	 */
-	private double formatDouble(double amount) {
+	private static double formatDouble(double amount) {
 		BigDecimal bd = new BigDecimal(amount);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
@@ -56,13 +56,17 @@ public class Store {
 	public String getName() {
 		return name;
 	}
+	
+	public static Store getStore() {
+		return store;
+	}
 
 	/**
 	 * Get capital of store.
 	 * 
 	 * @return capital
 	 */
-	public double getCapital() {
+	public static double getCapital() {
 		return formatDouble(capital);
 	}
 
@@ -71,7 +75,7 @@ public class Store {
 	 * 
 	 * @return inventory
 	 */
-	public Stock inventory() {
+	public static Stock getInventory() {
 		return inventory;
 	}
 
@@ -81,7 +85,7 @@ public class Store {
 	 * 
 	 * @param amount
 	 */
-	public void adjustCapital(double amount) {
+	public static void adjustCapital(double amount) {
 		capital += formatDouble(amount);
 	}
 

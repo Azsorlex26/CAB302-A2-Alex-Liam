@@ -92,9 +92,9 @@ public class Tests {
 		assertEquals("UMart", store.getName());
 		store.adjustCapital(100);
 		assertEquals(100100.0, store.getCapital(), 0);
-		assertEquals(0, store.inventory().totalQuantity());
-		store.inventory().add(beans, 10);
-		assertEquals(10, store.inventory().totalQuantity());
+		assertEquals(0, store.getInventory().totalQuantity());
+		store.getInventory().add(beans, 10);
+		assertEquals(10, store.getInventory().totalQuantity());
 	}
 
 	@Test
@@ -137,19 +137,19 @@ public class Tests {
 	public void addDuplicateItemsToStock() throws StockException {
 		Item item1 = new Item("Jelly Beans", 10, 20, 30, 40);
 		Item item2 = new Item("Jelly Beans", 10, 20, 30, 40);
-		store.inventory().add(item1, 10);
-		store.inventory().add(item2, 20); // This will fail
+		store.getInventory().add(item1, 10);
+		store.getInventory().add(item2, 20); // This will fail
 	}
 
 	@Test(expected = StockException.class)
 	public void removeItemFromEmptyStore() throws StockException {
-		store.inventory().remove(beans, 10); // This will fail
+		store.getInventory().remove(beans, 10); // This will fail
 	}
 
 	@Test(expected = StockException.class)
 	public void removeTooManyItemsFromStore() throws StockException {
-		store.inventory().add(beans, 10);
-		store.inventory().remove(beans, 20); // This will fail
+		store.getInventory().add(beans, 10);
+		store.getInventory().remove(beans, 20); // This will fail
 	}
 
 	@Test(expected = StockException.class)
@@ -160,13 +160,13 @@ public class Tests {
 	@Test
 	public void reorder() throws StockException {
 		// Add beans to the beans reorder amount and restock. Output is 15
-		store.inventory().add(beans, 5);
+		store.getInventory().add(beans, 5);
 		store.restock();
-		assertEquals(15, store.inventory().totalQuantity());
+		assertEquals(15, store.getInventory().totalQuantity());
 
 		// Remove all items and try to restock. Output is 0 since the key got removed
-		store.inventory().remove(beans, 15);
+		store.getInventory().remove(beans, 15);
 		store.restock();
-		assertEquals(0, store.inventory().totalQuantity());
+		assertEquals(0, store.getInventory().totalQuantity());
 	}
 }
