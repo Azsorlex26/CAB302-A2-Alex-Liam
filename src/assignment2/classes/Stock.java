@@ -104,7 +104,7 @@ public class Stock implements Iterable<Item> {
 	 */
 	public boolean contains(String name) {
 		for (Item item : stock.keySet()) {
-			if (stock.containsKey(item)) {
+			if (item.getName() == name) {
 				return true;
 			}
 		}
