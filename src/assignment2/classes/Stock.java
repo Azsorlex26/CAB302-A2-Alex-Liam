@@ -25,19 +25,6 @@ public class Stock implements Iterable<Item> {
 		stock = new HashMap<Item, Integer>();
 	}
 
-	/*
-	 * Add new Item to stock list
-	 * 
-	 * @param Item to add
-	 */
-	public void addNew(Item item) throws StockException {
-		if (item != null) {
-				stock.put(item, 0);
-		} else {
-			throw new StockException("Null item");
-	}
-		
-	}
 	/**
 	 * Adds items to stock
 	 * 
@@ -48,6 +35,12 @@ public class Stock implements Iterable<Item> {
 	public void add(Item item, int quantity) throws StockException {
 		if (item == null) {
 			throw new StockException("Null item");
+		} else { // If an item with the same name exists but isn't the same item as being put into this method, add to the existing Item stock
+			for (Item existingItem : stock.keySet()) {
+				if(existingItem.getName() == item.getName()) {
+					stock.put(existingItem, stock.get(existingItem) + quantity);
+				}
+			}
 		}
 		if (quantity >= 0) {
 				stock.put(item, 0);
