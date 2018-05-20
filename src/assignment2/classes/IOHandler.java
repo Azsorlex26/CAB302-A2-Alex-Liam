@@ -92,7 +92,7 @@ public class IOHandler {
 			csvReader.close();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new CSVFormatException();
 		}
 	}
 	public static void readManifest(String filePath) throws CSVFormatException, StockException {
@@ -107,19 +107,21 @@ public class IOHandler {
 				String[] manifestLine = line.split(COMMA_DELIMITER);
 				System.out.println(line);
 				
-				if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
+				if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
 						Item item = getItem(manifestLine[MANIFEST_ITEM_INDEX]);
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						Store.adjustCapital(-item.getManufactureCost());
-				} else if(manifestLine.length > 2) {
+						Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
+				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith("<")) {
 					throw new CSVFormatException();
 				}
 			}
 			csvReader.close();
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} catch (CSVFormatException e) {
+				throw new CSVFormatException();
+			} catch (StockException e) {
+				throw new StockException();
+			} catch (Exception e) {}
 		}
 	public static void readSalesLog(String filePath) throws CSVFormatException, StockException {
 		String line;
@@ -135,15 +137,17 @@ public class IOHandler {
 				if(salesLogLine.length == 2) {
 						Item item = getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
 						Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
-						Store.adjustCapital(item.getSellCost());
+						Store.adjustCapital(item.getSellCost() * Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 				} else {
 					throw new CSVFormatException();
 				}
 			}
 			csvReader.close();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (CSVFormatException e) {
+			throw new CSVFormatException();
+		} catch (StockException e) {
+			throw new StockException();
+		} catch (Exception e) {}
 	}
 }

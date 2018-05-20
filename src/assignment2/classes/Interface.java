@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
@@ -197,7 +198,7 @@ public class Interface extends JFrame implements ActionListener {
 				try {
 					IOHandler.readItemProperties(filePath);
 				} catch (CSVFormatException exception) {
-					System.err.println("Warning: This is not a valid CSV file");
+					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
@@ -212,9 +213,11 @@ public class Interface extends JFrame implements ActionListener {
 					IOHandler.readManifest(filePath);
 				} catch (CSVFormatException exception) {
 					System.err.println("Warning: This is not a valid CSV file");
+					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				} catch (StockException exception) {
 					System.err.println("There is an invalid item in this manifest");
+					JOptionPane.showMessageDialog(null, "There is an invalid item in this manifest", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
@@ -223,10 +226,9 @@ public class Interface extends JFrame implements ActionListener {
 				try {
 					IOHandler.readSalesLog(filePath);
 				} catch (CSVFormatException exception) {
-					System.err.println("Warning: This is not a valid CSV file");
 					return;
 				} catch (StockException exception) {
-					System.err.println("There is an invalid item/quantity in this sales log");
+					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
