@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import assignment2.classes.truck.OrdinaryTruck;
+import assignment2.classes.truck.RefrigeratedTruck;
+import assignment2.classes.truck.Truck;
 import assignment2.exceptions.CSVFormatException;
 import assignment2.exceptions.StockException;
 
@@ -53,6 +56,9 @@ public class IOHandler {
 	
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
+	 * 
+	 * @param filePath of item to be read
+	 * @throws CSVFormatException
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException {
 		storeItems = new ArrayList<Item>();
@@ -95,10 +101,20 @@ public class IOHandler {
 			throw new CSVFormatException();
 		}
 	}
+	
+	/**
+	 * Reads the manifest from the given filePath provided via the GUI
+	 * 
+	 * @param filePath of item to be read
+	 * @throws CSVFormatException
+	 * @throws StockException
+	 */
 	public static void readManifest(String filePath) throws CSVFormatException, StockException {
 		
 		String line;
 		csvReader = null;
+		Truck truck = null;
+		double minTemp = 10;
 		
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
@@ -107,10 +123,38 @@ public class IOHandler {
 				String[] manifestLine = line.split(COMMA_DELIMITER);
 				System.out.println(line);
 				
-				if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
+				/**
+				 * As trucks are specified first in a manifest, create a truck accordingly
+				 * Refrigerated trucks can have temperature changed, so start with max temp
+				 */
+				if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
+					if(truck != null) {
+						Store.adjustCapital(-(truck.getCost()));
+					}
+					truck = null;
+					minTemp = 10;
+					if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">Ordinary")) {
+						truck = new OrdinaryTruck();
+					} else if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">Refrigerated")) {
+						truck = new RefrigeratedTruck(10);
+					} else {
+						throw new CSVFormatException();
+					}
+					
+					/**
+					 * Process items individually. If item has a temperature threshold, compare to existing temperature
+					 * If temperature is less than existing truck, change temperature of truck accordingly
+					 */
+				} else if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
 						Item item = getItem(manifestLine[MANIFEST_ITEM_INDEX]);
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
+						
+						if(item.getTempThreshold() != null && item.getTempThreshold() < minTemp) {
+							minTemp = item.getTempThreshold();
+							truck.setTemp(minTemp);
+						}
+						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
 				}
@@ -123,6 +167,14 @@ public class IOHandler {
 				throw new StockException();
 			} catch (Exception e) {}
 		}
+	
+	/**
+	 * Reads the sales log from the given filePath provided via the GUI
+	 * 
+	 * @param filePath of item to be read
+	 * @throws CSVFormatException
+	 * @throws StockException
+	 */
 	public static void readSalesLog(String filePath) throws CSVFormatException, StockException {
 		String line;
 		csvReader = null;
@@ -149,5 +201,9 @@ public class IOHandler {
 		} catch (StockException e) {
 			throw new StockException();
 		} catch (Exception e) {}
+	}
+	
+	public static void exportManifest(String filePath) {
+		
 	}
 }
