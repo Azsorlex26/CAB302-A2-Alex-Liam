@@ -45,6 +45,16 @@ public class RefrigeratedTruck extends Truck {
 			throw new StockException();
 		}
 	}
+	
+	public void setTemp(double temperature) {
+		if (temperature < -20) {
+			this.temperature = -20;
+		} else if (temperature > 10) {
+			this.temperature = 10;
+		} else {
+			this.temperature = temperature;
+		}
+	}
 
 	/**
 	 * Gets the cost
