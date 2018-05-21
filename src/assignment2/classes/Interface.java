@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -42,6 +43,7 @@ public class Interface extends JFrame implements ActionListener {
 	private static final int ITEM_ORDPOINT_INDEX = 3;
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
+	DecimalFormat capFormat = new DecimalFormat("#, ###.00");
 	private static Store store;
 	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
@@ -88,7 +90,7 @@ public class Interface extends JFrame implements ActionListener {
 		tblScroll = new JScrollPane(tblInventory);
 
 		// Create labels and buttons to be put into the store management tab
-		lblStoreCapital = new JLabel("Store Capital: $" + store.getCapital());
+		lblStoreCapital = new JLabel("Store Capital: $" + capFormat.format(Store.getCapital()));
 		btnImportItems = new JButton("Import Item Properties");
 		btnImportManifest = new JButton("Import Manifest");
 		btnImportManifest.setEnabled(false);
@@ -134,6 +136,7 @@ public class Interface extends JFrame implements ActionListener {
 
 		// Add the tabs the the tabbedPane and display GUI
 		storeManagementPane.setLayout(stockLayout);
+		storeInventoryPane.setLayout(new BorderLayout());
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
 		storeTabs.addTab("Inventory", null, storeInventoryPane, null);
 		
@@ -232,7 +235,7 @@ public class Interface extends JFrame implements ActionListener {
 				}
 			}
 		}
-		lblStoreCapital.setText(Double.toString(Store.getCapital()));
+		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));
 	}
 
 }
