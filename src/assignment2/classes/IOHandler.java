@@ -153,12 +153,20 @@ public class IOHandler {
 						if(item.getTempThreshold() != null && item.getTempThreshold() < minTemp) {
 							minTemp = item.getTempThreshold();
 							truck.setTemp(minTemp);
+							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
+						} else {
+							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						}
 						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
 				}
 			}
+			
+			if(truck != null) {
+				Store.adjustCapital(-(truck.getCost()));
+			}
+			
 			csvReader.close();
 
 			} catch (CSVFormatException e) {
