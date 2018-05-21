@@ -46,6 +46,7 @@ public class RefrigeratedTruck extends Truck {
 		}
 	}
 	
+	@Override
 	public void setTemp(double temperature) {
 		if (temperature < -20) {
 			this.temperature = -20;

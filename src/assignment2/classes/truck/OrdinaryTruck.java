@@ -44,4 +44,7 @@ public class OrdinaryTruck extends Truck {
 	public double getCost() {
 		return (750 + (0.25 * cargo.totalQuantity()));
 	}
+	
+	@Override
+	public void setTemp(double temperature) {}
 }

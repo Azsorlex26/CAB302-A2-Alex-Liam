@@ -33,7 +33,7 @@ public abstract class Truck {
 	/**
 	 * Gets the cost
 	 */
-	abstract double getCost();
+	public abstract double getCost();
 	
 	/**
 	 * Gets the maximum capacity
@@ -52,4 +52,9 @@ public abstract class Truck {
 	public Stock getCargo() {
 		return cargo;
 	}
+
+	/**
+	 * Sets temp of a Refrigerated truck
+	 */
+	public abstract void setTemp(double temperature);
 }
