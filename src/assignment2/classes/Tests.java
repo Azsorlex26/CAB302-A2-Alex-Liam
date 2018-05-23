@@ -182,4 +182,11 @@ public class Tests {
 		IOHandler.readItemProperties(filePath);
 		assertEquals(24, Store.getInventory().totalItems());
 	}
+	
+	@Test
+	public void readManifest() throws CSVFormatException, StockException {
+		filePath = Interface.fileChooser();
+		IOHandler.readManifest(filePath);
+		assertEquals(325, Store.getInventory().totalQuantity());
+	}
 }
