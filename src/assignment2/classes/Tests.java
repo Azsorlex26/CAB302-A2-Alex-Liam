@@ -2,11 +2,12 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
-import javax.swing.JFileChooser;
-
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
 import assignment2.classes.truck.Truck;
@@ -21,16 +22,16 @@ import assignment2.exceptions.StockException;
  * @author Alexander Rozsa
  * @author Liam Edwards
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Tests {
 
-	private static Store store, store2;
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
 	private String filePath;
 	
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
-		store = Store.makeStore("UMart");
+		Store.makeStore("UMart");
 		ordTruck = new OrdinaryTruck();
 		refTruck = new RefrigeratedTruck(-20);
 	}
@@ -94,18 +95,18 @@ public class Tests {
 
 	@Test
 	public void storeInitial() throws StockException {
-		assertEquals("UMart", store.getName());
+		assertEquals("UMart", Store.getName());
 		Store.adjustCapital(100);
-		assertEquals(100100.0, store.getCapital(), 0);
-		assertEquals(0, store.getInventory().totalQuantity());
+		assertEquals(100100.0, Store.getCapital(), 0);
+		assertEquals(0, Store.getInventory().totalQuantity());
 		Store.getInventory().add(beans, 10);
-		assertEquals(10, store.getInventory().totalQuantity());
+		assertEquals(10, Store.getInventory().totalQuantity());
 	}
 
 	@Test
 	public void onlyOneStore() {
 		Store.makeStore("Coals");
-		assertEquals(store.getName(), Store.getName());
+		assertEquals(Store.getName(), Store.getName());
 		Store.adjustCapital(-100);
 		assertEquals(Store.getCapital(), Store.getCapital(), 0);
 	}
@@ -167,32 +168,32 @@ public class Tests {
 	public void reorder() throws StockException {
 		// Add beans to the beans reorder amount and restock. Output is 15
 		Store.getInventory().add(beans, 5);
-		store.restock();
+		Store.restock();
 		assertEquals(15, Store.getInventory().totalQuantity());
 
 		// Remove all items and restock.
 		Store.getInventory().remove(beans, 15);
-		store.restock();
+		Store.restock();
 		assertEquals(10, Store.getInventory().totalQuantity());
 	}
 	
 	@Test
 	public void readItemProperties() throws CSVFormatException {
-		filePath = Interface.fileChooser();
+		filePath = IOHandler.fileChooser();
 		IOHandler.readItemProperties(filePath);
 		assertEquals(24, Store.getInventory().totalItems());
 	}
 	
 	@Test
 	public void readManifest() throws CSVFormatException, StockException {
-		filePath = Interface.fileChooser();
+		filePath = IOHandler.fileChooser();
 		IOHandler.readManifest(filePath);
 		assertEquals(325, Store.getInventory().totalQuantity());
 	}
 	
 	@Test
 	public void readSalesLog() throws CSVFormatException, StockException {
-		filePath = Interface.fileChooser(); //Import sales_log_0.csv or it will fail
+		filePath = IOHandler.fileChooser(); //Import sales_log_0.csv or it will fail
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 100000);
 	}

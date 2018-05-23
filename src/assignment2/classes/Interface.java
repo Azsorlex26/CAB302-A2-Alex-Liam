@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -44,11 +43,9 @@ public class Interface extends JFrame implements ActionListener {
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	DecimalFormat capFormat = new DecimalFormat("#, ###.00");
-	private static Store store;
 	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
 	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
-	private JFileChooser fileChooser;
 	private JScrollPane tblScroll;
 	JLabel lblStoreCapital;
 
@@ -59,7 +56,6 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			Store.makeStore("test");
 			new Interface("test");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +70,7 @@ public class Interface extends JFrame implements ActionListener {
 	public Interface(String storeName) {
 		// Create the main JFrame GUI with title, close properties and bounds
 		super(storeName + " Inventory Management");
-		store = Store.makeStore(storeName);
+		Store.makeStore(storeName);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WIDTH, HEIGHT);
 
@@ -155,7 +151,7 @@ public class Interface extends JFrame implements ActionListener {
 	
 	public void updateInventory() {
 		storeInventoryPane.remove(tblScroll);
-		Object[][] tableData = new Object[Store.getItemNumber()][7];
+		Object[][] tableData = new Object[Store.getInventory().totalItems()][7];
 		int count = 0;
 		
 		for (Item item : Store.getInventory()) {
@@ -174,16 +170,6 @@ public class Interface extends JFrame implements ActionListener {
 		storeInventoryPane.add(tblScroll, BorderLayout.CENTER);
 		}
 
-	public static String fileChooser() {
-		JFileChooser fileChooser = new JFileChooser();
-		int optionSelected = fileChooser.showOpenDialog(null);
-
-		if (optionSelected == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getSelectedFile().getAbsolutePath();
-		}
-		return null;
-	}
-
 	/**
 	 * Allows different actions to happen depending on the button pressed
 	 * 
@@ -194,7 +180,7 @@ public class Interface extends JFrame implements ActionListener {
 		String filePath;
 		JButton buttonClicked = (JButton) e.getSource();
 		if (buttonClicked == btnImportItems) {
-			if ((filePath = fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser()) != null) {
 
 				try {
 					IOHandler.readItemProperties(filePath);
@@ -208,7 +194,7 @@ public class Interface extends JFrame implements ActionListener {
 				btnImportSalesLog.setEnabled(true);
 			}
 		} else if (buttonClicked == btnImportManifest) {
-			if ((filePath = fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser()) != null) {
 
 				try {
 					IOHandler.readManifest(filePath);
@@ -222,7 +208,7 @@ public class Interface extends JFrame implements ActionListener {
 				}
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
-			if ((filePath = fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser()) != null) {
 
 				try {
 					IOHandler.readSalesLog(filePath);

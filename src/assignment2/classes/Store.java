@@ -56,10 +56,6 @@ public class Store {
 	public static String getName() {
 		return name;
 	}
-	
-	public static Store getStore() {
-		return store;
-	}
 
 	/**
 	 * Get capital of store.
@@ -78,18 +74,6 @@ public class Store {
 	public static Stock getInventory() {
 		return inventory;
 	}
-	
-	/**
-	 * Gets total number of different items in inventory
-	 * @return integer representing number of items
-	 */
-	public static Integer getItemNumber() {
-		int count = 0;
-		for (Item item : inventory) {
-			count++;
-		}
-		return count;
-	}
 
 	/**
 	 * Increase or decrease the store's capital depending on if the input is
@@ -106,7 +90,7 @@ public class Store {
 	 * 
 	 * @throws StockException
 	 */
-	public void restock() throws StockException {
+	public static void restock() throws StockException {
 		for (Item item : inventory) {
 			if (inventory.reorder(item)) {
 				inventory.add(item, item.getReorderAmount());

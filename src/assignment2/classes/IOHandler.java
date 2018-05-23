@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
 import assignment2.classes.truck.Truck;
@@ -36,6 +38,20 @@ public class IOHandler {
 	private static final int MANIFEST_QUANT_INDEX = 1;
 	private static final int SALESLOG_ITEM_INDEX = 0;
 	private static final int SALESLOG_QUANT_INDEX = 1;
+	
+	/**
+	 * Opens a window and returns the filepath of the selected file.
+	 * 
+	 * @return file path if approve (yes, ok) is chosen. null otherwise.
+	 */
+	public static String fileChooser() {
+		JFileChooser fileChooser = new JFileChooser();
+
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFile().getAbsolutePath();
+		}
+		return null;
+	}
 	
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
