@@ -189,4 +189,11 @@ public class Tests {
 		IOHandler.readManifest(filePath);
 		assertEquals(325, Store.getInventory().totalQuantity());
 	}
+	
+	@Test
+	public void readSalesLog() throws CSVFormatException, StockException {
+		filePath = Interface.fileChooser(); //Import sales_log_0.csv or it will fail
+		IOHandler.readSalesLog(filePath);
+		assertTrue(Store.getCapital() > 100000);
+	}
 }
