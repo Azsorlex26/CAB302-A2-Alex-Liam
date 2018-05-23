@@ -174,16 +174,14 @@ public class Interface extends JFrame implements ActionListener {
 		storeInventoryPane.add(tblScroll, BorderLayout.CENTER);
 		}
 
-	public String fileChooser() {
-		fileChooser = new JFileChooser();
-
-		int optionSelected = fileChooser.showOpenDialog(this);
+	public static String fileChooser() {
+		JFileChooser fileChooser = new JFileChooser();
+		int optionSelected = fileChooser.showOpenDialog(null);
 
 		if (optionSelected == JFileChooser.APPROVE_OPTION) {
 			return fileChooser.getSelectedFile().getAbsolutePath();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

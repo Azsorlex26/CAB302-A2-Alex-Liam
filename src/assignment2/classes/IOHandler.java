@@ -36,23 +36,6 @@ public class IOHandler {
 	private static final int MANIFEST_QUANT_INDEX = 1;
 	private static final int SALESLOG_ITEM_INDEX = 0;
 	private static final int SALESLOG_QUANT_INDEX = 1;
-
-	/**
-	 * Iterates through all items in store to locate the Item by that name
-	 * 
-	 * @param Name of the item to retrieve
-	 * @return the item specified
-	 * @throws StockException if item doesn't exist
-	 */
-	public static Item getItem(String name) throws StockException {
-		for (Item item : storeItems) {
-			if (name.equalsIgnoreCase(item.getName())) {
-				return item;
-			}
-		}
-		System.err.println(name);
-		throw new StockException();
-	}
 	
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
@@ -146,7 +129,7 @@ public class IOHandler {
 					 * If temperature is less than existing truck, change temperature of truck accordingly
 					 */
 				} else if(!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
-						Item item = getItem(manifestLine[MANIFEST_ITEM_INDEX]);
+						Item item = Store.getInventory().getItem(manifestLine[MANIFEST_ITEM_INDEX]);
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
 						
@@ -195,7 +178,7 @@ public class IOHandler {
 				System.out.println(line);
 				
 				if(salesLogLine.length == 2) {
-						Item item = getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
+						Item item = Store.getInventory().getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
 						Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 						Store.adjustCapital(item.getSellCost() * Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 				} else {

@@ -2,12 +2,15 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
+import javax.swing.JFileChooser;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
 import assignment2.classes.truck.Truck;
+import assignment2.exceptions.CSVFormatException;
 import assignment2.exceptions.DeliveryException;
 import assignment2.exceptions.StockException;
 
@@ -23,7 +26,8 @@ public class Tests {
 	private static Store store, store2;
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
-
+	private String filePath;
+	
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
 		store = Store.makeStore("UMart");
@@ -170,5 +174,12 @@ public class Tests {
 		Store.getInventory().remove(beans, 15);
 		store.restock();
 		assertEquals(10, Store.getInventory().totalQuantity());
+	}
+	
+	@Test
+	public void readItemProperties() throws CSVFormatException {
+		filePath = Interface.fileChooser();
+		IOHandler.readItemProperties(filePath);
+		assertEquals(24, Store.getInventory().totalItems());
 	}
 }

@@ -69,7 +69,33 @@ public class Stock implements Iterable<Item> {
 			throw new StockException();
 		}
 	}
-
+	
+	/**
+	 * Iterates through all items in store to locate the Item by that name
+	 * 
+	 * @param Name of the item to retrieve
+	 * @return the item specified
+	 * @throws StockException if item doesn't exist
+	 */
+	public Item getItem(String name) throws StockException {
+		for (Item item : stock.keySet()) {
+			if (item.getName() == name) {
+				return item;
+			}
+		}
+		System.err.println(name);
+		throw new StockException();
+	}
+	
+	/**
+	 * Returns the total number of keys in the map
+	 * 
+	 * @return number of items
+	 */
+	public int totalItems() {
+		return stock.keySet().size();
+	}
+	
 	/**
 	 * Gets quantity of item
 	 * 
@@ -86,7 +112,7 @@ public class Stock implements Iterable<Item> {
 	}
 
 	/**
-	 * Return the total quantity the stock list contains
+	 * Return the total quantity of items the stock list contains
 	 * 
 	 * @return quantity of all items in stock
 	 */

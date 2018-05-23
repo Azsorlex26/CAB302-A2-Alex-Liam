@@ -1,7 +1,6 @@
 package assignment2.classes.truck;
 
 import assignment2.classes.Item;
-import assignment2.exceptions.DeliveryException;
 import assignment2.exceptions.StockException;
 
 /**
@@ -21,13 +20,8 @@ public class RefrigeratedTruck extends Truck {
 	 * @param temperature 
 	 */
 	public RefrigeratedTruck(double temperature) {
-		if (temperature < -20) {
-			this.temperature = -20;
-		} else if (temperature > 10) {
-			this.temperature = 10;
-		} else {
-			this.temperature = temperature;
-		}
+		setTemp(temperature);
+		maxCapacity = 800;
 	}
 	
 	/**
