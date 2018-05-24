@@ -222,8 +222,9 @@ public class Interface extends JFrame implements ActionListener {
 		} else if (buttonClicked == btnExportManifest) {
 			try {
 				IOHandler.exportManifest();
-			} catch (Exception exc) {
-				exc.printStackTrace();
+			} catch (StockException exc) {
+				JOptionPane.showMessageDialog(null, "There was an error exporting the PDF", "Error", JOptionPane.ERROR_MESSAGE);
+
 			}
 		}
 		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));
