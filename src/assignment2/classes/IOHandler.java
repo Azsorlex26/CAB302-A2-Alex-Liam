@@ -2,6 +2,7 @@ package assignment2.classes;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +59,9 @@ public class IOHandler {
 	 * 
 	 * @param filePath of item to be read
 	 * @throws CSVFormatException
+	 * @throws IOException 
 	 */
-	public static void readItemProperties(String filePath) throws CSVFormatException {
+	public static void readItemProperties(String filePath) throws CSVFormatException, IOException {
 		storeItems = new ArrayList<Item>();
 		String line;
 		csvReader = null;
@@ -94,10 +96,11 @@ public class IOHandler {
 					throw new CSVFormatException();
 				}
 			}
-			csvReader.close();
 			
 		} catch (Exception e) {
 			throw new CSVFormatException();
+		} finally {
+			csvReader.close();
 		}
 	}
 	
@@ -107,8 +110,9 @@ public class IOHandler {
 	 * @param filePath of item to be read
 	 * @throws CSVFormatException
 	 * @throws StockException
+	 * @throws IOException 
 	 */
-	public static void readManifest(String filePath) throws CSVFormatException, StockException {
+	public static void readManifest(String filePath) throws CSVFormatException, StockException, IOException {
 		
 		String line;
 		csvReader = null;
@@ -165,14 +169,14 @@ public class IOHandler {
 			if(truck != null) {
 				Store.adjustCapital(-(truck.getCost()));
 			}
-			
-			csvReader.close();
 
 			} catch (CSVFormatException e) {
 				throw new CSVFormatException();
 			} catch (StockException e) {
 				throw new StockException();
-			} catch (Exception e) {}
+			} catch (Exception e) {} finally {
+				csvReader.close();
+			}
 		}
 	
 	/**
@@ -181,8 +185,9 @@ public class IOHandler {
 	 * @param filePath of item to be read
 	 * @throws CSVFormatException
 	 * @throws StockException
+	 * @throws IOException 
 	 */
-	public static void readSalesLog(String filePath) throws CSVFormatException, StockException {
+	public static void readSalesLog(String filePath) throws CSVFormatException, StockException, IOException {
 		String line;
 		csvReader = null;
 		
@@ -201,13 +206,14 @@ public class IOHandler {
 					throw new CSVFormatException();
 				}
 			}
-			csvReader.close();
 
 		} catch (CSVFormatException e) {
 			throw new CSVFormatException();
 		} catch (StockException e) {
 			throw new StockException();
-		} catch (Exception e) {}
+		} catch (Exception e) {} finally {
+			csvReader.close();
+		}
 	}
 	
 	public static void exportManifest(String filePath) {

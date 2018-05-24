@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javax.swing.JButton;
@@ -187,7 +188,7 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (CSVFormatException exception) {
 					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
-				}
+				} catch (IOException exception) {};
 				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
 				btnImportManifest.setEnabled(true);
 				btnExportManifest.setEnabled(true);
@@ -205,7 +206,7 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (StockException exception) {
 					System.err.println("There is an invalid item in this manifest");
 					JOptionPane.showMessageDialog(null, "There is an invalid item in this manifest", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				} catch (IOException exception) {}
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
 			if ((filePath = IOHandler.fileChooser()) != null) {
@@ -216,7 +217,7 @@ public class Interface extends JFrame implements ActionListener {
 					return;
 				} catch (StockException exception) {
 					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				} catch (IOException exception) {}
 			}
 		}
 		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));

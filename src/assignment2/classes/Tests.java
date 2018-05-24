@@ -2,6 +2,8 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -178,21 +180,21 @@ public class Tests {
 	}
 	
 	@Test
-	public void readItemProperties() throws CSVFormatException {
+	public void readItemProperties() throws CSVFormatException, IOException {
 		filePath = IOHandler.fileChooser();
-		IOHandler.readItemProperties(filePath);
+			IOHandler.readItemProperties(filePath);
 		assertEquals(24, Store.getInventory().totalItems());
 	}
 	
 	@Test
-	public void readManifest() throws CSVFormatException, StockException {
+	public void readManifest() throws CSVFormatException, StockException, IOException {
 		filePath = IOHandler.fileChooser();
-		IOHandler.readManifest(filePath);
+			IOHandler.readManifest(filePath);
 		assertEquals(325, Store.getInventory().totalQuantity());
 	}
 	
 	@Test
-	public void readSalesLog() throws CSVFormatException, StockException {
+	public void readSalesLog() throws CSVFormatException, StockException, IOException {
 		filePath = IOHandler.fileChooser(); //Import sales_log_0.csv or it will fail
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 100000);
