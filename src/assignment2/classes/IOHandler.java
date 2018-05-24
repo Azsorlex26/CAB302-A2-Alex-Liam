@@ -69,7 +69,7 @@ public class IOHandler {
 			csvReader = new BufferedReader(new FileReader(filePath));
 
 			while ((line = csvReader.readLine()) != null) {
-				System.out.println(line);
+				//System.out.println(line);
 				String[] properties = line.split(COMMA_DELIMITER);
 
 				if (properties.length == 5) { // If a non-refrigerated item, create an item
@@ -177,8 +177,6 @@ public class IOHandler {
 	 * @throws IOException 
 	 */
 	public static void readSalesLog(String filePath) throws CSVFormatException, StockException, IOException {
-		csvReader = null;
-		
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
 
@@ -205,10 +203,10 @@ public class IOHandler {
 	}
 	
 	public static void exportManifest(String filePath) throws StockException {
-		Manifest manifest;
+		Manifest manifest = new Manifest();
 		
-		Stock refrigeratedItems = new Stock();
 		Stock normalItems = new Stock();
+		Stock refrigeratedItems = new Stock();
 		
 		//Store all items in appropriate stock lists that need to be reordered
 		for (Item item : Store.getInventory()) {
@@ -221,5 +219,7 @@ public class IOHandler {
 			}
 		}
 		
+		System.out.println(normalItems.totalQuantity());
+		System.out.println(refrigeratedItems.totalQuantity());
 	}
 }

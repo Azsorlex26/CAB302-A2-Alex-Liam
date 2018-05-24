@@ -3,8 +3,6 @@ package assignment2.classes;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import assignment2.exceptions.StockException;
-
 /**
  * This class represents the store
  * 
@@ -13,7 +11,6 @@ import assignment2.exceptions.StockException;
  */
 public class Store {
 
-	private static Store store;
 	private static Stock inventory;
 	private static String name;
 	private static double capital;
@@ -24,28 +21,12 @@ public class Store {
 	 * @param store_name
 	 * @return store
 	 */
-	public static Store makeStore(String store_name) {
-		if (store == null) {
-			store = new Store();
+	public static void makeStore(String store_name) {
+		if (inventory == null) {
 			inventory = new Stock();
 			name = store_name;
 			capital = 100000;
 		}
-		return store;
-	}
-
-	/**
-	 * Formats the double to two decimal places. Source:
-	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
-	 * places
-	 * 
-	 * @param amount
-	 * @return formatted double
-	 */
-	private static double formatDouble(double amount) {
-		BigDecimal bd = new BigDecimal(amount);
-		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		return bd.doubleValue();
 	}
 
 	/**
@@ -63,7 +44,7 @@ public class Store {
 	 * @return capital
 	 */
 	public static double getCapital() {
-		return formatDouble(capital);
+		return capital;
 	}
 
 	/**
@@ -77,31 +58,22 @@ public class Store {
 
 	/**
 	 * Increase or decrease the store's capital depending on if the input is
-	 * positive or negative
+	 * positive or negative. Also formats the double to two decimal places. Source:
+	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
+	 * places
 	 * 
 	 * @param amount
 	 */
 	public static void adjustCapital(double amount) {
-		capital += formatDouble(amount);
-	}
-
-	/**
-	 * Restocks the store's items if needed
-	 * 
-	 * @throws StockException
-	 */
-	public static void restock() throws StockException {
-		for (Item item : inventory) {
-			if (inventory.reorder(item)) {
-				inventory.add(item, item.getReorderAmount());
-			}
-		}
+		BigDecimal bd = new BigDecimal(amount);
+		bd = bd.setScale(2, RoundingMode.HALF_UP);
+		capital += bd.doubleValue();
 	}
 
 	/**
 	 * Function needed to reset the store to null for the tests
 	 */
 	public static void nullifyStore() {
-		store = null;
+		inventory = null;
 	}
 }

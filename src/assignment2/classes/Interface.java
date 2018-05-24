@@ -43,12 +43,12 @@ public class Interface extends JFrame implements ActionListener {
 	private static final int ITEM_ORDPOINT_INDEX = 3;
 	private static final int ITEM_ORDAMT_INDEX = 4;
 	private static final int ITEM_TEMP_INDEX = 5; // Optional
-	DecimalFormat capFormat = new DecimalFormat("#, ###.00");
+	private DecimalFormat capFormat = new DecimalFormat("#, ###.00");
 	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
 	private JButton btnImportItems, btnImportManifest, btnImportSalesLog, btnExportManifest;
 	private JScrollPane tblScroll;
-	JLabel lblStoreCapital;
+	private JLabel lblStoreCapital;
 
 	/**
 	 * Launch the application.

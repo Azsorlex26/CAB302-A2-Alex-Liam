@@ -31,6 +31,11 @@ public class Tests {
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
 	private String filePath;
 
+	private void importFileProperties() throws CSVFormatException, IOException {
+		while ((filePath = IOHandler.fileChooser()) == null);
+		IOHandler.readItemProperties(filePath);
+	}
+	
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
 		Store.makeStore("UMart");
@@ -166,24 +171,10 @@ public class Tests {
 		ordTruck.add(beans, 1001); // This will fail
 	}
 
-	@Test
-	public void reorder() throws StockException {
-		// Add beans to the beans reorder amount and restock. Output is 15
-		Store.getInventory().add(beans, 5);
-		Store.restock();
-		assertEquals(15, Store.getInventory().totalQuantity());
-
-		// Remove all items and restock.
-		Store.getInventory().remove(beans, 15);
-		Store.restock();
-		assertEquals(10, Store.getInventory().totalQuantity());
-	}
-
 	//For the next three tests, an item MUST be chosen
 	@Test //Import item_properties.csv, or this will fail.
 	public void readItemProperties() throws CSVFormatException, IOException {
-		while ((filePath = IOHandler.fileChooser()) == null);
-		IOHandler.readItemProperties(filePath);
+		importFileProperties();
 		assertEquals(24, Store.getInventory().totalItems());
 	}
 
@@ -199,5 +190,11 @@ public class Tests {
 		while ((filePath = IOHandler.fileChooser()) == null);
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 100000);
+	}
+	
+	@Test
+	public void exportManifest() throws CSVFormatException, IOException, StockException {
+		importFileProperties();
+		IOHandler.exportManifest(null); //This might need to be changed
 	}
 }
