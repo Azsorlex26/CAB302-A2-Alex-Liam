@@ -2,6 +2,7 @@ package assignment2.classes;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class IOHandler {
 
 	// Delimiter used in CSV file
 	private static final String COMMA_DELIMITER = ",";
+	private static final String NEW_LINE_SEPARATOR = "\n";
 
 	public Stock storeStock = new Stock();
 	private static BufferedReader csvReader;
@@ -56,13 +58,18 @@ public class IOHandler {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Choose a directory to export to
+	 * 
+	 * @return string of filePath
+	 */
 	public static String directoryChooser() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getCurrentDirectory().toString();
+			return fileChooser.getSelectedFile().getAbsolutePath();
 		}
 		return null;
 	}
@@ -154,7 +161,8 @@ public class IOHandler {
 					 */
 				} else if (!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
 					Item item = Store.getInventory().getItem(manifestLine[MANIFEST_ITEM_INDEX]);
-
+					System.out.println(item.getName());
+					
 					if (truck.getClass() == RefrigeratedTruck.class) {
 						((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
 					}
@@ -198,6 +206,7 @@ public class IOHandler {
 				String[] salesLogLine = line.split(COMMA_DELIMITER);
 
 				if (salesLogLine.length == 2) {
+					System.out.println(salesLogLine[SALESLOG_ITEM_INDEX]);
 					Item item = Store.getInventory().getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
 					Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 					Store.adjustCapital(item.getSellCost() * Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
@@ -220,8 +229,9 @@ public class IOHandler {
 	 * Exports a manifest for all items that need to be reordered
 	 * 
 	 * @throws StockException
+	 * @throws CSVFormatException 
 	 */
-	public static void exportManifest(String filePath) throws StockException {
+	public static void exportManifest(String filePath) throws StockException, CSVFormatException {
 		manifest = new Manifest();
 		sortedColdItems = new ArrayList<Item>();
 		listOrdinaryItems = new ArrayList<Item>();
@@ -287,6 +297,7 @@ public class IOHandler {
 
 			if (ordinaryItems.getItemQuantity(itemName) >= remainingCargo) {
 				rTruck.add(item, remainingCargo);
+				ordinaryItems.remove(item, remainingCargo);
 			} else { // If truck has enough space to remove all of remaining item
 				rTruck.add(item, ordinaryItems.getItemQuantity(item));
 				ordinaryItems.remove(item, ordinaryItems.getItemQuantity(item));
@@ -319,10 +330,48 @@ public class IOHandler {
 			}
 		}
 		manifest.add(oTruck);
-		
+
 		// To-do implement the exporting to CSV
-		
+
+		FileWriter manifestWriter = null;
+
+		try {
+			System.out.println(filePath);
+			manifestWriter = new FileWriter(filePath + "\\manifest.csv");
+
+			System.out.println("Starting to write manifest");
+			for (Truck truck : manifest.getTrucks()) {
+
+				if (truck.getClass() == RefrigeratedTruck.class) {
+					manifestWriter.append(">Refrigerated");
+					manifestWriter.append(NEW_LINE_SEPARATOR);
+				} else {
+					manifestWriter.append(">Ordinary");
+					manifestWriter.append(NEW_LINE_SEPARATOR);
+				}	
+				
+				Stock cargo = truck.getCargo();
+				for (Item cargoItem : truck.getCargo()) {
+					System.out.println("Writing line for " + cargoItem.getName());
+					manifestWriter.append(cargoItem.getName());
+					manifestWriter.append(COMMA_DELIMITER);
+					manifestWriter.append(Integer.toString(cargo.getItemQuantity(cargoItem)));
+					manifestWriter.append(NEW_LINE_SEPARATOR);
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				manifestWriter.flush();
+				manifestWriter.close();
+			} catch (IOException e1) {
+				throw new CSVFormatException();
+			}
+		}
 	}
+
 
 	/**
 	 * Returns the coldest item in the refrigerated items stock

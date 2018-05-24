@@ -220,7 +220,7 @@ public class Interface extends JFrame implements ActionListener {
 			if ((filePath = IOHandler.directoryChooser()) != null) {
 				try {
 					IOHandler.exportManifest(filePath);
-				} catch (StockException exc) {
+				} catch (Exception exc) {
 					JOptionPane.showMessageDialog(null, "There was an error exporting the manifest", "Error",
 							JOptionPane.ERROR_MESSAGE);
 

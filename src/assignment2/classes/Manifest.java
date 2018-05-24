@@ -57,6 +57,15 @@ public class Manifest {
 	public int getTotalTrucks() {
 		return manifest.size();
 	}
+	
+	/**
+	 * Returns a list of trucks from the manifest
+	 * 
+	 * @return list of trucks
+	 */
+	public List<Truck> getTrucks() {
+		return manifest;
+	}
 
 	/**
 	 * Removes all trucks from the manifest
