@@ -163,13 +163,12 @@ public class IOHandler {
 					Item item = Store.getInventory().getItem(manifestLine[MANIFEST_ITEM_INDEX]);
 					System.out.println(item.getName());
 					
-					if (truck.getClass() == RefrigeratedTruck.class) {
+					if (truck.getClass() == RefrigeratedTruck.class && item.getTempThreshold() != null) {
 						((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
 					}
 					truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 					Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-					Store.adjustCapital(
-							-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
+					Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
 
 				} else if (manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
