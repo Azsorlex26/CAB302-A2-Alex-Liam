@@ -2,6 +2,7 @@ package assignment2.classes;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.TreeMap;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -22,7 +23,7 @@ public class Stock implements Iterable<Item> {
 	 * Instantiate a new stock collection
 	 */
 	public Stock() {
-		stock = new HashMap<Item, Integer>();
+		stock = new TreeMap<Item, Integer>();
 	}
 
 	/**
