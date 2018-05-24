@@ -56,6 +56,16 @@ public class IOHandler {
 		}
 		return null;
 	}
+	
+	public static String directoryChooser() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getCurrentDirectory().toString();
+		}
+		return null;
+	}
 
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
@@ -211,7 +221,7 @@ public class IOHandler {
 	 * 
 	 * @throws StockException
 	 */
-	public static void exportManifest() throws StockException {
+	public static void exportManifest(String filePath) throws StockException {
 		manifest = new Manifest();
 		sortedColdItems = new ArrayList<Item>();
 		listOrdinaryItems = new ArrayList<Item>();
@@ -309,6 +319,9 @@ public class IOHandler {
 			}
 		}
 		manifest.add(oTruck);
+		
+		// To-do implement the exporting to CSV
+		
 	}
 
 	/**

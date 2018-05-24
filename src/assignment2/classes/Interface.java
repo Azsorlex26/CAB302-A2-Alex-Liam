@@ -29,14 +29,8 @@ public class Interface extends JFrame implements ActionListener {
 
 	public static final int WIDTH = 953;
 	public static final int HEIGHT = 536;
-	private static final String[] COLUMN_NAMES = {
-			"Name", 
-			"Quantity", 
-			"Manufacturing Cost ($)", 
-			"Sell Price ($)", 
-			"Reorder Point", 
-			"Reorder Amount", 
-			"Temperature (C)"};
+	private static final String[] COLUMN_NAMES = { "Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)",
+			"Reorder Point", "Reorder Amount", "Temperature (C)" };
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
 	private static final int ITEM_PRICE_INDEX = 2;
@@ -82,7 +76,7 @@ public class Interface extends JFrame implements ActionListener {
 		// Creates two separate objects for the tabbed pane.
 		storeManagementPane = new JPanel(); // Create a panel to allow buttons and objects
 		storeInventoryPane = new JPanel();
-		
+
 		tblInventory = new JTable(); // Creates a table component to be put into its own tab
 		tblScroll = new JScrollPane(tblInventory);
 
@@ -136,40 +130,35 @@ public class Interface extends JFrame implements ActionListener {
 		storeInventoryPane.setLayout(new BorderLayout());
 		storeTabs.addTab("Store Management", null, storeManagementPane, null);
 		storeTabs.addTab("Inventory", null, storeInventoryPane, null);
-		
+
 		storeTabs.addChangeListener(new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	            if(storeTabs.getSelectedIndex() == 1) {
-	            	updateInventory();
-	            }
-	        }
-	    });
-		
+			public void stateChanged(ChangeEvent e) {
+				if (storeTabs.getSelectedIndex() == 1) {
+					updateInventory();
+				}
+			}
+		});
+
 		storeTabs.setVisible(true);
 		setVisible(true);
 		getContentPane().add(storeTabs);
 	}
-	
+
 	public void updateInventory() {
 		storeInventoryPane.remove(tblScroll);
 		Object[][] tableData = new Object[Store.getInventory().totalItems()][7];
 		int count = 0;
-		
+
 		for (Item item : Store.getInventory()) {
-			tableData[count] = new Object[]{
-					item.getName(),
-					Store.getInventory().getItemQuantity(item.getName()),
-					item.getManufactureCost(),
-					item.getSellCost(),
-					item.getReorderPoint(),
-					item.getReorderAmount(),
-					item.getTempThreshold()};
+			tableData[count] = new Object[] { item.getName(), Store.getInventory().getItemQuantity(item.getName()),
+					item.getManufactureCost(), item.getSellCost(), item.getReorderPoint(), item.getReorderAmount(),
+					item.getTempThreshold() };
 			count++;
-			}
+		}
 		tblInventory = new JTable(tableData, COLUMN_NAMES);
 		tblScroll = new JScrollPane(tblInventory);
 		storeInventoryPane.add(tblScroll, BorderLayout.CENTER);
-		}
+	}
 
 	/**
 	 * Allows different actions to happen depending on the button pressed
@@ -186,9 +175,12 @@ public class Interface extends JFrame implements ActionListener {
 				try {
 					IOHandler.readItemProperties(filePath);
 				} catch (CSVFormatException exception) {
-					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
-				} catch (IOException exception) {};
+				} catch (IOException exception) {
+				}
+				;
 				btnImportItems.setEnabled(false); // Disable item properties importing as this is only done once
 				btnImportManifest.setEnabled(true);
 				btnExportManifest.setEnabled(true);
@@ -201,12 +193,15 @@ public class Interface extends JFrame implements ActionListener {
 					IOHandler.readManifest(filePath);
 				} catch (CSVFormatException exception) {
 					System.err.println("Warning: This is not a valid CSV file");
-					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "This is not a valid CSV file", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				} catch (StockException exception) {
 					System.err.println("There is an invalid item in this manifest");
-					JOptionPane.showMessageDialog(null, "There is an invalid item in this manifest", "Error", JOptionPane.ERROR_MESSAGE);
-				} catch (IOException exception) {}
+					JOptionPane.showMessageDialog(null, "There is an invalid item in this manifest", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException exception) {
+				}
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
 			if ((filePath = IOHandler.fileChooser()) != null) {
@@ -216,15 +211,20 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (CSVFormatException exception) {
 					return;
 				} catch (StockException exception) {
-					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error", JOptionPane.ERROR_MESSAGE);
-				} catch (IOException exception) {}
+					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException exception) {
+				}
 			}
 		} else if (buttonClicked == btnExportManifest) {
-			try {
-				IOHandler.exportManifest();
-			} catch (StockException exc) {
-				JOptionPane.showMessageDialog(null, "There was an error exporting the PDF", "Error", JOptionPane.ERROR_MESSAGE);
+			if ((filePath = IOHandler.directoryChooser()) != null) {
+				try {
+					IOHandler.exportManifest(filePath);
+				} catch (StockException exc) {
+					JOptionPane.showMessageDialog(null, "There was an error exporting the manifest", "Error",
+							JOptionPane.ERROR_MESSAGE);
 
+				}
 			}
 		}
 		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));

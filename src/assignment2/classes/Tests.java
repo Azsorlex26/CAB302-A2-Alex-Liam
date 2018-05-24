@@ -195,6 +195,6 @@ public class Tests {
 	@Test
 	public void exportManifest() throws CSVFormatException, IOException, StockException {
 		importFileProperties();
-		IOHandler.exportManifest(); //This might need to be changed
+		IOHandler.exportManifest(null); //This might need to be changed
 	}
 }
