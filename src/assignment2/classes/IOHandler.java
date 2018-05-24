@@ -29,6 +29,7 @@ public class IOHandler {
 	private static List<Item> storeItems;
 	private static BufferedReader csvReader;
 	private static String line;
+	private static Stock refrigeratedItems;
 	
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -202,11 +203,17 @@ public class IOHandler {
 		}
 	}
 	
-	public static void exportManifest(String filePath) throws StockException {
+	/**
+	 * Exports a manifest for all items that need to be reordered
+	 * 
+	 * @throws StockException
+	 */
+	public static void exportManifest() throws StockException {
 		Manifest manifest = new Manifest();
+		List<Item> sortedItems = new ArrayList<Item>();
 		
 		Stock normalItems = new Stock();
-		Stock refrigeratedItems = new Stock();
+		refrigeratedItems = new Stock();
 		
 		//Store all items in appropriate stock lists that need to be reordered
 		for (Item item : Store.getInventory()) {
@@ -219,7 +226,35 @@ public class IOHandler {
 			}
 		}
 		
+		//Create a list of all the refrigerated items from coldest to warmest
+		for (Item item : refrigeratedItems) {
+			sortedItems.add(coldestItem());
+		}
+		
+		//Create the refrigerated trucks
+		while (refrigeratedItems.totalQuantity() > 0) {
+			
+		}
+		
 		System.out.println(normalItems.totalQuantity());
 		System.out.println(refrigeratedItems.totalQuantity());
 	}
+	
+	/**
+	 * Returns the coldest item in the refrigerated items stock
+	 * 
+	 * @returns an item
+	 */
+	public static Item coldestItem() {
+		double temp = 10;
+		Item coldItem = null;
+		for (Item item : refrigeratedItems) {
+			if (item.getTempThreshold() <= temp) {
+				temp = item.getTempThreshold();
+				coldItem = item;
+			}
+		}
+		return coldItem;
+	}
 }
+

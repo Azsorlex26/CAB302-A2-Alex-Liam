@@ -219,6 +219,12 @@ public class Interface extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error", JOptionPane.ERROR_MESSAGE);
 				} catch (IOException exception) {}
 			}
+		} else if (buttonClicked == btnExportManifest) {
+			try {
+				IOHandler.exportManifest();
+			} catch (Exception exc) {
+				
+			}
 		}
 		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));
 	}

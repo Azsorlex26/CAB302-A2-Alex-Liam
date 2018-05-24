@@ -43,6 +43,10 @@ public abstract class Truck {
 	public int maxCapacity() {
 		return maxCapacity;
 	}
+	
+	public int remainingCapacity() {
+		return maxCapacity - cargo.totalQuantity();
+	}
 
 	/**
 	 * Returns the cargo object
