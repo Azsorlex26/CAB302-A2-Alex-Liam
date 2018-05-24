@@ -336,10 +336,8 @@ public class IOHandler {
 		FileWriter manifestWriter = null;
 
 		try {
-			System.out.println(filePath);
 			manifestWriter = new FileWriter(filePath + "\\manifest.csv");
 
-			System.out.println("Starting to write manifest");
 			for (Truck truck : manifest.getTrucks()) {
 
 				if (truck.getClass() == RefrigeratedTruck.class) {
@@ -352,7 +350,6 @@ public class IOHandler {
 				
 				Stock cargo = truck.getCargo();
 				for (Item cargoItem : truck.getCargo()) {
-					System.out.println("Writing line for " + cargoItem.getName());
 					manifestWriter.append(cargoItem.getName());
 					manifestWriter.append(COMMA_DELIMITER);
 					manifestWriter.append(Integer.toString(cargo.getItemQuantity(cargoItem)));

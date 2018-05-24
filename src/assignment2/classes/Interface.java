@@ -209,7 +209,8 @@ public class Interface extends JFrame implements ActionListener {
 				try {
 					IOHandler.readSalesLog(filePath);
 				} catch (CSVFormatException exception) {
-					return;
+					JOptionPane.showMessageDialog(null, "Warning: This is not a valid CSV file", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				} catch (StockException exception) {
 					JOptionPane.showMessageDialog(null, "There is an invalid item/quantity in this sales log", "Error",
 							JOptionPane.ERROR_MESSAGE);
