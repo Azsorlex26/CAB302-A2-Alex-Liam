@@ -52,9 +52,4 @@ public abstract class Truck {
 	public Stock getCargo() {
 		return cargo;
 	}
-
-	/**
-	 * Sets temp of a Refrigerated truck
-	 */
-	public abstract void setTemp(double temperature);
 }

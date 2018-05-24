@@ -11,19 +11,19 @@ import assignment2.exceptions.StockException;
  */
 public class RefrigeratedTruck extends Truck {
 
-	private double temperature;
+	private Double temperature;
 
 	/**
-	 * Constructs the RefrigeratedTruck object
-	 * If temperature is outside of acceptable bounds, set to the nearest acceptable temperature
+	 * Constructs the RefrigeratedTruck object If temperature is outside of
+	 * acceptable bounds, set to the nearest acceptable temperature
 	 * 
-	 * @param temperature 
+	 * @param temperature
 	 */
 	public RefrigeratedTruck(double temperature) {
 		setTemp(temperature);
 		maxCapacity = 800;
 	}
-	
+
 	/**
 	 * Adds items to the truck's cargo
 	 * 
@@ -39,16 +39,31 @@ public class RefrigeratedTruck extends Truck {
 			throw new StockException();
 		}
 	}
-	
-	@Override
+
+	/**
+	 * Sets the temperature
+	 * 
+	 * @param temperature
+	 */
 	public void setTemp(double temperature) {
-		if (temperature < -20) {
-			this.temperature = -20;
-		} else if (temperature > 10) {
-			this.temperature = 10;
-		} else {
+		if (this.temperature == null || temperature < this.temperature || (temperature > -20 && temperature < 10)) {
 			this.temperature = temperature;
+		} else {
+			if (temperature < -20) {
+				this.temperature = -20.0;
+			} else if (temperature > 10) {
+				this.temperature = 10.0;
+			}
 		}
+		/*
+		 * if (temperature < -20) {
+		 * 		this.temperature = -20.0;
+		 * } else if (temperature > 10) {
+		 * 		this.temperature = 10.0;
+		 * } else {
+		 * 		this.temperature = temperature;
+		 * }
+		 */
 	}
 
 	/**
