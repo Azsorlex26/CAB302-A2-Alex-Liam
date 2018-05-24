@@ -79,7 +79,7 @@ public class Stock implements Iterable<Item> {
 	 */
 	public Item getItem(String name) throws StockException {
 		for (Item item : stock.keySet()) {
-			if (item.getName() == name) {
+			if (item.getName().equalsIgnoreCase(name)) {
 				return item;
 			}
 		}
