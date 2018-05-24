@@ -30,6 +30,7 @@ public class IOHandler {
 	private static String line;
 	private static Stock refrigeratedItems, ordinaryItems;
 	private static List<Item> sortedColdItems, listOrdinaryItems, storeItems;
+	private static Manifest manifest = new Manifest();
 
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -211,7 +212,7 @@ public class IOHandler {
 	 * @throws StockException
 	 */
 	public static void exportManifest() throws StockException {
-		Manifest manifest = new Manifest();
+		manifest = new Manifest();
 		sortedColdItems = new ArrayList<Item>();
 		listOrdinaryItems = new ArrayList<Item>();
 		RefrigeratedTruck rTruck;
