@@ -32,7 +32,7 @@ public class Tests {
 	private String filePath;
 
 	private void importFileProperties() throws CSVFormatException, IOException {
-		while ((filePath = IOHandler.fileChooser()) == null);
+		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readItemProperties(filePath);
 	}
 	
@@ -180,14 +180,14 @@ public class Tests {
 
 	@Test //Import manifest.csv, or this will fail.
 	public void readManifest() throws CSVFormatException, StockException, IOException {
-		while ((filePath = IOHandler.fileChooser()) == null);
+		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readManifest(filePath);
 		assertEquals(325, Store.getInventory().totalQuantity());
 	}
 
 	@Test //Import sales_log_0.csv, or this will fail.
 	public void readSalesLog() throws CSVFormatException, StockException, IOException {
-		while ((filePath = IOHandler.fileChooser()) == null);
+		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 100000);
 	}
