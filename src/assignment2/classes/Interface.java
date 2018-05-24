@@ -87,7 +87,7 @@ public class Interface extends JFrame implements ActionListener {
 		btnImportManifest.setEnabled(false);
 		btnImportSalesLog = new JButton("Import Sales Log");
 		btnImportSalesLog.setEnabled(false);
-		btnExportManifest = new JButton("Export Manifest");
+		btnExportManifest = new JButton("Generate Manifest");
 		btnExportManifest.setEnabled(false);
 		tblInventory.setVisible(true);
 
@@ -110,8 +110,8 @@ public class Interface extends JFrame implements ActionListener {
 				stockLayout.createParallelGroup(Alignment.LEADING).addGroup(stockLayout.createSequentialGroup()
 						.addContainerGap()
 						.addGroup(stockLayout.createParallelGroup(Alignment.LEADING).addComponent(btnImportItems)
-								.addGroup(stockLayout.createSequentialGroup().addComponent(btnImportManifest)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnExportManifest))
+								.addGroup(stockLayout.createSequentialGroup().addComponent(btnExportManifest)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnImportManifest))
 								.addComponent(btnImportSalesLog).addComponent(lblStoreCapital))
 						.addContainerGap()));
 
@@ -120,8 +120,8 @@ public class Interface extends JFrame implements ActionListener {
 						.addContainerGap()
 						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportItems))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnImportManifest)
-								.addComponent(btnExportManifest))
+						.addGroup(stockLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnExportManifest)
+								.addComponent(btnImportManifest))
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnImportSalesLog).addGap(150)
 						.addComponent(lblStoreCapital).addContainerGap(204, 204)));
 
