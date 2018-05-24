@@ -149,7 +149,6 @@ public class IOHandler {
 						if (truck.getClass() == RefrigeratedTruck.class) {
 							((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
 						}
-						truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
