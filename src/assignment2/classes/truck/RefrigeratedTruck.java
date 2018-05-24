@@ -46,7 +46,7 @@ public class RefrigeratedTruck extends Truck {
 	 * @param temperature
 	 */
 	public void setTemp(double temperature) {
-		if (this.temperature == null || temperature < this.temperature || (temperature > -20 && temperature < 10)) {
+		if (this.temperature == null || (temperature < this.temperature && (temperature > -20 && temperature < 10))) {
 			this.temperature = temperature;
 		} else {
 			if (temperature < -20) {
