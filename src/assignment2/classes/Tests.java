@@ -3,6 +3,7 @@ package assignment2.classes;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,8 +30,8 @@ public class Tests {
 
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
-	private String propertiesPath, filePath;
-	
+	private String filePath;
+
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
 		Store.makeStore("UMart");
@@ -166,31 +167,26 @@ public class Tests {
 		ordTruck.add(beans, 1001); // This will fail
 	}
 
-	//For the next three tests, an item MUST be chosen
+	// Tests the 4 main IOHandler functions.
 	@Test
-	public void readItemProperties() throws CSVFormatException, IOException {
-		IOHandler.readItemProperties(propertiesPath);
-		assertEquals(24, Store.getInventory().totalItems());
-	}
+	public void IOHandlerFunctions() throws CSVFormatException, IOException, StockException {
+		// Import item_properties.csv or this will fail
+		while ((filePath = IOHandler.fileChooser(false)) == null);
+		IOHandler.readItemProperties(filePath);
 
-	@Test //Import manifest.csv, or this will fail.
-	public void readManifest() throws CSVFormatException, StockException, IOException {
+		// Select an output directory
+		while ((filePath = IOHandler.fileChooser(true)) == null);
+		IOHandler.exportManifest(filePath);
+		
+		// Import manifest.csv or this will fail
 		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readManifest(filePath);
-		assertEquals(325, Store.getInventory().totalQuantity());
-	}
+		DecimalFormat capFormat = new DecimalFormat("#, ###.00");
+		assertEquals("42,717.88 ", capFormat.format(Store.getCapital()));
 
-	@Test //Import sales_log_0.csv, or this will fail.
-	public void readSalesLog() throws CSVFormatException, StockException, IOException {
+		// Import sales_log file or this will fail
 		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readSalesLog(filePath);
-		assertTrue(Store.getCapital() > 100000);
-	}
-	
-	@Test //Import item_properties.csv, then destination folder or this will fail.
-	public void exportManifest() throws CSVFormatException, IOException, StockException {
-		while ((propertiesPath = IOHandler.fileChooser(false)) == null);
-		while ((filePath = IOHandler.fileChooser(true)) == null);
-		IOHandler.exportManifest(filePath); //This might need to be changed
+		assertTrue(Store.getCapital() > 50000);
 	}
 }
