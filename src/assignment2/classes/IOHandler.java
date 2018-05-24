@@ -64,7 +64,6 @@ public class IOHandler {
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException, IOException {
 		storeItems = new ArrayList<Item>();
-		csvReader = null;
 		
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
@@ -113,11 +112,7 @@ public class IOHandler {
 	 * @throws IOException 
 	 */
 	public static void readManifest(String filePath) throws CSVFormatException, StockException, IOException {
-		
-		String line;
-		csvReader = null;
 		Truck truck = null;
-		double minTemp = 10;
 		
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
@@ -131,11 +126,9 @@ public class IOHandler {
 				 * Refrigerated trucks can have temperature changed, so start with max temp
 				 */
 				if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
-					if(truck != null) {
+					if (truck != null) {
 						Store.adjustCapital(-(truck.getCost()));
 					}
-					truck = null;
-					minTemp = 10;
 					if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">Ordinary")) {
 						truck = new OrdinaryTruck();
 					} else if (manifestLine[MANIFEST_ITEM_INDEX].startsWith(">Refrigerated")) {
@@ -153,18 +146,10 @@ public class IOHandler {
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
 						
-						/*
-						if(item.getTempThreshold() != null && item.getTempThreshold() < minTemp) {
-							minTemp = item.getTempThreshold();
-							truck.setTemp(minTemp);
-<<<<<<< HEAD
-						} 
-=======
-							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						} else {
-							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						}*/
->>>>>>> 5df20d5e900785037c8440391b33a33a956bb4a9
+						if (truck.getClass() == RefrigeratedTruck.class) {
+							((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
+						}
+						truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
@@ -193,7 +178,6 @@ public class IOHandler {
 	 * @throws IOException 
 	 */
 	public static void readSalesLog(String filePath) throws CSVFormatException, StockException, IOException {
-		String line;
 		csvReader = null;
 		
 		try {
@@ -203,7 +187,7 @@ public class IOHandler {
 				String[] salesLogLine = line.split(COMMA_DELIMITER);
 				System.out.println(line);
 				
-				if(salesLogLine.length == 2) {
+				if (salesLogLine.length == 2) {
 						Item item = Store.getInventory().getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
 						Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 						Store.adjustCapital(item.getSellCost() * Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
