@@ -166,6 +166,7 @@ public class IOHandler {
 					if (truck.getClass() == RefrigeratedTruck.class) {
 						((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
 					}
+					truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 					Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 					Store.adjustCapital(
 							-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
