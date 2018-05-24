@@ -170,7 +170,7 @@ public class Interface extends JFrame implements ActionListener {
 		String filePath;
 		JButton buttonClicked = (JButton) e.getSource();
 		if (buttonClicked == btnImportItems) {
-			if ((filePath = IOHandler.fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
 					IOHandler.readItemProperties(filePath);
@@ -187,7 +187,7 @@ public class Interface extends JFrame implements ActionListener {
 				btnImportSalesLog.setEnabled(true);
 			}
 		} else if (buttonClicked == btnImportManifest) {
-			if ((filePath = IOHandler.fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
 					IOHandler.readManifest(filePath);
@@ -204,7 +204,7 @@ public class Interface extends JFrame implements ActionListener {
 				}
 			}
 		} else if (buttonClicked == btnImportSalesLog) {
-			if ((filePath = IOHandler.fileChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
 					IOHandler.readSalesLog(filePath);
@@ -218,7 +218,7 @@ public class Interface extends JFrame implements ActionListener {
 				}
 			}
 		} else if (buttonClicked == btnExportManifest) {
-			if ((filePath = IOHandler.directoryChooser()) != null) {
+			if ((filePath = IOHandler.fileChooser(true)) != null) {
 				try {
 					IOHandler.exportManifest(filePath);
 				} catch (Exception exc) {

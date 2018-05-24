@@ -48,26 +48,19 @@ public class IOHandler {
 	/**
 	 * Opens a window and returns the filepath of the selected file.
 	 * 
+	 * @param whether to set for export options (true) or not (false)
 	 * @return file path if approve (yes, ok) is chosen. null otherwise.
 	 */
-	public static String fileChooser() {
+	public static String fileChooser(boolean fileExport) {
 		JFileChooser fileChooser = new JFileChooser();
-
-		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getSelectedFile().getAbsolutePath();
+			
+		if(fileExport) {
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setDialogTitle("Save Manifest");
+		} else {
+			fileChooser.setDialogTitle("Import File");
 		}
-		return null;
-	}
-
-	/**
-	 * Choose a directory to export to
-	 * 
-	 * @return string of filePath
-	 */
-	public static String directoryChooser() {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
+		
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			return fileChooser.getSelectedFile().getAbsolutePath();
 		}
