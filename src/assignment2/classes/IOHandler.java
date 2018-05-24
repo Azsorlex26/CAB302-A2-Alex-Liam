@@ -156,10 +156,7 @@ public class IOHandler {
 						if(item.getTempThreshold() != null && item.getTempThreshold() < minTemp) {
 							minTemp = item.getTempThreshold();
 							truck.setTemp(minTemp);
-							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						} else {
-							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
-						}
+						} 
 						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
@@ -216,7 +213,22 @@ public class IOHandler {
 		}
 	}
 	
-	public static void exportManifest(String filePath) {
+	public static void exportManifest(String filePath) throws StockException {
+		Manifest manifest;
+		
+		Stock refrigeratedItems = new Stock();
+		Stock normalItems = new Stock();
+		
+		//Store all items in appropriate stock lists that need to be reordered
+		for (Item item : Store.getInventory()) {
+			if (Store.getInventory().reorder(item)) {
+				if (item.getTempThreshold() == null) {
+					normalItems.add(item, item.getReorderAmount());
+				} else {
+					refrigeratedItems.add(item, item.getReorderAmount());
+				}
+			}
+		}
 		
 	}
 }
