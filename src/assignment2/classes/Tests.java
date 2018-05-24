@@ -30,7 +30,7 @@ public class Tests {
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
 	private String filePath;
-	
+
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
 		Store.makeStore("UMart");
@@ -178,24 +178,25 @@ public class Tests {
 		Store.restock();
 		assertEquals(10, Store.getInventory().totalQuantity());
 	}
-	
-	@Test
+
+	//For the next three tests, an item MUST be chosen
+	@Test //Import item_properties.csv, or this will fail.
 	public void readItemProperties() throws CSVFormatException, IOException {
-		filePath = IOHandler.fileChooser();
-			IOHandler.readItemProperties(filePath);
+		while ((filePath = IOHandler.fileChooser()) == null);
+		IOHandler.readItemProperties(filePath);
 		assertEquals(24, Store.getInventory().totalItems());
 	}
-	
-	@Test
+
+	@Test //Import manifest.csv, or this will fail.
 	public void readManifest() throws CSVFormatException, StockException, IOException {
-		filePath = IOHandler.fileChooser();
-			IOHandler.readManifest(filePath);
+		while ((filePath = IOHandler.fileChooser()) == null);
+		IOHandler.readManifest(filePath);
 		assertEquals(325, Store.getInventory().totalQuantity());
 	}
-	
-	@Test
+
+	@Test //Import sales_log_0.csv, or this will fail.
 	public void readSalesLog() throws CSVFormatException, StockException, IOException {
-		filePath = IOHandler.fileChooser(); //Import sales_log_0.csv or it will fail
+		while ((filePath = IOHandler.fileChooser()) == null);
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 100000);
 	}

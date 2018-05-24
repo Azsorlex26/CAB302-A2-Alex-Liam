@@ -28,6 +28,7 @@ public class IOHandler {
 	public Stock storeStock = new Stock();
 	private static List<Item> storeItems;
 	private static BufferedReader csvReader;
+	private static String line;
 	
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -63,7 +64,6 @@ public class IOHandler {
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException, IOException {
 		storeItems = new ArrayList<Item>();
-		String line;
 		csvReader = null;
 		
 		try {
@@ -153,10 +153,18 @@ public class IOHandler {
 						Store.getInventory().add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
 						Store.adjustCapital(-(item.getManufactureCost() * Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX])));
 						
+						/*
 						if(item.getTempThreshold() != null && item.getTempThreshold() < minTemp) {
 							minTemp = item.getTempThreshold();
 							truck.setTemp(minTemp);
+<<<<<<< HEAD
 						} 
+=======
+							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
+						} else {
+							truck.add(item, Integer.parseInt(manifestLine[MANIFEST_QUANT_INDEX]));
+						}*/
+>>>>>>> 5df20d5e900785037c8440391b33a33a956bb4a9
 						
 				} else if(manifestLine.length != 2 && !manifestLine[MANIFEST_ITEM_INDEX].startsWith(">")) {
 					throw new CSVFormatException();
