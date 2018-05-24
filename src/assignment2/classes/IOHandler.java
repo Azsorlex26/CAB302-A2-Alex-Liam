@@ -27,12 +27,11 @@ public class IOHandler {
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEW_LINE_SEPARATOR = "\n";
 
-	public Stock storeStock = new Stock();
 	private static BufferedReader csvReader;
 	private static String line;
 	private static Stock refrigeratedItems, ordinaryItems;
-	private static List<Item> sortedColdItems, listOrdinaryItems, storeItems;
-	private static Manifest manifest = new Manifest();
+	private static List<Item> sortedColdItems, listOrdinaryItems;
+	private static Manifest manifest;
 
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -46,21 +45,21 @@ public class IOHandler {
 	private static final int SALESLOG_QUANT_INDEX = 1;
 
 	/**
-	 * Opens a window and returns the filepath of the selected file.
+	 * Opens a window and returns the file path of the selected file.
 	 * 
-	 * @param whether to set for export options (true) or not (false)
+	 * @param whether to set for export (true) or not (false)
 	 * @return file path if approve (yes, ok) is chosen. null otherwise.
 	 */
 	public static String fileChooser(boolean fileExport) {
 		JFileChooser fileChooser = new JFileChooser();
-			
-		if(fileExport) {
+
+		if (fileExport) {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fileChooser.setDialogTitle("Save Manifest");
 		} else {
 			fileChooser.setDialogTitle("Import File");
 		}
-		
+
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			return fileChooser.getSelectedFile().getAbsolutePath();
 		}
@@ -70,14 +69,11 @@ public class IOHandler {
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
 	 * 
-	 * @param filePath
-	 *            of item to be read
+	 * @param path of the file to be read
 	 * @throws CSVFormatException
 	 * @throws IOException
 	 */
 	public static void readItemProperties(String filePath) throws CSVFormatException, IOException {
-		storeItems = new ArrayList<Item>();
-
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
 
@@ -85,21 +81,19 @@ public class IOHandler {
 				String[] properties = line.split(COMMA_DELIMITER);
 
 				if (properties.length == 5) { // If a non-refrigerated item, create an item
-					Item item = (new Item(properties[ITEM_NAME_INDEX], Double.parseDouble(properties[ITEM_COST_INDEX]),
+					Store.getInventory().add(new Item(properties[ITEM_NAME_INDEX],
+							Double.parseDouble(properties[ITEM_COST_INDEX]),
 							Double.parseDouble(properties[ITEM_PRICE_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
-							Integer.parseInt(properties[ITEM_ORDAMT_INDEX])));
-					storeItems.add(item);
-					Store.getInventory().add(item, 0);
+							Integer.parseInt(properties[ITEM_ORDAMT_INDEX])), 0);
 
 				} else if (properties.length == 6) { // If a refrigerated item, create an item
-					Item item = (new Item(properties[ITEM_NAME_INDEX], Double.parseDouble(properties[ITEM_COST_INDEX]),
+					Store.getInventory().add(new Item(properties[ITEM_NAME_INDEX],
+							Double.parseDouble(properties[ITEM_COST_INDEX]),
 							Double.parseDouble(properties[ITEM_PRICE_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDPOINT_INDEX]),
 							Integer.parseInt(properties[ITEM_ORDAMT_INDEX]),
-							Double.parseDouble(properties[ITEM_TEMP_INDEX])));
-					storeItems.add(item);
-					Store.getInventory().add(item, 0);
+							Double.parseDouble(properties[ITEM_TEMP_INDEX])), 0);
 
 				} else {
 					throw new CSVFormatException();
@@ -116,8 +110,7 @@ public class IOHandler {
 	/**
 	 * Reads the manifest from the given filePath provided via the GUI
 	 * 
-	 * @param filePath
-	 *            of item to be read
+	 * @param filePath of item to be read
 	 * @throws CSVFormatException
 	 * @throws StockException
 	 * @throws IOException
@@ -154,7 +147,7 @@ public class IOHandler {
 					 */
 				} else if (!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
 					Item item = Store.getInventory().getItem(manifestLine[MANIFEST_ITEM_INDEX]);
-					
+
 					if (truck.getClass() == RefrigeratedTruck.class && item.getTempThreshold() != null) {
 						((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
 					}
@@ -184,8 +177,7 @@ public class IOHandler {
 	/**
 	 * Reads the sales log from the given filePath provided via the GUI
 	 * 
-	 * @param filePath
-	 *            of item to be read
+	 * @param filePath of item to be read
 	 * @throws CSVFormatException
 	 * @throws StockException
 	 * @throws IOException
@@ -219,15 +211,17 @@ public class IOHandler {
 	/**
 	 * Exports a manifest for all items that need to be reordered
 	 * 
+	 * @param filePath
 	 * @throws StockException
-	 * @throws CSVFormatException 
+	 * @throws CSVFormatException
 	 */
+	@SuppressWarnings("unused")
 	public static void exportManifest(String filePath) throws StockException, CSVFormatException {
 		manifest = new Manifest();
 		sortedColdItems = new ArrayList<Item>();
 		listOrdinaryItems = new ArrayList<Item>();
-		RefrigeratedTruck rTruck;
-		OrdinaryTruck oTruck;
+		RefrigeratedTruck rTruck = new RefrigeratedTruck(10);
+		OrdinaryTruck oTruck = new OrdinaryTruck();
 		ordinaryItems = new Stock();
 		refrigeratedItems = new Stock();
 
@@ -250,8 +244,6 @@ public class IOHandler {
 			listOrdinaryItems.add(item);
 		}
 
-		// Create the refrigerated trucks
-		rTruck = new RefrigeratedTruck(10);
 		// Loop until there are no outstanding cold items to be reordered
 		while (refrigeratedItems.totalQuantity() > 0) {
 			int remainingCargo = rTruck.remainingCapacity();
@@ -298,7 +290,6 @@ public class IOHandler {
 		manifest.add(rTruck);
 
 		// Loop until there are no outstanding ordinary items to be reordered
-		oTruck = new OrdinaryTruck();
 		while (ordinaryItems.totalQuantity() > 0) {
 			int remainingCargo = oTruck.remainingCapacity();
 			String itemName = listOrdinaryItems.get(0).getName();
@@ -337,13 +328,12 @@ public class IOHandler {
 				} else {
 					manifestWriter.append(">Ordinary");
 					manifestWriter.append(NEW_LINE_SEPARATOR);
-				}	
-				
-				Stock cargo = truck.getCargo();
+				}
+
 				for (Item cargoItem : truck.getCargo()) {
 					manifestWriter.append(cargoItem.getName());
 					manifestWriter.append(COMMA_DELIMITER);
-					manifestWriter.append(Integer.toString(cargo.getItemQuantity(cargoItem)));
+					manifestWriter.append(Integer.toString(truck.getCargo().getItemQuantity(cargoItem)));
 					manifestWriter.append(NEW_LINE_SEPARATOR);
 				}
 			}
@@ -360,11 +350,10 @@ public class IOHandler {
 		}
 	}
 
-
 	/**
 	 * Returns the coldest item in the refrigerated items stock
 	 * 
-	 * @returns an item
+	 * @returns the coldest item in the stock
 	 */
 	public static Item coldestItem() {
 		double temp = 10;

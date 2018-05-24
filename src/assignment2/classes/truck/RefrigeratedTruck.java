@@ -17,7 +17,7 @@ public class RefrigeratedTruck extends Truck {
 	 * Constructs the RefrigeratedTruck object If temperature is outside of
 	 * acceptable bounds, set to the nearest acceptable temperature
 	 * 
-	 * @param temperature of the truck
+	 * @param temperature
 	 */
 	public RefrigeratedTruck(double temperature) {
 		setTemp(temperature);
@@ -27,8 +27,8 @@ public class RefrigeratedTruck extends Truck {
 	/**
 	 * Adds items to the truck's cargo
 	 * 
-	 * @param item to add
-	 * @param quantity to add
+	 * @param item
+	 * @param quantity
 	 * @throws StockException
 	 */
 	@Override
@@ -43,7 +43,7 @@ public class RefrigeratedTruck extends Truck {
 	/**
 	 * Sets the temperature
 	 * 
-	 * @param temperature to set
+	 * @param temperature
 	 */
 	public void setTemp(double temperature) {
 		if (this.temperature == null || temperature < this.temperature) {

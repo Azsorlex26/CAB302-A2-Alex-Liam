@@ -34,7 +34,7 @@ public abstract class Truck {
 	 * Gets the cost
 	 */
 	public abstract double getCost();
-	
+
 	/**
 	 * Gets the maximum capacity
 	 * 
@@ -43,7 +43,12 @@ public abstract class Truck {
 	public int maxCapacity() {
 		return maxCapacity;
 	}
-	
+
+	/**
+	 * Returns the amount of items that can be added to the trucl
+	 * 
+	 * @return the maximum capacity minus the current number of items in the truck
+	 */
 	public int remainingCapacity() {
 		return maxCapacity - cargo.totalQuantity();
 	}

@@ -28,7 +28,6 @@ public class Item {
 		this.sellCost = sellCost;
 		this.reorderPoint = reorderPoint;
 		this.reorderAmount = reorderAmount;
-		this.tempThreshold = null;
 	}
 
 	/**

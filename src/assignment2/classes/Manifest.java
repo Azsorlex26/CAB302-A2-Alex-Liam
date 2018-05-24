@@ -14,7 +14,7 @@ import assignment2.exceptions.StockException;
  */
 public class Manifest {
 
-	List<Truck> manifest;
+	private List<Truck> manifest;
 
 	/**
 	 * Instantiates a new Manifest
@@ -36,27 +36,6 @@ public class Manifest {
 			throw new StockException();
 		}
 	}
-
-	/**
-	 * Removes a truck from the manifest
-	 * 
-	 * @param truck
-	 * @throws StockException
-	 */
-	public void remove(Truck truck) throws StockException {
-		if (!manifest.remove(truck)) { // If an item doesn't get removed, throw exception
-			throw new StockException();
-		}
-	}
-
-	/**
-	 * Returns the total number of trucks in the manifest
-	 * 
-	 * @return number of trucks
-	 */
-	public int getTotalTrucks() {
-		return manifest.size();
-	}
 	
 	/**
 	 * Returns a list of trucks from the manifest
@@ -65,12 +44,5 @@ public class Manifest {
 	 */
 	public List<Truck> getTrucks() {
 		return manifest;
-	}
-
-	/**
-	 * Removes all trucks from the manifest
-	 */
-	public void clear() {
-		manifest.clear();
 	}
 }

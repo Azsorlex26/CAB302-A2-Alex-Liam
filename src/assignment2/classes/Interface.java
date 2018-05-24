@@ -24,13 +24,25 @@ import javax.swing.event.ChangeListener;
 import assignment2.exceptions.CSVFormatException;
 import assignment2.exceptions.StockException;
 
+/**
+ * This class is both the program entry point and GUI
+ * 
+ * @author Liam Edwards
+ * @author Alexander Rozsa
+ */
 @SuppressWarnings("serial")
 public class Interface extends JFrame implements ActionListener {
 
 	public static final int WIDTH = 953;
 	public static final int HEIGHT = 536;
-	private static final String[] COLUMN_NAMES = { "Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)",
-			"Reorder Point", "Reorder Amount", "Temperature (C)" };
+	private static final String[] COLUMN_NAMES = {
+			"Name",
+			"Quantity",
+			"Manufacturing Cost ($)",
+			"Sell Price ($)",
+			"Reorder Point",
+			"Reorder Amount", 
+			"Temperature (C)" };
 	private DecimalFormat capFormat = new DecimalFormat("#, ###.00");
 	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
@@ -138,7 +150,7 @@ public class Interface extends JFrame implements ActionListener {
 		getContentPane().add(storeTabs);
 	}
 
-	public void updateInventory() {
+	private void updateInventory() {
 		storeInventoryPane.remove(tblScroll);
 		Object[][] tableData = new Object[Store.getInventory().totalItems()][7];
 		int count = 0;

@@ -8,6 +8,4 @@ package assignment2.exceptions;
  */
 @SuppressWarnings("serial")
 public class StockException extends Exception {
-	public StockException() {
-	}
 }

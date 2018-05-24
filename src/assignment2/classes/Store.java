@@ -1,8 +1,5 @@
 package assignment2.classes;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 /**
  * This class represents the store
  * 

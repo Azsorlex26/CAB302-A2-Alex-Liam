@@ -29,14 +29,11 @@ public class Stock implements Iterable<Item> {
 	 * Adds items to stock
 	 * 
 	 * @param item to use as key
-	 * @param quantity to be added (Can be 0)   
+	 * @param quantity to be added (Can be 0)
 	 * @throws StockException
 	 */
 	public void add(Item item, int quantity) throws StockException {
-		if (item == null) {
-			throw new StockException();
-		} else { // If an item with the same name exists but isn't the same item as being put into this method, add to the existing Item stock
-		if (quantity >= 0) {
+		if (item != null || quantity >= 0) {
 			for (Item existingItem : stock.keySet()) {
 				if (existingItem.getName() == item.getName()) {
 					stock.put(existingItem, stock.get(existingItem) + quantity);
@@ -44,10 +41,8 @@ public class Stock implements Iterable<Item> {
 				}
 			}
 			stock.put(item, quantity);
-			
 		} else {
 			throw new StockException();
-	}
 		}
 	}
 
@@ -59,17 +54,13 @@ public class Stock implements Iterable<Item> {
 	 * @throws StockException
 	 */
 	public void remove(Item item, int quantity) throws StockException {
-		if (stock.containsKey(item)) {
-			if (quantity <= stock.get(item)) {
-				stock.put(item, stock.get(item) - quantity); // Decrements the key's value
-			} else {
-				throw new StockException();
-			}
+		if (stock.containsKey(item) && quantity <= stock.get(item)) {
+			stock.put(item, stock.get(item) - quantity); // Decrements the key's value
 		} else {
 			throw new StockException();
 		}
 	}
-	
+
 	/**
 	 * Iterates through all items in store to locate the Item by that name
 	 * 
@@ -83,10 +74,9 @@ public class Stock implements Iterable<Item> {
 				return item;
 			}
 		}
-		System.err.println(name);
 		throw new StockException();
 	}
-	
+
 	/**
 	 * Returns the total number of keys in the map
 	 * 
@@ -95,11 +85,12 @@ public class Stock implements Iterable<Item> {
 	public int totalItems() {
 		return stock.keySet().size();
 	}
-	
+
 	/**
 	 * Gets quantity of item
 	 * 
-	 * @param name of item to get quantity of
+	 * @param name
+	 *            of item to get quantity of
 	 * @return quantity of specific item
 	 */
 	public int getItemQuantity(String name) {
@@ -110,11 +101,12 @@ public class Stock implements Iterable<Item> {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Gets quantity of item
 	 * 
-	 * @param item to check quantity of
+	 * @param item
+	 *            to check quantity of
 	 * @return quantity
 	 */
 	public int getItemQuantity(Item item) {

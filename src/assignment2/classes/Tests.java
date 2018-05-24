@@ -19,7 +19,7 @@ import assignment2.exceptions.DeliveryException;
 import assignment2.exceptions.StockException;
 
 /**
- * This class utilizes JUnit to complete tests to ensure integrity of the
+ * This class utilizes JUnit, running tests to ensure integrity of the
  * application
  * 
  * @author Alexander Rozsa
@@ -34,7 +34,7 @@ public class Tests {
 
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
-		Store.makeStore("UMart");
+		Store.makeStore("SuperMart");
 		ordTruck = new OrdinaryTruck();
 		refTruck = new RefrigeratedTruck(-20);
 	}
@@ -89,16 +89,11 @@ public class Tests {
 		Manifest trucks = new Manifest();
 		trucks.add(ordTruck);
 		trucks.add(refTruck);
-		assertEquals(2, trucks.getTotalTrucks());
-		trucks.remove(ordTruck);
-		assertEquals(1, trucks.getTotalTrucks());
-		trucks.clear();
-		assertEquals(0, trucks.getTotalTrucks());
 	}
 
 	@Test
 	public void storeInitial() throws StockException {
-		assertEquals("UMart", Store.getName());
+		assertEquals("SuperMart", Store.getName());
 		Store.adjustCapital(100);
 		assertEquals(100100.0, Store.getCapital(), 0);
 		assertEquals(0, Store.getInventory().totalQuantity());
@@ -136,12 +131,6 @@ public class Tests {
 		trucks.add(ordTruck); // This will fail
 	}
 
-	@Test(expected = StockException.class)
-	public void removeFromEmptyManifest() throws StockException {
-		Manifest trucks = new Manifest();
-		trucks.remove(ordTruck);
-	}
-
 	@Test
 	public void addDuplicateItemsToStock() throws StockException {
 		Item item1 = new Item("Jelly Beans", 10, 20, 30, 40);
@@ -177,7 +166,7 @@ public class Tests {
 		// Select an output directory
 		while ((filePath = IOHandler.fileChooser(true)) == null);
 		IOHandler.exportManifest(filePath);
-		
+
 		// Import manifest.csv or this will fail
 		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readManifest(filePath);
