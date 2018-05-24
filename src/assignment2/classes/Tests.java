@@ -29,12 +29,7 @@ public class Tests {
 
 	private Item icecream = new Item("Ice-Cream", 2, 5, 1, 2, -5), beans = new Item("Canned Beans", 1, 2.5, 5, 10);
 	private Truck ordTruck = new OrdinaryTruck(), refTruck;
-	private String filePath;
-
-	private void importFileProperties() throws CSVFormatException, IOException {
-		while ((filePath = IOHandler.fileChooser(false)) == null);
-		IOHandler.readItemProperties(filePath);
-	}
+	private String propertiesPath, filePath;
 	
 	@Before // Things to do before the tests
 	public void initialiseTests() throws DeliveryException {
@@ -172,9 +167,9 @@ public class Tests {
 	}
 
 	//For the next three tests, an item MUST be chosen
-	@Test //Import item_properties.csv, or this will fail.
+	@Test
 	public void readItemProperties() throws CSVFormatException, IOException {
-		importFileProperties();
+		IOHandler.readItemProperties(propertiesPath);
 		assertEquals(24, Store.getInventory().totalItems());
 	}
 
@@ -192,9 +187,10 @@ public class Tests {
 		assertTrue(Store.getCapital() > 100000);
 	}
 	
-	@Test
+	@Test //Import item_properties.csv, then destination folder or this will fail.
 	public void exportManifest() throws CSVFormatException, IOException, StockException {
-		importFileProperties();
-		IOHandler.exportManifest(null); //This might need to be changed
+		while ((propertiesPath = IOHandler.fileChooser(false)) == null);
+		while ((filePath = IOHandler.fileChooser(true)) == null);
+		IOHandler.exportManifest(filePath); //This might need to be changed
 	}
 }
