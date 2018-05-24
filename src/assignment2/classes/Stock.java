@@ -99,7 +99,7 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Gets quantity of item
 	 * 
-	 * @param item
+	 * @param name of item to get quantity of
 	 * @return quantity of specific item
 	 */
 	public int getItemQuantity(String name) {
@@ -109,6 +109,16 @@ public class Stock implements Iterable<Item> {
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * Gets quantity of item
+	 * 
+	 * @param item to check quantity of
+	 * @return quantity
+	 */
+	public int getItemQuantity(Item item) {
+		return stock.get(item);
 	}
 
 	/**
