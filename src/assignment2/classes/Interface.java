@@ -223,7 +223,7 @@ public class Interface extends JFrame implements ActionListener {
 			try {
 				IOHandler.exportManifest();
 			} catch (Exception exc) {
-				
+				exc.printStackTrace();
 			}
 		}
 		lblStoreCapital.setText("Store Capital: $" + capFormat.format((Store.getCapital())));
