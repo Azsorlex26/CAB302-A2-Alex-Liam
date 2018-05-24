@@ -30,6 +30,7 @@ public class IOHandler {
 	private static BufferedReader csvReader;
 	private static String line;
 	private static Stock refrigeratedItems;
+	private static List<Item> sortedItems;
 	
 	private static final int ITEM_NAME_INDEX = 0;
 	private static final int ITEM_COST_INDEX = 1;
@@ -210,8 +211,9 @@ public class IOHandler {
 	 */
 	public static void exportManifest() throws StockException {
 		Manifest manifest = new Manifest();
-		List<Item> sortedItems = new ArrayList<Item>();
-		
+		sortedItems = new ArrayList<Item>();
+		RefrigeratedTruck rTruck;
+		OrdinaryTruck oTruck;
 		Stock normalItems = new Stock();
 		refrigeratedItems = new Stock();
 		
@@ -222,6 +224,7 @@ public class IOHandler {
 					normalItems.add(item, item.getReorderAmount());
 				} else {
 					refrigeratedItems.add(item, item.getReorderAmount());
+					System.out.println(item.getName());
 				}
 			}
 		}
@@ -232,7 +235,33 @@ public class IOHandler {
 		}
 		
 		//Create the refrigerated trucks
+		rTruck = new RefrigeratedTruck(10);
 		while (refrigeratedItems.totalQuantity() > 0) {
+			int remainingCargo = rTruck.remainingCapacity();
+			System.out.println(remainingCargo);
+			String itemName = sortedItems.get(0).getName();
+			Item item = refrigeratedItems.getItem(itemName);
+			
+			//Set the temperature of the truck
+			rTruck.setTemp(sortedItems.get(0).getTempThreshold());
+			
+			//Remove the appropriate amount of stock by checking remaining amount of cargo space
+			if (refrigeratedItems.getItemQuantity(itemName) >= remainingCargo) {
+				rTruck.add(item, remainingCargo);
+				refrigeratedItems.remove(item, remainingCargo);
+				System.out.println("Removed: " + remainingCargo + " of " + itemName);
+			} else {
+				rTruck.add(item, refrigeratedItems.getItemQuantity(item));
+				refrigeratedItems.remove(item, refrigeratedItems.getItemQuantity(item));
+				sortedItems.remove(0); //Shift the sortedItems left 1
+				System.out.println("Removed: " + itemName);
+			}
+			
+			if (rTruck.remainingCapacity() == 0) {
+				manifest.add(rTruck);
+				System.out.println("Added Refrigerated Truck to manifest");
+				rTruck = new RefrigeratedTruck(10);
+			}
 			
 		}
 		
@@ -249,7 +278,7 @@ public class IOHandler {
 		double temp = 10;
 		Item coldItem = null;
 		for (Item item : refrigeratedItems) {
-			if (item.getTempThreshold() <= temp) {
+			if (item.getTempThreshold() <= temp && !sortedItems.contains(item)) {
 				temp = item.getTempThreshold();
 				coldItem = item;
 			}
