@@ -154,7 +154,6 @@ public class IOHandler {
 					 */
 				} else if (!manifestLine[MANIFEST_ITEM_INDEX].startsWith(">") && manifestLine.length == 2) {
 					Item item = Store.getInventory().getItem(manifestLine[MANIFEST_ITEM_INDEX]);
-					System.out.println(item.getName());
 					
 					if (truck.getClass() == RefrigeratedTruck.class && item.getTempThreshold() != null) {
 						((RefrigeratedTruck) truck).setTemp(item.getTempThreshold());
@@ -199,7 +198,6 @@ public class IOHandler {
 				String[] salesLogLine = line.split(COMMA_DELIMITER);
 
 				if (salesLogLine.length == 2) {
-					System.out.println(salesLogLine[SALESLOG_ITEM_INDEX]);
 					Item item = Store.getInventory().getItem(salesLogLine[SALESLOG_ITEM_INDEX]);
 					Store.getInventory().remove(item, Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));
 					Store.adjustCapital(item.getSellCost() * Integer.parseInt(salesLogLine[SALESLOG_QUANT_INDEX]));

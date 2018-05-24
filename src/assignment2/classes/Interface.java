@@ -31,12 +31,6 @@ public class Interface extends JFrame implements ActionListener {
 	public static final int HEIGHT = 536;
 	private static final String[] COLUMN_NAMES = { "Name", "Quantity", "Manufacturing Cost ($)", "Sell Price ($)",
 			"Reorder Point", "Reorder Amount", "Temperature (C)" };
-	private static final int ITEM_NAME_INDEX = 0;
-	private static final int ITEM_COST_INDEX = 1;
-	private static final int ITEM_PRICE_INDEX = 2;
-	private static final int ITEM_ORDPOINT_INDEX = 3;
-	private static final int ITEM_ORDAMT_INDEX = 4;
-	private static final int ITEM_TEMP_INDEX = 5; // Optional
 	private DecimalFormat capFormat = new DecimalFormat("#, ###.00");
 	private JPanel storeManagementPane, storeInventoryPane;
 	private JTable tblInventory;
@@ -51,14 +45,14 @@ public class Interface extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			new Interface("test");
+			new Interface("SuperMart");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Create the interface.
+	 * Creates the interface.
 	 * 
 	 * @param storeName
 	 */
@@ -168,8 +162,7 @@ public class Interface extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String filePath;
-		JButton buttonClicked = (JButton) e.getSource();
-		if (buttonClicked == btnImportItems) {
+		if (e.getSource() == btnImportItems) {
 			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
@@ -186,7 +179,7 @@ public class Interface extends JFrame implements ActionListener {
 				btnExportManifest.setEnabled(true);
 				btnImportSalesLog.setEnabled(true);
 			}
-		} else if (buttonClicked == btnImportManifest) {
+		} else if (e.getSource() == btnImportManifest) {
 			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
@@ -203,7 +196,7 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (IOException exception) {
 				}
 			}
-		} else if (buttonClicked == btnImportSalesLog) {
+		} else if (e.getSource() == btnImportSalesLog) {
 			if ((filePath = IOHandler.fileChooser(false)) != null) {
 
 				try {
@@ -217,14 +210,13 @@ public class Interface extends JFrame implements ActionListener {
 				} catch (IOException exception) {
 				}
 			}
-		} else if (buttonClicked == btnExportManifest) {
+		} else if (e.getSource() == btnExportManifest) {
 			if ((filePath = IOHandler.fileChooser(true)) != null) {
 				try {
 					IOHandler.exportManifest(filePath);
 				} catch (Exception exc) {
 					JOptionPane.showMessageDialog(null, "There was an error exporting the manifest", "Error",
 							JOptionPane.ERROR_MESSAGE);
-
 				}
 			}
 		}
