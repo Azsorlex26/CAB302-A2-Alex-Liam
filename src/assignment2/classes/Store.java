@@ -57,17 +57,12 @@ public class Store {
 	}
 
 	/**
-	 * Increase or decrease the store's capital depending on if the input is
-	 * positive or negative. Also formats the double to two decimal places. Source:
-	 * https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-
-	 * places
+	 * Update capital of store
 	 * 
-	 * @param amount
+	 * @param amount to adjust (positive or negative)
 	 */
 	public static void adjustCapital(double amount) {
-		BigDecimal bd = new BigDecimal(amount);
-		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		capital += bd.doubleValue();
+		capital += amount;
 	}
 
 	/**
