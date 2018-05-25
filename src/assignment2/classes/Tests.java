@@ -2,7 +2,6 @@ package assignment2.classes;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 import org.junit.After;
@@ -33,7 +32,7 @@ public class Tests {
 	private String filePath;
 
 	@Before // Things to do before the tests
-	public void initialiseTests() throws DeliveryException {
+	public void initialiseTests() {
 		Store.makeStore("SuperMart");
 		ordTruck = new OrdinaryTruck();
 		refTruck = new RefrigeratedTruck(-20);
@@ -76,11 +75,9 @@ public class Tests {
 	@Test
 	public void trucksInitial() throws StockException {
 		ordTruck.add(beans, 5);
-		assertEquals(1000, ordTruck.maxCapacity());
 		assertEquals(5, ordTruck.getCargo().totalQuantity());
 
 		refTruck.add(icecream, 5);
-		assertEquals(800, refTruck.maxCapacity());
 		assertEquals(5, refTruck.getCargo().totalQuantity());
 	}
 
@@ -117,11 +114,13 @@ public class Tests {
 	}
 
 	@Test
-	public void addItemsToRefTruck() throws StockException, DeliveryException {
+	public void addItemsToRefTruck() throws StockException {
 		Truck refTruck = new RefrigeratedTruck(-20);
 		refTruck.add(beans, 1); // Both of these will work
+		refTruck.add(beans, 4); // Both of these will work
 		refTruck.add(icecream, 1);
-		assertEquals(2, refTruck.getCargo().totalQuantity());
+		refTruck.add(icecream, 4);
+		assertEquals(10, refTruck.getCargo().totalQuantity());
 	}
 
 	@Test(expected = StockException.class)
@@ -155,10 +154,10 @@ public class Tests {
 	public void addingTooMuchToTruck() throws StockException {
 		ordTruck.add(beans, 1001); // This will fail
 	}
-	/*
+	
 	// Tests the 4 main IOHandler functions.
 	@Test
-	public void IOHandlerFunctions() throws CSVFormatException, IOException, StockException {
+	public void IOHandlerFunctions() throws CSVFormatException, DeliveryException, StockException {
 		// Import item_properties.csv or this will fail
 		while ((filePath = IOHandler.fileChooser(false)) == null);
 		IOHandler.readItemProperties(filePath);
@@ -178,5 +177,4 @@ public class Tests {
 		IOHandler.readSalesLog(filePath);
 		assertTrue(Store.getCapital() > 50000);
 	}
-	*/
 }

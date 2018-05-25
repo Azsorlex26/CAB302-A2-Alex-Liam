@@ -27,9 +27,9 @@ public class RefrigeratedTruck extends Truck {
 	/**
 	 * Adds items to the truck's cargo
 	 * 
-	 * @param item
-	 * @param quantity
-	 * @throws StockException
+	 * @param item to be added
+	 * @param quantity of item to be added
+	 * @throws StockException if the item has a temperature threshold and the truck's temperature is greater than that threshold
 	 */
 	@Override
 	public void add(Item item, int quantity) throws StockException {
@@ -43,7 +43,7 @@ public class RefrigeratedTruck extends Truck {
 	/**
 	 * Sets the temperature
 	 * 
-	 * @param temperature
+	 * @param temperature to be set
 	 */
 	public void setTemp(double temperature) {
 		if (this.temperature == null || temperature < this.temperature) {

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import assignment2.classes.truck.OrdinaryTruck;
 import assignment2.classes.truck.RefrigeratedTruck;
 import assignment2.classes.truck.Truck;
 import assignment2.exceptions.CSVFormatException;
+import assignment2.exceptions.DeliveryException;
 import assignment2.exceptions.StockException;
 
 /**
@@ -45,14 +47,27 @@ public class IOHandler {
 	private static final int SALESLOG_QUANT_INDEX = 1;
 
 	/**
+	 * Closes the CSVReader
+	 * 
+	 * @throws CSVFormatException on fail
+	 */
+	private static void closeCSVReader() throws CSVFormatException {
+		try {
+			csvReader.close();
+		} catch (IOException e) {
+			throw new CSVFormatException();
+		}
+	}
+	
+	/**
 	 * Opens a window and returns the file path of the selected file.
 	 * 
-	 * @param whether to set for export (true) or not (false)
-	 * @return file path if approve (yes, ok) is chosen. null otherwise.
+	 * @param fileExport : whether to set for export (true) or not (false)
+	 * @return file path if approve (yes, OK) is chosen. null otherwise.
 	 */
 	public static String fileChooser(boolean fileExport) {
 		JFileChooser fileChooser = new JFileChooser();
-
+		
 		if (fileExport) {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fileChooser.setDialogTitle("Save Manifest");
@@ -69,14 +84,12 @@ public class IOHandler {
 	/**
 	 * Reads the Item Properties from the given filePath provided via the GUI
 	 * 
-	 * @param path of the file to be read
-	 * @throws CSVFormatException
-	 * @throws IOException
+	 * @param filePath of the file to be read
+	 * @throws CSVFormatException if something goes wrong
 	 */
-	public static void readItemProperties(String filePath) throws CSVFormatException, IOException {
+	public static void readItemProperties(String filePath) throws CSVFormatException {
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
-
 			while ((line = csvReader.readLine()) != null) {
 				String[] properties = line.split(COMMA_DELIMITER);
 
@@ -100,27 +113,24 @@ public class IOHandler {
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (NumberFormatException | IOException | StockException e) {
 			throw new CSVFormatException();
 		} finally {
-			csvReader.close();
+			closeCSVReader();
 		}
 	}
 
 	/**
 	 * Reads the manifest from the given filePath provided via the GUI
 	 * 
-	 * @param filePath of item to be read
-	 * @throws CSVFormatException
-	 * @throws StockException
-	 * @throws IOException
+	 * @param filePath of the item to be read
+	 * @throws CSVFormatException if an invalid truck type is given
+	 * @throws DeliveryException if an item is somehow invalid
 	 */
-	public static void readManifest(String filePath) throws CSVFormatException, StockException, IOException {
+	public static void readManifest(String filePath) throws CSVFormatException, DeliveryException {	
 		Truck truck = null;
-
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
-
 			while ((line = csvReader.readLine()) != null) {
 				String[] manifestLine = line.split(COMMA_DELIMITER);
 
@@ -163,29 +173,25 @@ public class IOHandler {
 			if (truck != null) {
 				Store.adjustCapital(-(truck.getCost()));
 			}
-
-		} catch (CSVFormatException e) {
-			throw new CSVFormatException();
 		} catch (StockException e) {
-			throw new StockException();
-		} catch (Exception e) {
+			throw new DeliveryException();
+		} catch (NumberFormatException | IOException e){
+			e.printStackTrace();
 		} finally {
-			csvReader.close();
+			closeCSVReader();
 		}
 	}
 
 	/**
 	 * Reads the sales log from the given filePath provided via the GUI
 	 * 
-	 * @param filePath of item to be read
-	 * @throws CSVFormatException
-	 * @throws StockException
-	 * @throws IOException
+	 * @param filePath of the item to be read
+	 * @throws CSVFormatException if the format of the file is wrong
+	 * @throws StockException if an item is somehow invalid
 	 */
-	public static void readSalesLog(String filePath) throws CSVFormatException, StockException, IOException {
+	public static void readSalesLog(String filePath) throws CSVFormatException, StockException {
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
-
 			while ((line = csvReader.readLine()) != null) {
 				String[] salesLogLine = line.split(COMMA_DELIMITER);
 
@@ -198,24 +204,20 @@ public class IOHandler {
 				}
 			}
 
-		} catch (CSVFormatException e) {
-			throw new CSVFormatException();
-		} catch (StockException e) {
-			throw new StockException();
-		} catch (Exception e) {
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
 		} finally {
-			csvReader.close();
+			closeCSVReader();
 		}
 	}
 
 	/**
 	 * Exports a manifest for all items that need to be reordered
 	 * 
-	 * @param filePath
-	 * @throws StockException
-	 * @throws CSVFormatException
+	 * @param filePath for the file to be exported
+	 * @throws StockException if an item is somehow invalid
+	 * @throws CSVFormatException if the manifestWriter fails to close
 	 */
-	@SuppressWarnings("unused")
 	public static void exportManifest(String filePath) throws StockException, CSVFormatException {
 		manifest = new Manifest();
 		sortedColdItems = new ArrayList<Item>();
@@ -313,22 +315,17 @@ public class IOHandler {
 		}
 		manifest.add(oTruck);
 
-		// To-do implement the exporting to CSV
-
+		// Exports manifest to CSV
 		FileWriter manifestWriter = null;
-
 		try {
 			manifestWriter = new FileWriter(filePath + "\\manifest.csv");
-
-			for (Truck truck : manifest.getTrucks()) {
-
+			for (Truck truck : manifest) {
 				if (truck.getClass() == RefrigeratedTruck.class) {
 					manifestWriter.append(">Refrigerated");
-					manifestWriter.append(NEW_LINE_SEPARATOR);
 				} else {
 					manifestWriter.append(">Ordinary");
-					manifestWriter.append(NEW_LINE_SEPARATOR);
 				}
+				manifestWriter.append(NEW_LINE_SEPARATOR);
 
 				for (Item cargoItem : truck.getCargo()) {
 					manifestWriter.append(cargoItem.getName());
@@ -344,7 +341,7 @@ public class IOHandler {
 			try {
 				manifestWriter.flush();
 				manifestWriter.close();
-			} catch (IOException e1) {
+			} catch (IOException e) {
 				throw new CSVFormatException();
 			}
 		}
@@ -355,7 +352,7 @@ public class IOHandler {
 	 * 
 	 * @returns the coldest item in the stock
 	 */
-	public static Item coldestItem() {
+	private static Item coldestItem() {
 		double temp = 10;
 		Item coldItem = null;
 		for (Item item : refrigeratedItems) {

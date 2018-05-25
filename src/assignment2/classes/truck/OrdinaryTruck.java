@@ -22,9 +22,9 @@ public class OrdinaryTruck extends Truck {
 	/**
 	 * Adds items to the truck's cargo
 	 * 
-	 * @param item
-	 * @param quantity
-	 * @throws StockException
+	 * @param item to be added
+	 * @param quantity of item to be added
+	 * @throws StockException if the item has a temperature threshold
 	 */
 	@Override
 	public void add(Item item, int quantity) throws StockException {
@@ -38,7 +38,7 @@ public class OrdinaryTruck extends Truck {
 	/**
 	 * Gets the cost
 	 * 
-	 * @return cost
+	 * @return cost of the truck
 	 */
 	@Override
 	public double getCost() {

@@ -16,11 +16,11 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Instantiates a new item object without a temperature threshold
 	 * 
-	 * @param name
-	 * @param manufactureCost
-	 * @param sellCost
-	 * @param reorderPoint
-	 * @param reorderAmount
+	 * @param name of the item
+	 * @param manufactureCost of the item
+	 * @param sellCost of the item
+	 * @param reorderPoint of the item
+	 * @param reorderAmount of the item
 	 */
 	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount) {
 		this.name = name;
@@ -33,12 +33,12 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Instantiates a new item object with a temperature threshold
 	 * 
-	 * @param name
-	 * @param manufactureCost
-	 * @param reorderPoint
-	 * @param reorderAmount
-	 * @param sellCost
-	 * @param tempThreshold
+	 * @param name of the item
+	 * @param manufactureCost of the item
+	 * @param sellCost of the item
+	 * @param reorderPoint of the item
+	 * @param reorderAmount of the item
+	 * @param tempThreshold of the item
 	 */
 	public Item(String name, double manufactureCost, double sellCost, int reorderPoint, int reorderAmount, double tempThreshold) {
 		this(name, manufactureCost, sellCost, reorderPoint, reorderAmount);
@@ -48,7 +48,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the name of the item
 	 * 
-	 * @return the name of the item
+	 * @return name of the item
 	 */
 	public String getName() {
 		return name;
@@ -57,7 +57,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the manufacturing cost of the item
 	 * 
-	 * @return manufactureCost
+	 * @return manufactureCost  of the item
 	 */
 	public double getManufactureCost() {
 		return manufactureCost;
@@ -66,7 +66,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the selling cost of the item
 	 * 
-	 * @return sellCost
+	 * @return sellCost of the item
 	 */
 	public double getSellCost() {
 		return sellCost;
@@ -75,7 +75,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the reorder point of the item
 	 * 
-	 * @return reorderPoint
+	 * @return reorderPoint of the item
 	 */
 	public int getReorderPoint() {
 		return reorderPoint;
@@ -84,7 +84,7 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the reorder amount of the item
 	 * 
-	 * @return reorderAmount
+	 * @return reorderAmount of the item
 	 */
 	public int getReorderAmount() {
 		return reorderAmount;
@@ -93,15 +93,21 @@ public class Item implements Comparable<Item> {
 	/**
 	 * Get the temperature threshold of the item. Can return null
 	 * 
-	 * @return tempThreshold
+	 * @return tempThreshold of the item
 	 */
 	public Double getTempThreshold() {
 		return tempThreshold;
 	}
 
+	/**
+	 * Allows items to be ordered by tempThreshold in Stock
+	 * 
+	 * @param other item to be compared
+	 * @return if item is greater than, less than, or equal to the other
+	 */
 	@Override
-	public int compareTo(Item o) {
-		if (tempThreshold == null || o.getTempThreshold() == null) return 0;
-		return Double.compare(tempThreshold, o.tempThreshold);
+	public int compareTo(Item other) {
+		if (tempThreshold == null || other.getTempThreshold() == null) return 0;
+		return Double.compare(tempThreshold, other.tempThreshold);
 	}
 }

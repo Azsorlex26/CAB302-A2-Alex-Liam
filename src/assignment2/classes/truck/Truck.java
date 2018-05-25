@@ -18,9 +18,9 @@ public abstract class Truck {
 	/**
 	 * Adds items to the truck's cargo
 	 * 
-	 * @param item
-	 * @param quantity
-	 * @throws StockException
+	 * @param item to be added
+	 * @param quantity of item to be added
+	 * @throws StockException if the number of items in the truck plus the quantity to be added exceeds the truck's maximum capacity
 	 */
 	public void add(Item item, int quantity) throws StockException {
 		if ((cargo.totalQuantity() + quantity) <= maxCapacity) {
@@ -32,20 +32,13 @@ public abstract class Truck {
 
 	/**
 	 * Gets the cost
+	 * 
+	 * @return cost of the truck
 	 */
 	public abstract double getCost();
 
 	/**
-	 * Gets the maximum capacity
-	 * 
-	 * @return maxCapacity
-	 */
-	public int maxCapacity() {
-		return maxCapacity;
-	}
-
-	/**
-	 * Returns the amount of items that can be added to the trucl
+	 * Returns the amount of items that can be added to the truck
 	 * 
 	 * @return the maximum capacity minus the current number of items in the truck
 	 */
@@ -56,7 +49,7 @@ public abstract class Truck {
 	/**
 	 * Returns the cargo object
 	 * 
-	 * @return cargo
+	 * @return cargo object of the truck
 	 */
 	public Stock getCargo() {
 		return cargo;

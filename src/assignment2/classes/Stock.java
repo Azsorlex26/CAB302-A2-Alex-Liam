@@ -1,7 +1,6 @@
 package assignment2.classes;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.TreeMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,20 +22,20 @@ public class Stock implements Iterable<Item> {
 	 * Instantiate a new stock collection
 	 */
 	public Stock() {
-		stock = new TreeMap<Item, Integer>();
+		stock = new HashMap<Item, Integer>();
 	}
 
 	/**
 	 * Adds items to stock
 	 * 
-	 * @param item to use as key
-	 * @param quantity to be added (Can be 0)
-	 * @throws StockException
+	 * @param item to be added
+	 * @param quantity to be added (can be 0)
+	 * @throws StockException if the item is null or the quantity is negative
 	 */
 	public void add(Item item, int quantity) throws StockException {
-		if (item != null || quantity >= 0) {
+		if (item != null && quantity >= 0) {
 			for (Item existingItem : stock.keySet()) {
-				if (existingItem.getName() == item.getName()) {
+				if (item.getName() == existingItem.getName()) {
 					stock.put(existingItem, stock.get(existingItem) + quantity);
 					return;
 				}
@@ -50,9 +49,9 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Removes items from stock
 	 * 
-	 * @param item
-	 * @param quantity
-	 * @throws StockException
+	 * @param item to be removed
+	 * @param quantity of item to be removed
+	 * @throws StockException if item isn't in the map or quantity is greater than the amount of the item in the map
 	 */
 	public void remove(Item item, int quantity) throws StockException {
 		if (stock.containsKey(item) && quantity <= stock.get(item)) {
@@ -65,9 +64,9 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Iterates through all items in store to locate the Item by that name
 	 * 
-	 * @param Name of the item to retrieve
+	 * @param name of the item to retrieve
 	 * @return the item specified
-	 * @throws StockException if item doesn't exist
+	 * @throws StockException if item doesn't exist in the map
 	 */
 	public Item getItem(String name) throws StockException {
 		for (Item item : stock.keySet()) {
@@ -90,8 +89,7 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Gets quantity of item
 	 * 
-	 * @param name
-	 *            of item to get quantity of
+	 * @param name of item to get quantity of
 	 * @return quantity of specific item
 	 */
 	public int getItemQuantity(String name) {
@@ -106,9 +104,8 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Gets quantity of item
 	 * 
-	 * @param item
-	 *            to check quantity of
-	 * @return quantity
+	 * @param item to check quantity of
+	 * @return quantity of specific item
 	 */
 	public int getItemQuantity(Item item) {
 		return stock.get(item);
@@ -130,8 +127,8 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Returns if the hashmap contains an item or not
 	 * 
-	 * @param item
-	 * @return true if the item is in stock
+	 * @param name of the item
+	 * @return true if the item is in stock. false otherwise
 	 */
 	public boolean contains(String name) {
 		for (Item item : stock.keySet()) {
@@ -145,31 +142,18 @@ public class Stock implements Iterable<Item> {
 	/**
 	 * Returns if the item needs to be reordered or not
 	 * 
-	 * @param item
+	 * @param item to be checked
 	 * @return if the item quantity is <= to the item's reorder point
 	 */
 	public boolean reorder(Item item) {
 		return stock.get(item) <= item.getReorderPoint();
 	}
 
+	/**
+	 * Allows the stock's items to be iterated through by only referencing the store
+	 */
 	@Override
 	public Iterator<Item> iterator() {
-		return new Iterator<Item>() {
-			Object[] items = stock.keySet().toArray();
-			int current = 0;
-
-			@Override
-			public boolean hasNext() {
-				return current < items.length;
-			}
-
-			@Override
-			public Item next() {
-				if (!hasNext()) {
-					throw new NoSuchElementException();
-				}
-				return (Item) items[current++];
-			}
-		};
+		return stock.keySet().iterator();
 	}
 }
