@@ -6,7 +6,7 @@ package assignment2.classes;
  * @author Alexander Rozsa
  * @author Liam Edwards
  */
-public class Item implements Comparable<Item> {
+public class Item {
 
 	private String name;
 	private double manufactureCost, sellCost;
@@ -97,17 +97,5 @@ public class Item implements Comparable<Item> {
 	 */
 	public Double getTempThreshold() {
 		return tempThreshold;
-	}
-
-	/**
-	 * Allows items to be ordered by tempThreshold in Stock
-	 * 
-	 * @param other item to be compared
-	 * @return if item is greater than, less than, or equal to the other
-	 */
-	@Override
-	public int compareTo(Item other) {
-		if (tempThreshold == null || other.getTempThreshold() == null) return 0;
-		return Double.compare(tempThreshold, other.tempThreshold);
 	}
 }
