@@ -10,8 +10,8 @@ import assignment2.exceptions.StockException;
  * This class represents a collection of items representing store inventory,
  * orders, sales logs and truck cargo.
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class Stock implements Iterable<Item> {
 

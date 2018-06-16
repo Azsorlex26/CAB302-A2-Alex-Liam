@@ -6,16 +6,15 @@ import assignment2.exceptions.StockException;
 /**
  * This class represents a refrigerated truck
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public class RefrigeratedTruck extends Truck {
 
 	private Double temperature;
 
 	/**
-	 * Constructs the RefrigeratedTruck object If temperature is outside of
-	 * acceptable bounds, set to the nearest acceptable temperature
+	 * Constructs the RefrigeratedTruck object
 	 * 
 	 * @param temperature
 	 */

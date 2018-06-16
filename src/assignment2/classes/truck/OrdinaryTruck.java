@@ -6,8 +6,8 @@ import assignment2.exceptions.StockException;
 /**
  * This class represents an ordinary truck
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 
 public class OrdinaryTruck extends Truck {
@@ -18,7 +18,7 @@ public class OrdinaryTruck extends Truck {
 	public OrdinaryTruck() {
 		maxCapacity = 1000;
 	}
-	
+
 	/**
 	 * Adds items to the truck's cargo
 	 * 

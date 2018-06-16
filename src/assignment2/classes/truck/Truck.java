@@ -7,8 +7,8 @@ import assignment2.exceptions.StockException;
 /**
  * This abstract class is the superclass for the two types of trucks
  * 
- * @author Liam Edwards
  * @author Alexander Rozsa
+ * @author Liam Edwards
  */
 public abstract class Truck {
 
